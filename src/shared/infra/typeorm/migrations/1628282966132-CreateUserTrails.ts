@@ -16,10 +16,6 @@ export class CreateUserTrails1628282966132 implements MigrationInterface {
             name: 'trail_id',
             type: 'uuid',
           },
-          {
-            name: 'avatar',
-            type: 'varchar',
-          },
           ...commonMigrationOptions,
         ],
         foreignKeys: [

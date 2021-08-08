@@ -33,6 +33,7 @@ export class CreateUser1628280744421 implements MigrationInterface {
           {
             name: 'avatar',
             type: 'varchar',
+            isNullable: true,
           },
           ...commonMigrationOptions,
         ],

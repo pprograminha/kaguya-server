@@ -2,9 +2,9 @@ node_modules
 
 coverage
 
-env.development
-env.production
-env
+.env.development
+.env.production
+.env
 
 ormconfig.development.json
 ormconfig.production.json

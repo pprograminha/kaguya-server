@@ -7,5 +7,6 @@ const platformRolesRouter = Router();
 const platformRoleController = new PlatformRoleController();
 
 platformRolesRouter.post('/', ensureAuthenticated, platformRoleController.create);
+platformRolesRouter.get('/list-all', ensureAuthenticated, platformRoleController.index);
 
 export { platformRolesRouter };

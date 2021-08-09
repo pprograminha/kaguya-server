@@ -37,4 +37,24 @@ export class PlatformRolesRepository implements IPlatformRolesRepository {
 
     return role;
   };
+
+  async findByRoleId(role_id: string): Promise<PlatformRoles | undefined> {
+    const role = await this.ormRepository.findOne({
+      where: {
+        id: role_id
+      }
+    });
+
+    return role;
+  };
+
+  async listAllRoles(): Promise<PlatformRoles[] | undefined> {
+    const allRoles = await this.ormRepository.find({
+      order: {
+        permission: 'ASC'
+      }
+    });
+
+    return allRoles;
+  }
 }

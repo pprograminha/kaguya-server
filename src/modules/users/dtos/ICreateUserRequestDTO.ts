@@ -2,7 +2,8 @@ interface ICreateUserRequestDTO {
   email: string;
   name: string;
   password: string;
-  role?: string;
-  permission?: number;
+  role_name?: string;
+
+  user_logged_id?: string;
 }
 export { ICreateUserRequestDTO };

@@ -1,4 +1,5 @@
 import { CreatePlatformRoleService } from '@modules/platformRoles/services/CreatePlatformRoleService';
+import { ListAllPlatformRolesService } from '@modules/platformRoles/services/ListAllPlatformRolesService';
 import { PlatformUserRolesRepository } from '@modules/users/infra/typeorm/repositories/PlatformUserRolesRepository';
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 import { Request, Response } from 'express';
@@ -26,5 +27,23 @@ export class PlatformRoleController {
     });
 
     return response.json(platformRole);
+  }
+
+  async index(request: Request, response: Response): Promise<Response> {
+    const user_id_logged = request.user.id;
+    
+    const usersRepository = new UsersRepository();
+    const platformRolesRepository = new PlatformRolesRepository();
+    const platformUserRolesRepository = new PlatformUserRolesRepository();
+
+    const listAllPlatformRoles = new ListAllPlatformRolesService(
+      platformRolesRepository,
+      usersRepository,
+      platformUserRolesRepository
+    );
+
+    const allRoles = await listAllPlatformRoles.execute(user_id_logged);
+
+    return response.status(200).json(allRoles);
   }
 }

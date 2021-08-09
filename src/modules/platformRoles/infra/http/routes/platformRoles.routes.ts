@@ -1,3 +1,4 @@
+import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 import { Router } from 'express';
 import { PlatformRoleController } from '../controllers/PlatformRoleController';
 
@@ -5,6 +6,6 @@ const platformRolesRouter = Router();
 
 const platformRoleController = new PlatformRoleController();
 
-platformRolesRouter.post('/', platformRoleController.create);
+platformRolesRouter.post('/', ensureAuthenticated, platformRoleController.create);
 
 export { platformRolesRouter };

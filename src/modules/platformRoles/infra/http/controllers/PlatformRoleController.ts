@@ -5,7 +5,8 @@ import { PlatformRolesRepository } from '../../typeorm/repositories/PlatformRole
 
 export class PlatformRoleController {
   async create(request: Request, response: Response): Promise<Response> {
-    const {user_id_logged, role, permission} = request.body;
+    const user_id_logged = request.user.id;
+    const {role, permission} = request.body;
 
     const usersRepository = new UsersRepository();
     const platformRolesRepository = new PlatformRolesRepository();

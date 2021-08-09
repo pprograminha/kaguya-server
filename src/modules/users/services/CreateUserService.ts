@@ -1,10 +1,10 @@
+import { IPlatformRolesRepository } from '@modules/platformRoles/domain/repositories/IPlatformRolesRepository';
 import { PlatformRoles } from '@modules/platformRoles/infra/typeorm/entities/PlatformRoles';
-import { PlatformRolesRepository } from '@modules/platformRoles/infra/typeorm/repositories/PlatformRolesRepository';
 import { AppError } from '@shared/errors/AppError';
 import { IUser } from '../domain/entities/IUser';
+import { IPlatformUserRolesRepository } from '../domain/repositories/IPlatformUserRolesRepository';
 import { IUsersRepository } from '../domain/repositories/IUsersRepository';
 import { ICreateUserRequestDTO } from '../dtos/ICreateUserRequestDTO';
-import { PlatformUserRolesRepository } from '../infra/typeorm/repositories/PlatformUserRolesRepository';
 import { IHashProvider } from '../providers/HashProvider/models/IHashProvider';
 
 interface IResponse {
@@ -16,8 +16,8 @@ class CreateUserService {
   constructor(
     private usersRepository: IUsersRepository,
     private hashProvider: IHashProvider,
-    private rolesRepository: PlatformRolesRepository,
-    private platformUserRolesRepository : PlatformUserRolesRepository,
+    private rolesRepository: IPlatformRolesRepository,
+    private platformUserRolesRepository : IPlatformUserRolesRepository,
   ) {}
 
   async execute({

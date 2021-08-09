@@ -2,38 +2,42 @@ import { IPlatformRolesRepository } from '../domain/repositories/IPlatformRolesR
 import { IPlatformRole } from '@modules/platformRoles/domain/entities/IPlatformRole';
 import { ICreatePlatformRoleRequestDTO } from '@modules/platformRoles/dtos/ICreatePlatformRoleRequestDTO';
 import { AppError } from '@shared/errors/AppError';
-// import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
+import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 
 export class CreatePlatformRoleService {
   constructor(
     private rolesRepository: IPlatformRolesRepository,
-    // private usersRepository: IUsersRepository,
+    private usersRepository: IUsersRepository,
   ) {}
   
   async execute({
     user_id_logged,
     role,
-    permission
+    permission = 0
   }: ICreatePlatformRoleRequestDTO): Promise<IPlatformRole> {
     const findRoleName = await this.rolesRepository.findByRoleName(role);
     const findRolePermission = await this.rolesRepository.findByRolePermission(permission);
-    // const findUserLogged = await this.usersRepository.findById(user_id_logged);
+    const findUserLogged = await this.usersRepository.findById(user_id_logged);
+
+    if(!findUserLogged) {
+      throw new AppError('User not logged to create new platform role');
+    };
 
     if(findRoleName) {
-      throw new AppError('O cargo com este nome já existe');
+      throw new AppError('The position with this name already exists.');
     };
 
     if(findRolePermission) {
-      throw new AppError('O cargo com esta permissão já existe');
+      throw new AppError(`The position ${permission} with this permission already exists.`);
     };
 
     if(!role) {
-      throw new AppError('Coloque o nome do cargo');
+      throw new AppError('Put the name of the role');
     };
 
-    if(!permission) {
-      throw new AppError('Coloque a hieraquia do cargo');
-    }
+    if(typeof permission !== 'number' || !permission) {
+      throw new AppError('Enter a number for the position hierarchy');
+    };
 
     const createRole = await this.rolesRepository.create({
       role,

@@ -7,8 +7,7 @@ import { IUsersRepository } from '../domain/repositories/IUsersRepository';
 import { ICreateUserRequestDTO } from '../dtos/ICreateUserRequestDTO';
 import { IHashProvider } from '../providers/HashProvider/models/IHashProvider';
 
-interface IResponse {
-  user: IUser;
+interface IResponse extends IUser{
   userRole: PlatformRoles | undefined;
 }
 
@@ -33,6 +32,10 @@ class CreateUserService {
     if (findUser) {
       throw new AppError('User already exists');
     }
+    
+    if(!role) {
+      throw new AppError('Role does not exist');
+    }
 
     if(user_logged_id) {
       const findPlatformUserRoles = await this.platformUserRolesRepository.findByUserId(user_logged_id);
@@ -45,10 +48,6 @@ class CreateUserService {
       if(userLoggedRole?.permission !== 0) {
         throw new AppError('Only owner users can create users');
       }
-    }
-
-    if(!role) {
-      throw new AppError('Role does not exist');
     }
 
     const hashedPassword = await this.hashProvider.generateHash(password);
@@ -64,7 +63,7 @@ class CreateUserService {
     await this.platformUserRolesRepository.addRoleToUser(user.id, role.id);
 
     return {
-      user,
+      ...user,
       userRole: role
     };
   }

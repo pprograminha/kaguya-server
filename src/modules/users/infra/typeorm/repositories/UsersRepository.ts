@@ -39,6 +39,14 @@ class UsersRepository implements IUsersRepository {
   async save(user: User): Promise<User> {
     return this.ormRepository.save(user);
   }
+
+  async findAll(): Promise<User[]> {
+    const users = await this.ormRepository.find({
+      relations: ['role'],
+    });
+
+    return users;
+  }
 }
 
 export default UsersRepository;

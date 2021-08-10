@@ -1,24 +1,24 @@
 import { AppError } from '@shared/errors/AppError';
-import { User } from '../infra/typeorm/entities/User';
-import UsersRepository from '../infra/typeorm/repositories/UsersRepository';
-import { BCryptHashProvider } from '../providers/HashProvider/implementations/BCryptHashProvider';
-import { JwtProvider } from '../providers/TokenProvider/implementations/JwtProvider';
+import { IUser } from '../domain/entities/IUser';
+import { IUsersRepository } from '../domain/repositories/IUsersRepository';
+import { IHashProvider } from '../providers/HashProvider/models/IHashProvider';
+import { ITokenProvider } from '../providers/TokenProvider/models/ITokenProvider';
 
 interface IRequest {
   email: string;
-  password?: string;
+  password: string;
 }
 
 interface IResponse {
-  user: User;
+  user: IUser;
   token: string;
 }
 
 export class AuthenticateUserService {
   constructor(
-    private usersRepository: UsersRepository,
-    private hashProvider: BCryptHashProvider,
-    private tokenProvider: JwtProvider
+    private usersRepository: IUsersRepository,
+    private hashProvider: IHashProvider,
+    private tokenProvider: ITokenProvider
   ) {}
 
   async exeucte({email, password}: IRequest): Promise<IResponse> {
@@ -28,7 +28,7 @@ export class AuthenticateUserService {
       throw new AppError('User does not exist');
     };
 
-    const passwordMatched = this.hashProvider.compareHash(String(password), user.password);
+    const passwordMatched = this.hashProvider.compareHash(password, user.password);
 
     if(!passwordMatched || !user.email) {
       throw new AppError('Incorrect email/password combination.');

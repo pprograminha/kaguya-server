@@ -3,10 +3,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+import { PlatformUserRoles } from './PlatformUserRoles';
 
 @Entity('users')
 class User implements IUser {
@@ -22,6 +24,9 @@ class User implements IUser {
   @Column()
   avatar: string;
 
+  @OneToMany(() => PlatformUserRoles, platformUserRoles => platformUserRoles.user)
+  role: PlatformUserRoles;
+  
   @Column()
   username: string;
 

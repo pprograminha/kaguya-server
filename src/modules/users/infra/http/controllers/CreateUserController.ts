@@ -7,8 +7,7 @@ import UsersRepository from '../../typeorm/repositories/UsersRepository';
 
 class CreateUserController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const user_logged_id = request.user.id;
-    const { email, name, password, role_name } = request.body;
+    const { email, name, password } = request.body;
 
     const usersRepository = new UsersRepository();
     const bcryptHashProvider = new BCryptHashProvider();
@@ -22,15 +21,13 @@ class CreateUserController {
       platformUserRolesRepository
     );
 
-    const { user, userRole} = await createUser.execute({
+    const user = await createUser.execute({
       email,
       name,
       password,
-      role_name,
-      user_logged_id
     });
 
-    return response.status(201).json({user, userRole});
+    return response.status(201).json({user});
   }
 }
 

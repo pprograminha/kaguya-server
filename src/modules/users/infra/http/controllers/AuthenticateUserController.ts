@@ -6,21 +6,21 @@ import UsersRepository from '../../typeorm/repositories/UsersRepository';
 
 export class AuthenticateUserController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const {email, password} = request.body;
+    const { email, password } = request.body;
 
     const jwtProvider = new JwtProvider();
     const usersRepository = new UsersRepository();
     const bCryptHashProvider = new BCryptHashProvider();
 
     const authenticateUserService = new AuthenticateUserService(
-      usersRepository, 
+      usersRepository,
       bCryptHashProvider,
-      jwtProvider, 
+      jwtProvider,
     );
 
-    const {token, user} = await authenticateUserService.exeucte({
+    const { token, user } = await authenticateUserService.execute({
       email,
-      password
+      password,
     });
 
     return response.json({

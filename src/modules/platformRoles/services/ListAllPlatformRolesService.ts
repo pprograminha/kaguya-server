@@ -6,33 +6,35 @@ import { IPlatformRolesRepository } from '../domain/repositories/IPlatformRolesR
 
 export class ListAllPlatformRolesService {
   constructor(
-    private rolesRepository: IPlatformRolesRepository,
+    private platformRolesRepository: IPlatformRolesRepository,
     private usersRepository: IUsersRepository,
-    private platformUserRolesRepository : IPlatformUserRolesRepository,
+    private platformUserRolesRepository: IPlatformUserRolesRepository,
   ) {}
 
-  async execute(
-    user_id_logged: string
-  ): Promise<IPlatformRole[] | undefined> {
+  async execute(user_id_logged: string): Promise<IPlatformRole[] | undefined> {
     const userLogged = await this.usersRepository.findById(user_id_logged);
-    
-    if(!userLogged) {
+
+    if (!userLogged) {
       throw new AppError('User not logged');
     }
 
-    const userRole = await this.platformUserRolesRepository.findByUserId(userLogged.id);
+    const userRole = await this.platformUserRolesRepository.findByUserId(
+      userLogged.id,
+    );
 
-    if(!userRole) {
+    if (!userRole) {
       throw new AppError('User role does not exist');
     }
 
-    const role = await this.rolesRepository.findByRoleId(userRole?.role_id);
-    
-    if(role?.permission !== 0) {
+    const role = await this.platformRolesRepository.findByRoleId(
+      userRole?.platform_role_id,
+    );
+
+    if (role?.permission !== 0) {
       throw new AppError('Only owner users can list all roles');
     }
 
-    const allRoles = await this.rolesRepository.listAllRoles();
+    const allRoles = await this.platformRolesRepository.listAllRoles();
 
     return allRoles;
   }

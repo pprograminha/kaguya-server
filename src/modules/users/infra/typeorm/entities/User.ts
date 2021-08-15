@@ -8,12 +8,12 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
-import { PlatformUserRoles } from './PlatformUserRoles';
+import { PlatformUserRole } from './PlatformUserRole';
 
 @Entity('users')
 class User implements IUser {
   @PrimaryColumn('uuid')
-  readonly id: string;
+  id: string;
 
   @Column()
   name: string;
@@ -24,9 +24,9 @@ class User implements IUser {
   @Column()
   avatar: string;
 
-  @OneToMany(() => PlatformUserRoles, platformUserRoles => platformUserRoles.user)
-  role: PlatformUserRoles;
-  
+  @OneToMany(() => PlatformUserRole, platformUserRole => platformUserRole.user)
+  platformUserRoles: PlatformUserRole[];
+
   @Column()
   username: string;
 

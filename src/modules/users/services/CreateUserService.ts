@@ -1,5 +1,5 @@
 import { IPlatformRolesRepository } from '@modules/platformRoles/domain/repositories/IPlatformRolesRepository';
-import { PlatformRoles } from '@modules/platformRoles/infra/typeorm/entities/PlatformRoles';
+import { PlatformRole } from '@modules/platformRoles/infra/typeorm/entities/PlatformRole';
 import { AppError } from '@shared/errors/AppError';
 import { IUser } from '../domain/entities/IUser';
 import { IPlatformUserRolesRepository } from '../domain/repositories/IPlatformUserRolesRepository';
@@ -7,16 +7,16 @@ import { IUsersRepository } from '../domain/repositories/IUsersRepository';
 import { ICreateUserRequestDTO } from '../dtos/ICreateUserRequestDTO';
 import { IHashProvider } from '../providers/HashProvider/models/IHashProvider';
 
-interface IResponse extends IUser{
-  userRole: PlatformRoles | undefined;
+interface IResponse extends IUser {
+  userRole: PlatformRole | undefined;
 }
 
 class CreateUserService {
   constructor(
     private usersRepository: IUsersRepository,
     private hashProvider: IHashProvider,
-    private rolesRepository: IPlatformRolesRepository,
-    private platformUserRolesRepository : IPlatformUserRolesRepository,
+    private platformRolesRepository: IPlatformRolesRepository,
+    private platformUserRolesRepository: IPlatformUserRolesRepository,
   ) {}
 
   async execute({
@@ -24,39 +24,44 @@ class CreateUserService {
     name,
     role_name = 'default',
     password,
-    user_logged_id,
+    admin_id,
   }: ICreateUserRequestDTO): Promise<IResponse> {
     const findUser = await this.usersRepository.findByEmail(email);
-    const role = await this.rolesRepository.findByRoleName(role_name);
+    const role = await this.platformRolesRepository.findByRoleName(role_name);
 
     if (findUser) {
       throw new AppError('User already exists');
     }
-    
-    if(!role) {
+
+    if (!role) {
       throw new AppError('Role does not exist');
-    }
-
-    if(user_logged_id) {
-      const findPlatformUserRoles = await this.platformUserRolesRepository.findByUserId(user_logged_id);
-
-      if(!findPlatformUserRoles) {
-        throw new AppError('Role to user logged does not exist');
-      }
-      const userLoggedRole = await this.rolesRepository.findByRoleId(findPlatformUserRoles?.role_id);
-      
-      if(userLoggedRole?.permission !== 0) {
-        throw new AppError('Only owner users can create users');
-      }
     }
 
     const hashedPassword = await this.hashProvider.generateHash(password);
 
+    if (admin_id) {
+      const admin = await this.usersRepository.findById(admin_id, {
+        platform_user_role: true,
+      });
+
+      if (!admin) throw new AppError('Admin does not exist');
+
+      const permissions = admin.platformUserRoles.map(
+        platformUserRole => platformUserRole.platformRole.permission,
+      );
+
+      const greaterPermission = Math.min.apply(null, permissions);
+
+      if (greaterPermission <= role.permission) {
+        throw new AppError(
+          'You cannot give one permission greater or equal to yours',
+        );
+      }
+    }
     const user = await this.usersRepository.create({
       email,
       name,
       username: `random${Date.now()}`,
-      enabled: true,
       password: hashedPassword,
     });
 
@@ -64,7 +69,7 @@ class CreateUserService {
 
     return {
       ...user,
-      userRole: role
+      userRole: role,
     };
   }
 }

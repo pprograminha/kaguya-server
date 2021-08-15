@@ -29,6 +29,7 @@ export class CreateUser1628280744421 implements MigrationInterface {
           {
             name: 'enabled',
             type: 'boolean',
+            default: true,
           },
           {
             name: 'avatar',

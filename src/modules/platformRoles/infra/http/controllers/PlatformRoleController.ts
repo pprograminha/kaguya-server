@@ -8,7 +8,7 @@ import { PlatformRolesRepository } from '../../typeorm/repositories/PlatformRole
 export class PlatformRoleController {
   async create(request: Request, response: Response): Promise<Response> {
     const user_id_logged = request.user.id;
-    const {role, permission} = request.body;
+    const { role, permission } = request.body;
 
     const usersRepository = new UsersRepository();
     const platformRolesRepository = new PlatformRolesRepository();
@@ -17,13 +17,13 @@ export class PlatformRoleController {
     const createPlatformRole = new CreatePlatformRoleService(
       platformRolesRepository,
       usersRepository,
-      platformUserRolesRepository
+      platformUserRolesRepository,
     );
 
     const platformRole = await createPlatformRole.execute({
       user_id_logged,
       permission,
-      role
+      role,
     });
 
     return response.json(platformRole);
@@ -31,7 +31,7 @@ export class PlatformRoleController {
 
   async index(request: Request, response: Response): Promise<Response> {
     const user_id_logged = request.user.id;
-    
+
     const usersRepository = new UsersRepository();
     const platformRolesRepository = new PlatformRolesRepository();
     const platformUserRolesRepository = new PlatformUserRolesRepository();
@@ -39,7 +39,7 @@ export class PlatformRoleController {
     const listAllPlatformRoles = new ListAllPlatformRolesService(
       platformRolesRepository,
       usersRepository,
-      platformUserRolesRepository
+      platformUserRolesRepository,
     );
 
     const allRoles = await listAllPlatformRoles.execute(user_id_logged);

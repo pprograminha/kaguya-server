@@ -4,4 +4,4 @@ export interface IPlatformRole {
   permission: number;
   created_at: Date;
   updated_at: Date;
-};
+}

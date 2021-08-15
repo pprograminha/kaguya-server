@@ -4,6 +4,7 @@ import 'dotenv/config';
 import { AppError } from '@shared/errors/AppError';
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
+import { errors } from 'celebrate';
 import { connection } from '../typeorm/connection';
 import { router } from './routes';
 
@@ -14,6 +15,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(router);
+
+app.use(errors());
 
 app.use(
   (error: Error, request: Request, response: Response, _: NextFunction) => {

@@ -1,11 +1,17 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 import { v4 as uuid } from 'uuid';
 
 import { IPlatformRole } from '@modules/platformRoles/domain/entities/IPlatformRole';
 
 @Entity('platform_roles')
-export class PlatformRoles implements IPlatformRole {
+export class PlatformRole implements IPlatformRole {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -23,5 +29,5 @@ export class PlatformRoles implements IPlatformRole {
 
   constructor() {
     if (!this.id) this.id = uuid();
-  };
+  }
 }

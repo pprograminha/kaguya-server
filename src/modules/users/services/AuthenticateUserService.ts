@@ -18,27 +18,30 @@ export class AuthenticateUserService {
   constructor(
     private usersRepository: IUsersRepository,
     private hashProvider: IHashProvider,
-    private tokenProvider: ITokenProvider
+    private tokenProvider: ITokenProvider,
   ) {}
 
-  async exeucte({email, password}: IRequest): Promise<IResponse> {
+  async execute({ email, password }: IRequest): Promise<IResponse> {
     const user = await this.usersRepository.findByEmail(email);
-    
-    if(!user) {
+
+    if (!user) {
       throw new AppError('User does not exist');
-    };
+    }
 
-    const passwordMatched = this.hashProvider.compareHash(password, user.password);
+    const passwordMatched = await this.hashProvider.compareHash(
+      password,
+      user.password,
+    );
 
-    if(!passwordMatched || !user.email) {
+    if (!passwordMatched) {
       throw new AppError('Incorrect email/password combination.');
-    };
+    }
 
     const token = this.tokenProvider.signIn(user);
 
     return {
       token,
-      user
+      user,
     };
   }
 }

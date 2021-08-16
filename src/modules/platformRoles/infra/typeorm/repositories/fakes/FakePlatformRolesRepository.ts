@@ -52,7 +52,7 @@ class FakePlatformRolesRepository implements IPlatformRolesRepository {
     return platformRole;
   }
 
-  async listAllRoles(): Promise<IPlatformRole[] | undefined> {
+  async listAllRoles(): Promise<IPlatformRole[]> {
     return this.platformRoles;
   }
 }

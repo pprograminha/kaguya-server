@@ -11,3 +11,6 @@ ormconfig.production.json
 ormconfig.json
 
 yarn-lock.error
+
+*.sqlite
+*.sql

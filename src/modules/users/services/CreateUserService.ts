@@ -44,7 +44,7 @@ class CreateUserService {
         platform_user_role: true,
       });
 
-      if (!admin) throw new AppError('Admin does not exist');
+      if (!admin) throw new AppError('Admin does not exist', 401);
 
       const permissions = admin.platformUserRoles.map(
         platformUserRole => platformUserRole.platformRole.permission,
@@ -52,7 +52,7 @@ class CreateUserService {
 
       const greaterPermission = Math.min.apply(null, permissions);
 
-      if (greaterPermission <= role.permission) {
+      if (role.permission <= greaterPermission) {
         throw new AppError(
           'You cannot give one permission greater or equal to yours',
         );

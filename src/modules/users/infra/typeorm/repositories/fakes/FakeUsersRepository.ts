@@ -1,9 +1,7 @@
-import { PlatformRole } from '@modules/platformRoles/infra/typeorm/entities/PlatformRole';
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 import { User } from '@modules/users/infra/typeorm/entities/User';
 import { IUser } from '../../../../domain/entities/IUser';
 import { IUsersRepository } from '../../../../domain/repositories/IUsersRepository';
-import { PlatformUserRole } from '../../entities/PlatformUserRole';
 
 class FakeUsersRepository implements IUsersRepository {
   private users: IUser[] = [];
@@ -26,24 +24,8 @@ class FakeUsersRepository implements IUsersRepository {
 
   async create(userData: ICreateUserDTO): Promise<IUser> {
     const user = new User();
-    const platformUserRole = new PlatformUserRole();
-    const platformRole = new PlatformRole();
-
-    Object.assign(platformRole, {
-      permission: 9999,
-      role: 'xxxx',
-    });
 
     Object.assign(user, userData);
-
-    Object.assign(platformUserRole, {
-      platform_role_id: platformRole.id,
-      user_id: user.id,
-      platformRole,
-      user,
-    });
-
-    user.platformUserRoles = [platformUserRole];
 
     this.users.push(user);
 

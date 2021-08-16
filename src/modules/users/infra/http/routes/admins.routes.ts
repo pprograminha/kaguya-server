@@ -27,7 +27,7 @@ adminsRouter.post(
 );
 
 adminsRouter.get(
-  '/list-all-users',
+  '/users/list-all',
   ensureAuthenticated,
   ensureSubAdministrator,
   listAllUsersController.handle,

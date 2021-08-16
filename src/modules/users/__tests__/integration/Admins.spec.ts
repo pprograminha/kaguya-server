@@ -1,7 +1,7 @@
 import { connection as createConnection } from '@shared/infra/typeorm/connection';
 import { getConnection } from 'typeorm';
 
-describe('PlatformRoles', () => {
+describe('Admins', () => {
   beforeAll(async () => {
     const connection = await createConnection();
 
@@ -14,7 +14,7 @@ describe('PlatformRoles', () => {
     await connection.close();
   });
 
-  it('should be able to create a role by admin', async () => {
+  it('should be able to create an user by admin', async () => {
     // const usersResponse = await request(app)
     //   .post('/admins/users')
     //   .set('Authorization', `bearer ${authToken}`)

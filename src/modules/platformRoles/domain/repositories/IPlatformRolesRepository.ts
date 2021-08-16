@@ -9,6 +9,6 @@ interface IPlatformRolesRepository {
     role_permission: number,
   ): Promise<IPlatformRole | undefined>;
 
-  listAllRoles(): Promise<IPlatformRole[] | undefined>;
+  listAllRoles(): Promise<IPlatformRole[]>;
 }
 export { IPlatformRolesRepository };

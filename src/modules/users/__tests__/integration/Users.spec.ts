@@ -20,7 +20,7 @@ describe('Users', () => {
     const response = await request(app).post('/users').send({
       name: 'Xxx Xxx',
       email: 'xxxx@xxxx.xxx',
-      password: 'xxxx@xxxx.xxx',
+      password: 'xxxxxxxx',
     });
 
     expect(response.status).toBe(201);

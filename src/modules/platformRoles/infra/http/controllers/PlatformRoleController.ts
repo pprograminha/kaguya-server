@@ -30,19 +30,13 @@ export class PlatformRoleController {
   }
 
   async index(request: Request, response: Response): Promise<Response> {
-    const user_id_logged = request.user.id;
-
-    const usersRepository = new UsersRepository();
     const platformRolesRepository = new PlatformRolesRepository();
-    const platformUserRolesRepository = new PlatformUserRolesRepository();
 
     const listAllPlatformRoles = new ListAllPlatformRolesService(
       platformRolesRepository,
-      usersRepository,
-      platformUserRolesRepository,
     );
 
-    const allRoles = await listAllPlatformRoles.execute(user_id_logged);
+    const allRoles = await listAllPlatformRoles.execute();
 
     return response.status(200).json(allRoles);
   }

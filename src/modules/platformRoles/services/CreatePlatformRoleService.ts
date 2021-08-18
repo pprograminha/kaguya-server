@@ -1,21 +1,24 @@
 import { IPlatformRole } from '@modules/platformRoles/domain/entities/IPlatformRole';
 import { ICreatePlatformRoleRequestDTO } from '@modules/platformRoles/dtos/ICreatePlatformRoleRequestDTO';
-import { AppError } from '@shared/errors/AppError';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
-import { IPlatformUserRolesRepository } from '@modules/users/domain/repositories/IPlatformUserRolesRepository';
+import { AppError } from '@shared/errors/AppError';
+import { inject, injectable } from 'tsyringe';
 import { IPlatformRolesRepository } from '../domain/repositories/IPlatformRolesRepository';
 
+@injectable()
 export class CreatePlatformRoleService {
   constructor(
+    @inject('PlatformRolesRepository')
     private platformRolesRepository: IPlatformRolesRepository,
+
+    @inject('UsersRepository')
     private usersRepository: IUsersRepository,
-    private platformUserRolesRepository: IPlatformUserRolesRepository,
   ) {}
 
   async execute({
     user_id_logged,
-    role,
-    permission = 0,
+    role = 'default',
+    permission = 2,
   }: ICreatePlatformRoleRequestDTO): Promise<IPlatformRole> {
     const findRoleName = await this.platformRolesRepository.findByRoleName(
       role,
@@ -34,42 +37,24 @@ export class CreatePlatformRoleService {
       );
     }
 
-    const findUserLogged = await this.usersRepository.findById(user_id_logged);
+    const findUserLogged = await this.usersRepository.findById(user_id_logged, {
+      platform_user_role: true,
+    });
 
     if (!findUserLogged) {
       throw new AppError('User not logged to create new platform role');
     }
 
-    const findPlatformUserRoles =
-      await this.platformUserRolesRepository.findByUserId(user_id_logged);
-
-    if (!findPlatformUserRoles) {
-      throw new AppError('Role to user logged does not exist');
-    }
-
-    const userLoggedRole = await this.platformRolesRepository.findByRoleId(
-      findPlatformUserRoles.platform_role_id,
+    const permissions = findUserLogged.platformUserRoles.map(
+      platformUserRole => platformUserRole.platformRole.permission,
     );
 
-    if (!userLoggedRole) {
-      throw new AppError('User role does not exist');
-    }
+    const greaterPermission = Math.min.apply(null, permissions);
 
-    if (
-      permission <= userLoggedRole.permission ||
-      userLoggedRole.role === role
-    ) {
+    if (permission <= greaterPermission) {
       throw new AppError(
         'You cannot to create a role with permissions greater or equal to yours',
       );
-    }
-
-    if (!role) {
-      throw new AppError('Put the name of the role');
-    }
-
-    if (typeof permission !== 'number' || !permission) {
-      throw new AppError('Enter a number for the position hierarchy');
     }
 
     const createRole = await this.platformRolesRepository.create({

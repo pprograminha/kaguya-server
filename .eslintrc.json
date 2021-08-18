@@ -29,6 +29,7 @@
           "argsIgnorePattern": "^_"
         }
       ],
+      "@typescript-eslint/ban-types": "off",
       "@typescript-eslint/naming-convention": [
         "error",
         {

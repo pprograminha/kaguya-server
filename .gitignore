@@ -10,6 +10,11 @@ ormconfig.development.json
 ormconfig.production.json
 ormconfig.json
 
+tmp/**
+!tmp/.gitkeep
+!tmp/uploads
+!tmp/uploads/.gitkeep
+
 yarn-lock.error
 
 *.sqlite

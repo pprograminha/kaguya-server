@@ -1,22 +1,24 @@
 import ensureSubAdministrator from '@modules/users/infra/http/middlewares/ensureSubAdministrator';
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 import { Router } from 'express';
-import { PlatformRoleController } from '../controllers/PlatformRoleController';
+import { CreatePlatformRoleController } from '../controllers/CreatePlatformRoleController';
+import { ListAllPlatformRolesController } from '../controllers/ListAllPlatformRolesController';
 
 const platformRolesRouter = Router();
 
-const platformRoleController = new PlatformRoleController();
+const createPlatformRoleController = new CreatePlatformRoleController();
+const listAllPlatformRolesController = new ListAllPlatformRolesController();
 
 platformRolesRouter.post(
   '/',
   ensureAuthenticated,
   ensureSubAdministrator,
-  platformRoleController.create,
+  createPlatformRoleController.handle,
 );
 platformRolesRouter.get(
   '/list-all',
   ensureAuthenticated,
-  platformRoleController.index,
+  listAllPlatformRolesController.handle,
 );
 
 export { platformRolesRouter };

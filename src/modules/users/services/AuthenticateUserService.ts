@@ -1,4 +1,5 @@
 import { AppError } from '@shared/errors/AppError';
+import { inject, injectable } from 'tsyringe';
 import { IUser } from '../domain/entities/IUser';
 import { IUsersRepository } from '../domain/repositories/IUsersRepository';
 import { IHashProvider } from '../providers/HashProvider/models/IHashProvider';
@@ -14,10 +15,16 @@ interface IResponse {
   token: string;
 }
 
+@injectable()
 export class AuthenticateUserService {
   constructor(
+    @inject('UsersRepository')
     private usersRepository: IUsersRepository,
+
+    @inject('HashProvider')
     private hashProvider: IHashProvider,
+
+    @inject('TokenProvider')
     private tokenProvider: ITokenProvider,
   ) {}
 

@@ -1,6 +1,7 @@
 import { IPlatformRolesRepository } from '@modules/platformRoles/domain/repositories/IPlatformRolesRepository';
 import { PlatformRole } from '@modules/platformRoles/infra/typeorm/entities/PlatformRole';
 import { AppError } from '@shared/errors/AppError';
+import { inject, injectable } from 'tsyringe';
 import { IUser } from '../domain/entities/IUser';
 import { IPlatformUserRolesRepository } from '../domain/repositories/IPlatformUserRolesRepository';
 import { IUsersRepository } from '../domain/repositories/IUsersRepository';
@@ -11,11 +12,19 @@ interface IResponse extends IUser {
   userRole: PlatformRole | undefined;
 }
 
+@injectable()
 class CreateUserService {
   constructor(
+    @inject('UsersRepository')
     private usersRepository: IUsersRepository,
+
+    @inject('HashProvider')
     private hashProvider: IHashProvider,
+
+    @inject('PlatformRolesRepository')
     private platformRolesRepository: IPlatformRolesRepository,
+
+    @inject('PlatformUserRolesRepository')
     private platformUserRolesRepository: IPlatformUserRolesRepository,
   ) {}
 

@@ -1,12 +1,10 @@
 import { ListAllUsersService } from '@modules/users/services/ListAllUsersService';
 import { Request, Response } from 'express';
-import UsersRepository from '../../typeorm/repositories/UsersRepository';
+import { container } from 'tsyringe';
 
 export class ListAllUsersController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const usersRepository = new UsersRepository();
-
-    const listAllUsers = new ListAllUsersService(usersRepository);
+    const listAllUsers = container.resolve(ListAllUsersService);
 
     const { users, usersCount } = await listAllUsers.execute();
 

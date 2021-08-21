@@ -18,14 +18,14 @@ export class PlatformRolesRepository implements IPlatformRolesRepository {
     return role;
   }
 
-  async findByRoleName(role_name: string): Promise<PlatformRole | undefined> {
-    const role = await this.ormRepository.findOne({
+  async findByRoleName(role: string): Promise<PlatformRole | undefined> {
+    const roleFinded = await this.ormRepository.findOne({
       where: {
-        role: role_name,
+        role,
       },
     });
 
-    return role;
+    return roleFinded;
   }
 
   async findByRolePermission(

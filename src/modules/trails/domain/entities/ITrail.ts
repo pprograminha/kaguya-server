@@ -1,8 +1,13 @@
+import { IUserTrail } from './IUserTrail';
+
 interface ITrail {
   id: string;
   name: string;
   description: string;
   avatar: string;
+  getAvatarUrl: () => string | null;
+  avatar_url: string;
+  userTrail: IUserTrail;
   created_at: Date;
   updated_at: Date;
 }

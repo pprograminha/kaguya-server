@@ -15,6 +15,7 @@ platformRolesRouter.post(
   ensureSubAdministrator,
   createPlatformRoleController.handle,
 );
+
 platformRolesRouter.get(
   '/list-all',
   ensureAuthenticated,

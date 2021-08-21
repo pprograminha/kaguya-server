@@ -6,6 +6,26 @@ import { Trail } from '../../entities/Trail';
 export class FakeTrailsRepository implements ITrailsRepository {
   private trails: ITrail[] = [];
 
+  async save(trail: ITrail): Promise<ITrail> {
+    const trailIndexFinded = this.trails.findIndex(
+      findTrail => findTrail.id === trail.id,
+    );
+
+    this.trails[trailIndexFinded] = trail;
+
+    return trail;
+  }
+
+  async destroyById(trail_id: string): Promise<void> {
+    const trails = this.trails.filter(trail => trail.id !== trail_id);
+
+    this.trails = trails;
+  }
+
+  async findAllTrails(): Promise<ITrail[]> {
+    return this.trails;
+  }
+
   async create(data: ICreateTrailDTO): Promise<ITrail> {
     const trail = new Trail();
 

@@ -24,9 +24,9 @@ class FakePlatformRolesRepository implements IPlatformRolesRepository {
     return platformUserRole;
   }
 
-  async findByRoleName(role_name: string): Promise<IPlatformRole | undefined> {
+  async findByRoleName(role: string): Promise<IPlatformRole | undefined> {
     const platformRole = this.platformRoles.find(
-      platformRoleFind => platformRoleFind.role === role_name,
+      platformRoleFind => platformRoleFind.role === role,
     );
 
     return platformRole;

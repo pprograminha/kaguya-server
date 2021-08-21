@@ -22,7 +22,7 @@ describe('PlatformRoles', () => {
     //     name: 'Xxx Xxx',
     //     email: 'xxxx@xxxx.xxx',
     //     password: 'xxxxxxxx',
-    //     role_name: 'sub-admin',
+    //     role: 'sub-admin',
     //   });
 
     expect(2 + 2).toBe(4);

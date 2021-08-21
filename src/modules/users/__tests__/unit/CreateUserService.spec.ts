@@ -70,7 +70,7 @@ describe('CreateUser', () => {
       name: 'Xxxx Xxxx',
       email: 'xxxxxx@xxxx.xxx',
       password: 'xxxx',
-      role_name: 'admin',
+      role: 'admin',
     });
 
     const platformUserRoleFormatted = {
@@ -89,7 +89,7 @@ describe('CreateUser', () => {
       name: 'Xxxx Xxxx',
       email: 'xxxxx@xxxx.xxx',
       password: 'xxxx',
-      role_name: 'default',
+      role: 'default',
       admin_id: admin.id,
     });
 
@@ -121,7 +121,7 @@ describe('CreateUser', () => {
       name: 'Xxxx Xxxx',
       email: 'xxxx@xxxx.xxx',
       password: 'xxxx',
-      role_name: 'admin',
+      role: 'admin',
     });
 
     const adminPlatformUserRole =
@@ -144,7 +144,7 @@ describe('CreateUser', () => {
         name: 'Xxxx Xxxx',
         email: 'xxxxx@xxxx.xxx',
         password: 'xxxx',
-        role_name: 'admin',
+        role: 'admin',
         admin_id: admin.id,
       }),
     ).rejects.toBeInstanceOf(AppError);
@@ -156,7 +156,7 @@ describe('CreateUser', () => {
         name: 'Xxxx Xxxx',
         email: 'xxxx@xxxx.xxx',
         password: 'xxxx',
-        role_name: 'non-existing-role',
+        role: 'non-existing-role',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -171,7 +171,7 @@ describe('CreateUser', () => {
       name: 'Xxxx Xxxx',
       email: 'xxxx@xxxx.xxx',
       password: 'xxxx',
-      role_name: 'default',
+      role: 'default',
     });
 
     await expect(
@@ -179,7 +179,7 @@ describe('CreateUser', () => {
         name: 'Xxxx Xxxx',
         email: 'xxxx@xxxx.xxx',
         password: 'xxxx',
-        role_name: 'default',
+        role: 'default',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

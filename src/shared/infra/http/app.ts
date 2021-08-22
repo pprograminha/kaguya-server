@@ -6,6 +6,7 @@ import { AppError } from '@shared/errors/AppError';
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import { errors } from 'celebrate';
+import { storageConfig } from '@config/storage';
 import { connection } from '../typeorm/connection';
 import { router } from './routes';
 
@@ -15,6 +16,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use('/static', express.static(storageConfig.paths.uploadsFolder));
 app.use(router);
 
 app.use(errors());

@@ -20,7 +20,7 @@ adminsRouter.post(
       email: Joi.string().email().max(100).required(),
       name: Joi.string().min(2).max(100).required(),
       password: Joi.string().min(8).max(100).required(),
-      role_name: Joi.string().min(2).max(100),
+      role: Joi.string().min(2).max(100),
     },
   }),
   createUserController.handle,

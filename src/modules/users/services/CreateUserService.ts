@@ -31,18 +31,18 @@ class CreateUserService {
   async execute({
     email,
     name,
-    role_name = 'default',
+    role = 'default',
     password,
     admin_id,
   }: ICreateUserRequestDTO): Promise<IResponse> {
     const findUser = await this.usersRepository.findByEmail(email);
-    const role = await this.platformRolesRepository.findByRoleName(role_name);
+    const roleFinded = await this.platformRolesRepository.findByRoleName(role);
 
     if (findUser) {
       throw new AppError('User already exists');
     }
 
-    if (!role) {
+    if (!roleFinded) {
       throw new AppError('Role does not exist');
     }
 
@@ -61,7 +61,7 @@ class CreateUserService {
 
       const greaterPermission = Math.min.apply(null, permissions);
 
-      if (role.permission <= greaterPermission) {
+      if (roleFinded.permission <= greaterPermission) {
         throw new AppError(
           'You cannot give one permission greater or equal to yours',
         );
@@ -74,11 +74,14 @@ class CreateUserService {
       password: hashedPassword,
     });
 
-    await this.platformUserRolesRepository.addRoleToUser(user.id, role.id);
+    await this.platformUserRolesRepository.addRoleToUser(
+      user.id,
+      roleFinded.id,
+    );
 
     return {
       ...user,
-      userRole: role,
+      userRole: roleFinded,
     };
   }
 }

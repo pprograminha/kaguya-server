@@ -4,9 +4,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Expose } from 'class-transformer';
+import { storageConfig } from '@config/storage';
+import { UserTrail } from './UserTrail';
 
 @Entity('trails')
 class Trail implements ITrail {
@@ -19,8 +23,25 @@ class Trail implements ITrail {
   @Column()
   description: string;
 
+  @OneToMany(() => UserTrail, userTrail => userTrail.trail)
+  userTrail: UserTrail;
+
   @Column()
   avatar: string;
+
+  @Expose({ name: 'avatar_url' })
+  getAvatarUrl(): string | null {
+    if (!this.avatar) return null;
+
+    const providersUrl = {
+      s3: 'https://s3.com',
+      disk: `${process.env.APP_API_URL}/static/${this.avatar}`,
+    };
+
+    return providersUrl[storageConfig.driver];
+  }
+
+  avatar_url: string;
 
   @CreateDateColumn()
   created_at: Date;

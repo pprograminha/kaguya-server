@@ -11,6 +11,24 @@ export class TrailsRepository implements ITrailsRepository {
     this.ormRepository = getRepository(Trail);
   }
 
+  async save(trail: ITrail): Promise<ITrail> {
+    const trailSaved = await this.ormRepository.save(trail);
+
+    return trailSaved;
+  }
+
+  async destroyById(trail_id: string): Promise<void> {
+    await this.ormRepository.delete(trail_id);
+  }
+
+  async findAllTrails(): Promise<ITrail[]> {
+    const trails = await this.ormRepository.find({
+      relations: ['userTrail', 'userTrail.user'],
+    });
+
+    return trails;
+  }
+
   async create(data: ICreateTrailDTO): Promise<ITrail> {
     const trail = this.ormRepository.create(data);
 

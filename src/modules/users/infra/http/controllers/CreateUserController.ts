@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 class CreateUserController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { email, name, password, role_name } = request.body;
+    const { email, name, password, role } = request.body;
     const admin_id = request.user && request.user.id;
 
     const createUser = container.resolve(CreateUserService);
@@ -13,7 +13,7 @@ class CreateUserController {
       email,
       name,
       password,
-      role_name,
+      role,
       admin_id,
     });
 

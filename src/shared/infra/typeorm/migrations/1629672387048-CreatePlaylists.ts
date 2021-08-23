@@ -1,21 +1,26 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 import { commonMigration, commonMigrationOptions } from '../commons';
 
-export class CreateUserTrails1628282966132 implements MigrationInterface {
+export class CreatePlaylists1629672387048 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'user_trails',
+        name: 'playlists',
         columns: [
           ...commonMigration,
           {
-            name: 'trail_percentage_completed',
-            type: 'int',
-            default: 0,
+            name: 'avatar',
+            type: 'varchar',
+            isNullable: true,
           },
           {
-            name: 'user_id',
-            type: 'uuid',
+            name: 'name',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'description',
+            type: 'varchar',
           },
           {
             name: 'trail_id',
@@ -24,14 +29,6 @@ export class CreateUserTrails1628282966132 implements MigrationInterface {
           ...commonMigrationOptions,
         ],
         foreignKeys: [
-          {
-            name: 'FKUserId',
-            columnNames: ['user_id'],
-            referencedTableName: 'users',
-            referencedColumnNames: ['id'],
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-          },
           {
             name: 'FKTrailId',
             columnNames: ['trail_id'],
@@ -46,6 +43,6 @@ export class CreateUserTrails1628282966132 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('trails');
+    await queryRunner.dropTable('playlists');
   }
 }

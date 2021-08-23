@@ -22,7 +22,7 @@ describe('ListAllPlatformRole', () => {
       (value, key) => key,
     );
 
-    const platformRoles: IPlatformRole[] = [];
+    const platformRolesCreated: IPlatformRole[] = [];
 
     let lastestPlatformRole: IPlatformRole = {} as IPlatformRole;
 
@@ -32,17 +32,18 @@ describe('ListAllPlatformRole', () => {
         role: `role-${number}`,
       });
 
-      platformRoles.push(platformRole);
+      platformRolesCreated.push(platformRole);
       lastestPlatformRole = platformRole;
     });
 
-    const response = await listAllPlatformRoles.execute();
+    await Promise.all(promises);
+
+    const platformRoles = await listAllPlatformRoles.execute();
 
     expect(platformRoles).toEqual(
       expect.arrayContaining([lastestPlatformRole]),
     );
-    expect(response.length).toEqual(5);
-
-    await Promise.all(promises);
+    expect(platformRoles).toEqual(platformRolesCreated);
+    expect(platformRoles.length).toEqual(5);
   });
 });

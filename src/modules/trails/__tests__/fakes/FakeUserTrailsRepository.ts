@@ -2,7 +2,7 @@ import { IUserTrail } from '@modules/trails/domain/entities/IUserTrail';
 import { IUserTrailsRepository } from '@modules/trails/domain/repositories/IUserTrailsRepository';
 import { ICreateUserTrailDTO } from '@modules/trails/dtos/ICreateUserTrailDTO';
 import { IFindUserTrailDTO } from '@modules/trails/dtos/IFindUserTrailDTO';
-import { UserTrail } from '../../entities/UserTrail';
+import { UserTrail } from '@modules/trails/infra/typeorm/entities/UserTrail';
 
 export class FakeUserTrailsRepository implements IUserTrailsRepository {
   private userTrails: IUserTrail[] = [];

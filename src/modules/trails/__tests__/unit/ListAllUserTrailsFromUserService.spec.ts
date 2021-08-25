@@ -1,5 +1,5 @@
-import { ListAllUserTrailsFromUserService } from '@modules/trails/services/ListAllUserTrailsFromUserService';
 import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
+import { ListAllUserTrailsFromUserService } from '@modules/trails/services/ListAllUserTrailsFromUserService';
 import { FakeUserTrailsRepository } from '../fakes/FakeUserTrailsRepository';
 
 let fakeUserTrailsRepository: FakeUserTrailsRepository;

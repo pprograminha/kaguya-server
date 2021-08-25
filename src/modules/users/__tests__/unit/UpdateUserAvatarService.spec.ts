@@ -1,4 +1,4 @@
-import { FakeUsersRepository } from '@modules/users/infra/typeorm/repositories/fakes/FakeUsersRepository';
+import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
 import { UpdateUserAvatarService } from '@modules/users/services/UpdateUserAvatarService';
 import { AppError } from '@shared/errors/AppError';
 import { FakeStorageProvider } from '@shared/providers/StorageProvider/fakes/FakeStorageProvider';

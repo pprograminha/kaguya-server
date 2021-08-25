@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import { IPlatformUserRole } from '@modules/users/domain/entities/IPlatformUserRole';
 import { IPlatformUserRolesRepository } from '@modules/users/domain/repositories/IPlatformUserRolesRepository';
-import { PlatformUserRole } from '../../entities/PlatformUserRole';
+import { PlatformUserRole } from '../../infra/typeorm/entities/PlatformUserRole';
 
 class FakePlatformUserRolesRepository implements IPlatformUserRolesRepository {
   private platformUserRoles: IPlatformUserRole[] = [];

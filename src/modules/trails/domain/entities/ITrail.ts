@@ -7,7 +7,7 @@ interface ITrail {
   avatar: string;
   getAvatarUrl: () => string | null;
   avatar_url: string;
-  userTrail: IUserTrail;
+  userTrails: IUserTrail[];
   created_at: Date;
   updated_at: Date;
 }

@@ -1,4 +1,4 @@
-import { FakeTrailsRepository } from '@modules/trails/infra/typeorm/repositories/fakes/FakeTrailsRepository';
+import { FakeTrailsRepository } from '@modules/trails/__tests__/fakes/FakeTrailsRepository';
 import { ListAllTrailsService } from '@modules/trails/services/ListAllTrailsService';
 
 let fakeTrailsRepository: FakeTrailsRepository;

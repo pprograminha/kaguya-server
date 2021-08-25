@@ -1,4 +1,4 @@
-import { FakeUsersRepository } from '@modules/users/infra/typeorm/repositories/fakes/FakeUsersRepository';
+import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
 import { FakeHashProvider } from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
 import { FakeTokenProvider } from '@modules/users/providers/TokenProvider/fakes/FakeTokenProvider';
 import { AuthenticateUserService } from '@modules/users/services/AuthenticateUserService';

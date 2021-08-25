@@ -1,52 +1,40 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 import { commonMigration, commonMigrationOptions } from '../commons';
 
-export class CreateUserPlaylists1629675668980 implements MigrationInterface {
+export class CreateUserClasses1629839727476 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'user_playlists',
+        name: 'user_classes',
         columns: [
           ...commonMigration,
           {
-            name: 'playlist_percentage_completed',
-            type: 'varchar',
+            name: 'completed',
+            type: 'boolean',
+          },
+          {
+            name: 'class_id',
+            type: 'uuid',
           },
           {
             name: 'user_id',
-            type: 'uuid',
-          },
-          {
-            name: 'playlist_id',
-            type: 'uuid',
-          },
-          {
-            name: 'trail_id',
             type: 'uuid',
           },
           ...commonMigrationOptions,
         ],
         foreignKeys: [
           {
-            name: 'FKTrailId',
-            columnNames: ['trail_id'],
-            referencedTableName: 'trails',
-            referencedColumnNames: ['id'],
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-          },
-          {
-            name: 'FKPlaylistId',
-            columnNames: ['playlist_id'],
-            referencedTableName: 'playlists',
-            referencedColumnNames: ['id'],
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-          },
-          {
             name: 'FKUserId',
             columnNames: ['user_id'],
             referencedTableName: 'users',
+            referencedColumnNames: ['id'],
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+          },
+          {
+            name: 'FKClassId',
+            columnNames: ['class_id'],
+            referencedTableName: 'classes',
             referencedColumnNames: ['id'],
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
@@ -57,6 +45,6 @@ export class CreateUserPlaylists1629675668980 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('user_playlists');
+    await queryRunner.dropTable('user_classes');
   }
 }

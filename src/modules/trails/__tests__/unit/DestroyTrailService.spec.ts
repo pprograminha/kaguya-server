@@ -1,4 +1,4 @@
-import { FakeTrailsRepository } from '@modules/trails/infra/typeorm/repositories/fakes/FakeTrailsRepository';
+import { FakeTrailsRepository } from '@modules/trails/__tests__/fakes/FakeTrailsRepository';
 import { DestroyTrailService } from '@modules/trails/services/DestroyTrailService';
 import { AppError } from '@shared/errors/AppError';
 import { FakeStorageProvider } from '@shared/providers/StorageProvider/fakes/FakeStorageProvider';

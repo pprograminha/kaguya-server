@@ -1,5 +1,7 @@
-import { v4 as uuid } from 'uuid';
-import { ITrail } from '@modules/trails/domain/entities/ITrail';
+import { storageConfig } from '@config/storage';
+import { IPlaylist } from '@modules/playlists/domain/entities/IPlaylist';
+import { IUserPlaylist } from '@modules/playlists/domain/entities/IUserPlaylist';
+import { Expose } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -8,12 +10,11 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Expose } from 'class-transformer';
-import { storageConfig } from '@config/storage';
-import { UserTrail } from './UserTrail';
+import { v4 as uuid } from 'uuid';
+import { UserPlaylist } from './UserPlaylist';
 
-@Entity('trails')
-class Trail implements ITrail {
+@Entity('playlists')
+class Playlist implements IPlaylist {
   @PrimaryColumn()
   id: string;
 
@@ -23,8 +24,11 @@ class Trail implements ITrail {
   @Column()
   description: string;
 
-  @OneToMany(() => UserTrail, userTrail => userTrail.trail)
-  userTrails: UserTrail[];
+  @Column()
+  trail_id: string;
+
+  @OneToMany(() => UserPlaylist, userPlaylist => userPlaylist.playlist)
+  userPlaylists: IUserPlaylist[];
 
   @Column()
   avatar: string;
@@ -54,4 +58,4 @@ class Trail implements ITrail {
   }
 }
 
-export { Trail };
+export { Playlist };

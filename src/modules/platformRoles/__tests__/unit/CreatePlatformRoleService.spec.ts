@@ -1,8 +1,8 @@
 import { FakePlatformRolesRepository } from '@modules/platformRoles/infra/typeorm/repositories/fakes/FakePlatformRolesRepository';
 import { CreatePlatformRoleService } from '@modules/platformRoles/services/CreatePlatformRoleService';
 import { IUser } from '@modules/users/domain/entities/IUser';
-import { FakePlatformUserRolesRepository } from '@modules/users/infra/typeorm/repositories/fakes/FakePlatformUserRolesRepository';
-import { FakeUsersRepository } from '@modules/users/infra/typeorm/repositories/fakes/FakeUsersRepository';
+import { FakePlatformUserRolesRepository } from '@modules/users/__tests__/fakes/FakePlatformUserRolesRepository';
+import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
 import { AppError } from '@shared/errors/AppError';
 
 let fakePlatformRolesRepository: FakePlatformRolesRepository;

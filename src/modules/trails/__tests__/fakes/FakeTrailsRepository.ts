@@ -1,7 +1,7 @@
 import { ITrail } from '@modules/trails/domain/entities/ITrail';
 import { ITrailsRepository } from '@modules/trails/domain/repositories/ITrailsRepository';
 import { ICreateTrailDTO } from '@modules/trails/dtos/ICreateTrailDTO';
-import { Trail } from '../../entities/Trail';
+import { Trail } from '../../infra/typeorm/entities/Trail';
 
 export class FakeTrailsRepository implements ITrailsRepository {
   private trails: ITrail[] = [];

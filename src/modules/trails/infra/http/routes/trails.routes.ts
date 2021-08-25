@@ -20,10 +20,10 @@ const updateTrailAvatarController = new UpdateTrailAvatarController();
 
 const upload = multer(storageConfig.multer);
 
-trailsRouter.use(ensureAuthenticated, ensureSubAdministrator);
-
 trailsRouter.post(
   '/',
+  ensureAuthenticated,
+  ensureSubAdministrator,
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().max(100).required(),
@@ -33,10 +33,16 @@ trailsRouter.post(
   createTrailController.handle,
 );
 
-trailsRouter.get('/list-all', listAllTrailsController.handle);
+trailsRouter.get(
+  '/list-all',
+  ensureAuthenticated,
+  listAllTrailsController.handle,
+);
 
 trailsRouter.delete(
   '/',
+  ensureAuthenticated,
+  ensureSubAdministrator,
   celebrate({
     [Segments.QUERY]: {
       trail_id: Joi.string().uuid().required(),
@@ -47,6 +53,8 @@ trailsRouter.delete(
 
 trailsRouter.put(
   '/',
+  ensureAuthenticated,
+  ensureSubAdministrator,
   celebrate({
     [Segments.BODY]: {
       trail_id: Joi.string().uuid().required(),
@@ -59,6 +67,8 @@ trailsRouter.put(
 
 trailsRouter.patch(
   '/avatar',
+  ensureAuthenticated,
+  ensureSubAdministrator,
   upload.single('avatar'),
   updateTrailAvatarController.handle,
 );

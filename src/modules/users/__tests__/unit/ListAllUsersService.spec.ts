@@ -1,5 +1,5 @@
 import { IUser } from '@modules/users/domain/entities/IUser';
-import { FakeUsersRepository } from '@modules/users/infra/typeorm/repositories/fakes/FakeUsersRepository';
+import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
 import { ListAllUsersService } from '@modules/users/services/ListAllUsersService';
 
 let fakeUsersRepository: FakeUsersRepository;

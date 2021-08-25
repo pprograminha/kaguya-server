@@ -1,6 +1,6 @@
-import { FakeUserTrailsRepository } from '@modules/trails/infra/typeorm/repositories/fakes/FakeUserTrailsRepository';
 import { ListAllUserTrailsFromUserService } from '@modules/trails/services/ListAllUserTrailsFromUserService';
-import { FakeUsersRepository } from '@modules/users/infra/typeorm/repositories/fakes/FakeUsersRepository';
+import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
+import { FakeUserTrailsRepository } from '../fakes/FakeUserTrailsRepository';
 
 let fakeUserTrailsRepository: FakeUserTrailsRepository;
 let fakeUsersRepository: FakeUsersRepository;

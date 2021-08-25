@@ -1,7 +1,7 @@
 import { FakePlatformRolesRepository } from '@modules/platformRoles/infra/typeorm/repositories/fakes/FakePlatformRolesRepository';
 import { IPlatformUserRole } from '@modules/users/domain/entities/IPlatformUserRole';
-import { FakePlatformUserRolesRepository } from '@modules/users/infra/typeorm/repositories/fakes/FakePlatformUserRolesRepository';
-import { FakeUsersRepository } from '@modules/users/infra/typeorm/repositories/fakes/FakeUsersRepository';
+import { FakePlatformUserRolesRepository } from '@modules/users/__tests__/fakes/FakePlatformUserRolesRepository';
+import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
 import { FakeHashProvider } from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
 import { CreateUserService } from '@modules/users/services/CreateUserService';
 import { AppError } from '@shared/errors/AppError';

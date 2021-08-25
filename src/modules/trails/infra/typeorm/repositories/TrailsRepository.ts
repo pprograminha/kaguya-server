@@ -23,7 +23,7 @@ export class TrailsRepository implements ITrailsRepository {
 
   async findAllTrails(): Promise<ITrail[]> {
     const trails = await this.ormRepository.find({
-      relations: ['userTrail', 'userTrail.user'],
+      relations: ['userTrails', 'userTrails.user'],
     });
 
     return trails;

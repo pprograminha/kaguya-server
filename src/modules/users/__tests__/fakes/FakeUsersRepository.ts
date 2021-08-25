@@ -1,7 +1,7 @@
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 import { User } from '@modules/users/infra/typeorm/entities/User';
-import { IUser } from '../../../../domain/entities/IUser';
-import { IUsersRepository } from '../../../../domain/repositories/IUsersRepository';
+import { IUser } from '../../domain/entities/IUser';
+import { IUsersRepository } from '../../domain/repositories/IUsersRepository';
 
 class FakeUsersRepository implements IUsersRepository {
   private users: IUser[] = [];

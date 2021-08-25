@@ -1,8 +1,8 @@
-import { FakeTrailsRepository } from '@modules/trails/infra/typeorm/repositories/fakes/FakeTrailsRepository';
-import { FakeUserTrailsRepository } from '@modules/trails/infra/typeorm/repositories/fakes/FakeUserTrailsRepository';
+import { FakeTrailsRepository } from '@modules/trails/__tests__/fakes/FakeTrailsRepository';
 import { CreateUserTrailService } from '@modules/trails/services/CreateUserTrailService';
-import { FakeUsersRepository } from '@modules/users/infra/typeorm/repositories/fakes/FakeUsersRepository';
+import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
 import { AppError } from '@shared/errors/AppError';
+import { FakeUserTrailsRepository } from '../fakes/FakeUserTrailsRepository';
 
 let fakeTrailsRepository: FakeTrailsRepository;
 let fakeUserTrailsRepository: FakeUserTrailsRepository;

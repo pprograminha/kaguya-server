@@ -2,19 +2,18 @@ import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import { CreateUserController } from '../controllers/CreateUserController';
 import { ListAllUsersController } from '../controllers/ListAllUsersController';
-import ensureAdministrator from '../middlewares/ensureAdministrator';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 import ensureSubAdministrator from '../middlewares/ensureSubAdministrator';
 
-const adminsRouter = Router();
+const _usersRouter = Router();
 
 const createUserController = new CreateUserController();
 const listAllUsersController = new ListAllUsersController();
 
-adminsRouter.post(
+_usersRouter.post(
   '/users',
   ensureAuthenticated,
-  ensureAdministrator,
+  ensureSubAdministrator,
   celebrate({
     [Segments.BODY]: {
       email: Joi.string().email().max(100).required(),
@@ -26,11 +25,11 @@ adminsRouter.post(
   createUserController.handle,
 );
 
-adminsRouter.get(
+_usersRouter.get(
   '/users/list-all',
   ensureAuthenticated,
   ensureSubAdministrator,
   listAllUsersController.handle,
 );
 
-export { adminsRouter };
+export { _usersRouter };

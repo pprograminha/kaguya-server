@@ -10,31 +10,24 @@ export class CreateUserPlaylists1629675668980 implements MigrationInterface {
           ...commonMigration,
           {
             name: 'playlist_percentage_completed',
-            type: 'varchar',
+            type: 'int',
+            default: 0,
           },
           {
             name: 'user_id',
             type: 'uuid',
           },
           {
-            name: 'playlist_id',
+            name: 'trail_id',
             type: 'uuid',
           },
           {
-            name: 'trail_id',
+            name: 'playlist_id',
             type: 'uuid',
           },
           ...commonMigrationOptions,
         ],
         foreignKeys: [
-          {
-            name: 'FKTrailId',
-            columnNames: ['trail_id'],
-            referencedTableName: 'trails',
-            referencedColumnNames: ['id'],
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-          },
           {
             name: 'FKPlaylistId',
             columnNames: ['playlist_id'],

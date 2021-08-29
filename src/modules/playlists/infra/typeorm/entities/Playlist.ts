@@ -1,11 +1,15 @@
 import { storageConfig } from '@config/storage';
 import { IPlaylist } from '@modules/playlists/domain/entities/IPlaylist';
 import { IUserPlaylist } from '@modules/playlists/domain/entities/IUserPlaylist';
+import { ITrail } from '@modules/trails/domain/entities/ITrail';
+import { Trail } from '@modules/trails/infra/typeorm/entities/Trail';
 import { Expose } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryColumn,
   UpdateDateColumn,
@@ -26,6 +30,10 @@ class Playlist implements IPlaylist {
 
   @Column()
   trail_id: string;
+
+  @ManyToOne(() => Trail)
+  @JoinColumn({ name: 'trail_id' })
+  trail: ITrail;
 
   @OneToMany(() => UserPlaylist, userPlaylist => userPlaylist.playlist)
   userPlaylists: IUserPlaylist[];

@@ -33,7 +33,7 @@ class CreateUserService {
     name,
     role = 'default',
     password,
-    admin_id,
+    creator_id,
   }: ICreateUserRequestDTO): Promise<IResponse> {
     const findUser = await this.usersRepository.findByEmail(email);
     const roleFinded = await this.platformRolesRepository.findByRoleName(role);
@@ -48,14 +48,14 @@ class CreateUserService {
 
     const hashedPassword = await this.hashProvider.generateHash(password);
 
-    if (admin_id) {
-      const admin = await this.usersRepository.findById(admin_id, {
+    if (creator_id) {
+      const creator = await this.usersRepository.findById(creator_id, {
         platform_user_role: true,
       });
 
-      if (!admin) throw new AppError('Admin does not exist', 401);
+      if (!creator) throw new AppError('Creator does not exist', 401);
 
-      const permissions = admin.platformUserRoles.map(
+      const permissions = creator.platformUserRoles.map(
         platformUserRole => platformUserRole.platformRole.permission,
       );
 

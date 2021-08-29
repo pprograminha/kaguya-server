@@ -66,7 +66,7 @@ describe('CreateUser', () => {
         platformRole.id,
       );
 
-    const admin = await createUser.execute({
+    const creator = await createUser.execute({
       name: 'Xxxx Xxxx',
       email: 'xxxxxx@xxxx.xxx',
       password: 'xxxx',
@@ -90,12 +90,12 @@ describe('CreateUser', () => {
       email: 'xxxxx@xxxx.xxx',
       password: 'xxxx',
       role: 'default',
-      admin_id: admin.id,
+      creator_id: creator.id,
     });
 
     expect(user.email).toBe('xxxxx@xxxx.xxx');
   });
-  it('should not be able to create an user with non-existent administrator', async () => {
+  it('should not be able to create an user with non-existent creator', async () => {
     await fakePlatformRolesRepository.create({
       permission: 3,
       role: 'default',
@@ -106,7 +106,7 @@ describe('CreateUser', () => {
         name: 'Xxxx Xxxx',
         email: 'xxxxx@xxxx.xxx',
         password: 'xxxx',
-        admin_id: 'non-existing-admin-id',
+        creator_id: 'non-existing-creator-id',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -145,7 +145,7 @@ describe('CreateUser', () => {
         email: 'xxxxx@xxxx.xxx',
         password: 'xxxx',
         role: 'admin',
-        admin_id: admin.id,
+        creator_id: admin.id,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

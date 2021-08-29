@@ -4,15 +4,15 @@ import { IPlatformUserRole } from './IPlatformUserRole';
 interface IUser {
   id: string;
   name: string;
-  username: string;
-  password: string;
   email: string;
+  avatar: string;
   platformUserRoles: IPlatformUserRole[];
   userTrails: IUserTrail[];
-  avatar: string;
-  getAvatarUrl: () => string | null;
-  avatar_url: string;
+  username: string;
   enabled: boolean;
+  password: string;
+  getAvatarUrl(): string | null;
+  avatar_url: string;
   created_at: Date;
   updated_at: Date;
 }

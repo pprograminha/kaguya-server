@@ -24,21 +24,21 @@ class UserPlaylist implements IUserPlaylist {
   user_id: string;
 
   @Column()
-  trail_id: string;
-
-  @Column()
   playlist_percentage_completed: string;
 
   @Column()
   playlist_id: string;
 
-  @ManyToOne(() => Playlist)
-  @JoinColumn({ name: 'playlist_id' })
-  playlist: IPlaylist;
+  @Column()
+  trail_id: string;
 
   @ManyToOne(() => Trail)
   @JoinColumn({ name: 'trail_id' })
   trail: ITrail;
+
+  @ManyToOne(() => Playlist)
+  @JoinColumn({ name: 'playlist_id' })
+  playlist: IPlaylist;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })

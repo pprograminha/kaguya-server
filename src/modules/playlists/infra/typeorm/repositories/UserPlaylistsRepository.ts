@@ -49,6 +49,7 @@ export class UserPlaylistsRepository implements IUserPlaylistsRepository {
         trail_id,
         user_id,
       },
+      relations: ['playlist', 'playlist.trail'],
     });
 
     return userPlaylists;

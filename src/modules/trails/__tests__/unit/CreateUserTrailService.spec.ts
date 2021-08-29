@@ -2,23 +2,38 @@ import { FakeTrailsRepository } from '@modules/trails/__tests__/fakes/FakeTrails
 import { CreateUserTrailService } from '@modules/trails/services/CreateUserTrailService';
 import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
 import { AppError } from '@shared/errors/AppError';
+import { CreateUserPlaylistsService } from '@modules/playlists/services/CreateUserPlaylistsService';
+import { FakeUserPlaylistsRepository } from '@modules/playlists/__tests__/fakes/FakeUserPlaylistsRepository';
+import { FakePlaylistsRepository } from '@modules/playlists/__tests__/fakes/FakePlaylistsRepository';
 import { FakeUserTrailsRepository } from '../fakes/FakeUserTrailsRepository';
 
 let fakeTrailsRepository: FakeTrailsRepository;
 let fakeUserTrailsRepository: FakeUserTrailsRepository;
 let fakeUsersRepository: FakeUsersRepository;
+let fakeUserPlaylistsRepository: FakeUserPlaylistsRepository;
+let fakePlaylistsRepository: FakePlaylistsRepository;
+
 let createUserTrail: CreateUserTrailService;
+let createUserPlaylistsService: CreateUserPlaylistsService;
 
 describe('CreateUserTrail', () => {
   beforeEach(() => {
     fakeTrailsRepository = new FakeTrailsRepository();
     fakeUserTrailsRepository = new FakeUserTrailsRepository();
     fakeUsersRepository = new FakeUsersRepository();
-
+    fakeUserPlaylistsRepository = new FakeUserPlaylistsRepository();
+    fakePlaylistsRepository = new FakePlaylistsRepository();
+    createUserPlaylistsService = new CreateUserPlaylistsService(
+      fakeUsersRepository,
+      fakeUserPlaylistsRepository,
+      fakePlaylistsRepository,
+      fakeTrailsRepository,
+    );
     createUserTrail = new CreateUserTrailService(
       fakeUserTrailsRepository,
       fakeTrailsRepository,
       fakeUsersRepository,
+      createUserPlaylistsService,
     );
   });
 

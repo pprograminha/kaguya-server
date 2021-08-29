@@ -3,9 +3,8 @@
     "dev:server": "tsnd -r tsconfig-paths/register --transpile-only --inspect --ignore-watch node_modules src/shared/infra/http/server.ts",
     "typeorm": "tsnd -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "build": "tsc",
-    "test": "cross-env NODE_ENV=test jest --coverage",
-    "test:unit": "jest --coverage ./src/modules/**/__tests__/unit/**.spec.ts",
-    "test:integration": "cross-env NODE_ENV=test jest ./src/modules/**/__tests__/integration/**.spec.ts"
+    "test:unit": "jest --coverage --detectOpenHandles ./src/modules/**/__tests__/unit/**.spec.ts",
+    "test:integration": "cross-env NODE_ENV=test jest --detectOpenHandles ./src/modules/**/__tests__/integration/**.spec.ts"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

@@ -11,6 +11,7 @@ export class CreateUserBlocks1629838863337 implements MigrationInterface {
           {
             name: 'block_percentage_completed',
             type: 'int',
+            default: 0,
           },
           {
             name: 'user_id',

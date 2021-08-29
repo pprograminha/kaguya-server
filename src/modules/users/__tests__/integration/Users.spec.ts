@@ -1,20 +1,10 @@
 import { app } from '@shared/infra/http/app';
-import { connection as createConnection } from '@shared/infra/typeorm/connection';
+import { commonsConnection } from '@shared/__tests__/commons';
 import request from 'supertest';
-import { getConnection } from 'typeorm';
 
 describe('Users', () => {
-  beforeAll(async () => {
-    const connection = await createConnection();
-
-    await connection.runMigrations();
-  });
-  afterAll(async () => {
-    const connection = getConnection();
-
-    await connection.dropDatabase();
-    await connection.close();
-  });
+  beforeAll(commonsConnection.beforeAll);
+  afterAll(commonsConnection.afterAll);
 
   it('should be able to create an user', async () => {
     const response = await request(app).post('/users').send({
@@ -24,5 +14,38 @@ describe('Users', () => {
     });
 
     expect(response.status).toBe(201);
+  });
+
+  it('should be able to create an user by creator', async () => {
+    const sessionsResponse = await request(app).post('/sessions').send({
+      email: process.env.ADMIN_ACCESS,
+      password: process.env.ADMIN_PASS,
+    });
+
+    const { token } = sessionsResponse.body;
+
+    await request(app)
+      .post('/sub-admins/platform-roles')
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .send({
+        permission: 1,
+        role: 'sub-admin',
+      });
+
+    const usersResponse = await request(app)
+      .post('/sub-admins/users')
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .send({
+        name: 'Xxx Xxx',
+        email: 'xxxxxx@xxxx.xxx',
+        password: 'xxxxxxxx',
+        role: 'sub-admin',
+      });
+
+    expect(usersResponse.status).toBe(201);
   });
 });

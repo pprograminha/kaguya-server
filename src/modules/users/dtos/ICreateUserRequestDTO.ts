@@ -3,6 +3,6 @@ interface ICreateUserRequestDTO {
   name: string;
   password: string;
   role?: string;
-  admin_id?: string;
+  creator_id?: string;
 }
 export { ICreateUserRequestDTO };

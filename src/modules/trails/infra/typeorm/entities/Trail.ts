@@ -10,6 +10,9 @@ import {
 } from 'typeorm';
 import { Expose } from 'class-transformer';
 import { storageConfig } from '@config/storage';
+import { Playlist } from '@modules/playlists/infra/typeorm/entities/Playlist';
+import { IPlaylist } from '@modules/playlists/domain/entities/IPlaylist';
+import { IUserTrail } from '@modules/trails/domain/entities/IUserTrail';
 import { UserTrail } from './UserTrail';
 
 @Entity('trails')
@@ -23,8 +26,11 @@ class Trail implements ITrail {
   @Column()
   description: string;
 
+  @OneToMany(() => Playlist, playlist => playlist.trail)
+  playlists: IPlaylist[];
+
   @OneToMany(() => UserTrail, userTrail => userTrail.trail)
-  userTrails: UserTrail[];
+  userTrails: IUserTrail[];
 
   @Column()
   avatar: string;

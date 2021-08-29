@@ -1,3 +1,4 @@
+import { CreateUserPlaylistsService } from '@modules/playlists/services/CreateUserPlaylistsService';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 import { AppError } from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
@@ -17,6 +18,9 @@ export class CreateUserTrailService {
 
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
+
+    @inject('CreateUserPlaylistsService')
+    private createUserPlaylistsService: CreateUserPlaylistsService,
   ) {}
 
   async execute({
@@ -50,6 +54,11 @@ export class CreateUserTrailService {
     );
 
     if (!userTrailFinded) throw new AppError('User trail does not exist', 400);
+
+    await this.createUserPlaylistsService.execute({
+      user_id,
+      trail_id,
+    });
 
     return userTrailFinded;
   }

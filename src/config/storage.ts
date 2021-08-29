@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { diskStorage, StorageEngine } from 'multer';
+import { diskStorage, StorageEngine, MulterError } from 'multer';
 import path from 'path';
 
 interface IStorageConfig {
@@ -33,7 +33,7 @@ const storageConfig = {
         };
 
         if (!mimeTypes[file.mimetype as TMime]) {
-          error = new Error('File is invalid');
+          error = new MulterError('LIMIT_FIELD_VALUE');
         }
 
         callback(error, tmpFolder);

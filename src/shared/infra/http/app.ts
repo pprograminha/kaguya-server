@@ -7,6 +7,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import { errors } from 'celebrate';
 import { storageConfig } from '@config/storage';
+import { MulterError } from 'multer';
 import { connection } from '../typeorm/connection';
 import { router } from './routes';
 
@@ -25,6 +26,13 @@ app.use(
   (error: Error, request: Request, response: Response, _: NextFunction) => {
     if (error instanceof AppError) {
       return response.status(error.statusCode).json({
+        status: 'error',
+        message: error.message,
+      });
+    }
+
+    if (error instanceof MulterError) {
+      return response.status(403).json({
         status: 'error',
         message: error.message,
       });

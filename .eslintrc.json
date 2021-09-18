@@ -19,6 +19,7 @@
       "prettier"
     ],
     "rules": {
+      "no-underscore-dangle": "off",
       "@typescript-eslint/no-empty-function": "off",
       "class-methods-use-this":"off",
       "camelcase": "off",
@@ -29,6 +30,7 @@
           "argsIgnorePattern": "^_"
         }
       ],
+      "@typescript-eslint/ban-types": "off",
       "@typescript-eslint/naming-convention": [
         "error",
         {

@@ -1,4 +1,7 @@
+import { hashSync } from 'bcryptjs';
+import 'dotenv/config';
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import { v4 as uuid } from 'uuid';
 import { commonMigration, commonMigrationOptions } from '../commons';
 
 export class CreatePlatformUserRoles1628282247312
@@ -11,7 +14,7 @@ export class CreatePlatformUserRoles1628282247312
         columns: [
           ...commonMigration,
           {
-            name: 'role_id',
+            name: 'platform_role_id',
             type: 'uuid',
           },
           {
@@ -23,7 +26,7 @@ export class CreatePlatformUserRoles1628282247312
         foreignKeys: [
           {
             name: 'FKRoleId',
-            columnNames: ['role_id'],
+            columnNames: ['platform_role_id'],
             referencedTableName: 'platform_roles',
             referencedColumnNames: ['id'],
             onDelete: 'CASCADE',
@@ -40,6 +43,51 @@ export class CreatePlatformUserRoles1628282247312
         ],
       }),
     );
+
+    const user_id = uuid();
+    const platform_role_id = uuid();
+    const platform_user_role_id = uuid();
+
+    await queryRunner.manager
+      .createQueryBuilder()
+      .insert()
+      .into('users')
+      .values([
+        {
+          id: user_id,
+          name: process.env.ADMIN_NAME || '******** *******',
+          username: process.env.ADMIN_USERNAME || '**********',
+          email: process.env.ADMIN_ACCESS || '********@xxxxxx.xxx',
+          password: hashSync(process.env.ADMIN_PASS || '********'),
+        },
+      ])
+      .execute();
+
+    await queryRunner.manager
+      .createQueryBuilder()
+      .insert()
+      .into('platform_roles')
+      .values([
+        {
+          id: platform_role_id,
+          role: 'admin',
+          permission: 0,
+        },
+      ])
+      .execute();
+
+    await queryRunner.manager
+      .createQueryBuilder()
+      .insert()
+      .into('platform_user_roles')
+      .values([
+        {
+          id: platform_user_role_id,
+          platform_role_id,
+          user_id,
+        },
+      ])
+      .execute();
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

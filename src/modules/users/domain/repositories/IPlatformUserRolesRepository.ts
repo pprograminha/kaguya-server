@@ -1,7 +1,12 @@
-import { IPlatformUserRoles } from '../entities/IPlatformUserRoles';
+import { IPlatformUserRole } from '../entities/IPlatformUserRole';
 
 export interface IPlatformUserRolesRepository {
-  findByUserId(user_id: string): Promise<IPlatformUserRoles | undefined>;
-  findByRoleId(role_id: string): Promise<IPlatformUserRoles | undefined>;
-  addRoleToUser(user_id: string, role_id: string): Promise<IPlatformUserRoles>;
+  findByUserId(user_id: string): Promise<IPlatformUserRole | undefined>;
+  findByRoleId(
+    platform_role_id: string,
+  ): Promise<IPlatformUserRole | undefined>;
+  addRoleToUser(
+    user_id: string,
+    platform_role_id: string,
+  ): Promise<IPlatformUserRole>;
 }

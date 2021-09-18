@@ -1,36 +1,24 @@
-import { PlatformRolesRepository } from '@modules/platformRoles/infra/typeorm/repositories/PlatformRolesRepository';
-import { BCryptHashProvider } from '@modules/users/providers/HashProvider/implementations/BCryptHashProvider';
 import { CreateUserService } from '@modules/users/services/CreateUserService';
+import { classToClass } from 'class-transformer';
 import { Request, Response } from 'express';
-import { PlatformUserRolesRepository } from '../../typeorm/repositories/PlatformUserRolesRepository';
-import UsersRepository from '../../typeorm/repositories/UsersRepository';
+import { container } from 'tsyringe';
 
 class CreateUserController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const user_logged_id = request.user.id;
-    const { email, name, password, role_name } = request.body;
+    const { email, name, password, role } = request.body;
+    const creator_id = request.user && request.user.id;
 
-    const usersRepository = new UsersRepository();
-    const bcryptHashProvider = new BCryptHashProvider();
-    const platformRolesRepository = new PlatformRolesRepository();
-    const platformUserRolesRepository = new PlatformUserRolesRepository();
+    const createUser = container.resolve(CreateUserService);
 
-    const createUser = new CreateUserService(
-      usersRepository,
-      bcryptHashProvider,
-      platformRolesRepository,
-      platformUserRolesRepository
-    );
-
-    const { user, userRole} = await createUser.execute({
+    const user = await createUser.execute({
       email,
       name,
       password,
-      role_name,
-      user_logged_id
+      role,
+      creator_id,
     });
 
-    return response.status(201).json({user, userRole});
+    return response.status(201).json(classToClass(user));
   }
 }
 

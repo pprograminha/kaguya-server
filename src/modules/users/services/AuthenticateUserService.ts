@@ -1,44 +1,54 @@
 import { AppError } from '@shared/errors/AppError';
-import { User } from '../infra/typeorm/entities/User';
-import UsersRepository from '../infra/typeorm/repositories/UsersRepository';
-import { BCryptHashProvider } from '../providers/HashProvider/implementations/BCryptHashProvider';
-import { JwtProvider } from '../providers/TokenProvider/implementations/JwtProvider';
+import { inject, injectable } from 'tsyringe';
+import { IUser } from '../domain/entities/IUser';
+import { IUsersRepository } from '../domain/repositories/IUsersRepository';
+import { IHashProvider } from '../providers/HashProvider/models/IHashProvider';
+import { ITokenProvider } from '../providers/TokenProvider/models/ITokenProvider';
 
 interface IRequest {
   email: string;
-  password?: string;
+  password: string;
 }
 
 interface IResponse {
-  user: User;
+  user: IUser;
   token: string;
 }
 
+@injectable()
 export class AuthenticateUserService {
   constructor(
-    private usersRepository: UsersRepository,
-    private hashProvider: BCryptHashProvider,
-    private tokenProvider: JwtProvider
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+
+    @inject('HashProvider')
+    private hashProvider: IHashProvider,
+
+    @inject('TokenProvider')
+    private tokenProvider: ITokenProvider,
   ) {}
 
-  async exeucte({email, password}: IRequest): Promise<IResponse> {
+  async execute({ email, password }: IRequest): Promise<IResponse> {
     const user = await this.usersRepository.findByEmail(email);
-    
-    if(!user) {
+
+    if (!user) {
       throw new AppError('User does not exist');
-    };
+    }
 
-    const passwordMatched = this.hashProvider.compareHash(String(password), user.password);
+    const passwordMatched = await this.hashProvider.compareHash(
+      password,
+      user.password,
+    );
 
-    if(!passwordMatched || !user.email) {
+    if (!passwordMatched) {
       throw new AppError('Incorrect email/password combination.');
-    };
+    }
 
     const token = this.tokenProvider.signIn(user);
 
     return {
       token,
-      user
+      user,
     };
   }
 }

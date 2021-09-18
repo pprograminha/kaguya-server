@@ -1,30 +1,21 @@
-import { BCryptHashProvider } from '@modules/users/providers/HashProvider/implementations/BCryptHashProvider';
-import { JwtProvider } from '@modules/users/providers/TokenProvider/implementations/JwtProvider';
 import { AuthenticateUserService } from '@modules/users/services/AuthenticateUserService';
+import { classToClass } from 'class-transformer';
 import { Request, Response } from 'express';
-import UsersRepository from '../../typeorm/repositories/UsersRepository';
+import { container } from 'tsyringe';
 
 export class AuthenticateUserController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const {email, password} = request.body;
+    const { email, password } = request.body;
 
-    const jwtProvider = new JwtProvider();
-    const usersRepository = new UsersRepository();
-    const bCryptHashProvider = new BCryptHashProvider();
+    const authenticateUserService = container.resolve(AuthenticateUserService);
 
-    const authenticateUserService = new AuthenticateUserService(
-      usersRepository, 
-      bCryptHashProvider,
-      jwtProvider, 
-    );
-
-    const {token, user} = await authenticateUserService.exeucte({
+    const { token, user } = await authenticateUserService.execute({
       email,
-      password
+      password,
     });
 
     return response.json({
-      user,
+      user: classToClass(user),
       token,
     });
   }

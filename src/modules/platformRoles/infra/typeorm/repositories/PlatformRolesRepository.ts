@@ -1,58 +1,62 @@
 import { IPlatformRolesRepository } from '@modules/platformRoles/domain/repositories/IPlatformRolesRepository';
 import { ICreatePlatformRoleDTO } from '@modules/platformRoles/dtos/ICreatePlatformRoleDTO';
 import { getRepository, Repository } from 'typeorm';
-import { PlatformRoles } from '../entities/PlatformRoles';
+import { PlatformRole } from '../entities/PlatformRole';
 
 export class PlatformRolesRepository implements IPlatformRolesRepository {
-  private ormRepository: Repository<PlatformRoles>;
+  private ormRepository: Repository<PlatformRole>;
 
   constructor() {
-    this.ormRepository = getRepository(PlatformRoles);
+    this.ormRepository = getRepository(PlatformRole);
   }
 
-  async create(data: ICreatePlatformRoleDTO): Promise<PlatformRoles> {
+  async create(data: ICreatePlatformRoleDTO): Promise<PlatformRole> {
     const role = this.ormRepository.create(data);
 
     await this.ormRepository.save(role);
 
     return role;
-  };
+  }
 
-  async findByRoleName(role_name: string): Promise<PlatformRoles | undefined> {
+  async findByRoleName(role: string): Promise<PlatformRole | undefined> {
+    const roleFinded = await this.ormRepository.findOne({
+      where: {
+        role,
+      },
+    });
+
+    return roleFinded;
+  }
+
+  async findByRolePermission(
+    role_permission: number,
+  ): Promise<PlatformRole | undefined> {
     const role = await this.ormRepository.findOne({
       where: {
-        role: role_name
-      }
+        permission: role_permission,
+      },
     });
 
     return role;
-  };
+  }
 
-  async findByRolePermission(role_permission: number): Promise<PlatformRoles | undefined> {
+  async findByRoleId(
+    platform_role_id: string,
+  ): Promise<PlatformRole | undefined> {
     const role = await this.ormRepository.findOne({
       where: {
-        permission: role_permission
-      }
+        id: platform_role_id,
+      },
     });
 
     return role;
-  };
+  }
 
-  async findByRoleId(role_id: string): Promise<PlatformRoles | undefined> {
-    const role = await this.ormRepository.findOne({
-      where: {
-        id: role_id
-      }
-    });
-
-    return role;
-  };
-
-  async listAllRoles(): Promise<PlatformRoles[] | undefined> {
+  async listAllRoles(): Promise<PlatformRole[]> {
     const allRoles = await this.ormRepository.find({
       order: {
-        permission: 'ASC'
-      }
+        permission: 'ASC',
+      },
     });
 
     return allRoles;

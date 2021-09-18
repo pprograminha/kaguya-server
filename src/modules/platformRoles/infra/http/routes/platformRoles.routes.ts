@@ -1,12 +1,15 @@
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 import { Router } from 'express';
-import { PlatformRoleController } from '../controllers/PlatformRoleController';
+import { ListAllPlatformRolesController } from '../controllers/ListAllPlatformRolesController';
 
 const platformRolesRouter = Router();
 
-const platformRoleController = new PlatformRoleController();
+const listAllPlatformRolesController = new ListAllPlatformRolesController();
 
-platformRolesRouter.post('/', ensureAuthenticated, platformRoleController.create);
-platformRolesRouter.get('/list-all', ensureAuthenticated, platformRoleController.index);
+platformRolesRouter.get(
+  '/list-all',
+  ensureAuthenticated,
+  listAllPlatformRolesController.handle,
+);
 
 export { platformRolesRouter };

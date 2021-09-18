@@ -67,6 +67,7 @@ class CreateUserService {
         );
       }
     }
+
     const user = await this.usersRepository.create({
       email,
       name,

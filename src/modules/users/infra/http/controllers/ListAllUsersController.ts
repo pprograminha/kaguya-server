@@ -1,4 +1,5 @@
 import { ListAllUsersService } from '@modules/users/services/ListAllUsersService';
+import { classToClass } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -8,6 +9,8 @@ export class ListAllUsersController {
 
     const { users, usersCount } = await listAllUsers.execute();
 
-    return response.status(201).json({ usersCount, users });
+    return response
+      .status(200)
+      .json({ usersCount, users: classToClass(users) });
   }
 }

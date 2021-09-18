@@ -1,5 +1,5 @@
 import { IPlatformRole } from '@modules/platformRoles/domain/entities/IPlatformRole';
-import { FakePlatformRolesRepository } from '@modules/platformRoles/infra/typeorm/repositories/fakes/FakePlatformRolesRepository';
+import { FakePlatformRolesRepository } from '@modules/platformRoles/__tests__/fakes/FakePlatformRolesRepository';
 import { ListAllPlatformRolesService } from '@modules/platformRoles/services/ListAllPlatformRolesService';
 
 let fakePlatformRolesRepository: FakePlatformRolesRepository;

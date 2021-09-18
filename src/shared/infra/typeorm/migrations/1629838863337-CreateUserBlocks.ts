@@ -14,7 +14,21 @@ export class CreateUserBlocks1629838863337 implements MigrationInterface {
             default: 0,
           },
           {
+            name: 'classes_completed',
+            type: 'int',
+            default: 0,
+          },
+          {
+            name: 'classes_amount',
+            type: 'int',
+            default: 0,
+          },
+          {
             name: 'user_id',
+            type: 'uuid',
+          },
+          {
+            name: 'playlist_id',
             type: 'uuid',
           },
           {
@@ -28,6 +42,14 @@ export class CreateUserBlocks1629838863337 implements MigrationInterface {
             name: 'FKBlockId',
             columnNames: ['block_id'],
             referencedTableName: 'blocks',
+            referencedColumnNames: ['id'],
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+          },
+          {
+            name: 'FKPlaylistId',
+            columnNames: ['playlist_id'],
+            referencedTableName: 'playlists',
             referencedColumnNames: ['id'],
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',

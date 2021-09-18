@@ -1,4 +1,5 @@
 import { CreatePlatformRoleService } from '@modules/platformRoles/services/CreatePlatformRoleService';
+import { classToClass } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -15,6 +16,6 @@ export class CreatePlatformRoleController {
       role,
     });
 
-    return response.status(201).json(platformRole);
+    return response.status(201).json(classToClass(platformRole));
   }
 }

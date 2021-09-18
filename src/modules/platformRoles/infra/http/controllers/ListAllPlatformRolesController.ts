@@ -1,4 +1,5 @@
 import { ListAllPlatformRolesService } from '@modules/platformRoles/services/ListAllPlatformRolesService';
+import { classToClass } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -8,6 +9,6 @@ export class ListAllPlatformRolesController {
 
     const allRoles = await listAllPlatformRoles.execute();
 
-    return response.status(200).json(allRoles);
+    return response.status(200).json(classToClass(allRoles));
   }
 }

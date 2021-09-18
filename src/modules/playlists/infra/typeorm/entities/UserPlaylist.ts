@@ -24,7 +24,13 @@ class UserPlaylist implements IUserPlaylist {
   user_id: string;
 
   @Column()
-  playlist_percentage_completed: string;
+  blocks_completed: number;
+
+  @Column()
+  blocks_amount: number;
+
+  @Column()
+  playlist_percentage_completed: number;
 
   @Column()
   playlist_id: string;

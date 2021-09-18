@@ -15,10 +15,12 @@ export class UserPlaylistsRepository implements IUserPlaylistsRepository {
   async create({
     playlist_id,
     user_id,
+    trail_id,
   }: ICreateUserPlaylistDTO): Promise<IUserPlaylist> {
     const userPlaylist = this.ormRepository.create({
       playlist_id,
       user_id,
+      trail_id,
     });
 
     await this.ormRepository.save(userPlaylist);

@@ -9,6 +9,8 @@ import { _trailsRouter } from '@modules/trails/infra/http/routes/_trails.routes'
 import { _playlistsRouter } from '@modules/playlists/infra/http/routes/_playlists.routes';
 import { userPlaylistsRouter } from '@modules/playlists/infra/http/routes/userPlaylists.routes';
 import { _platformRolesRouter } from '@modules/platformRoles/infra/http/routes/_platformRoles.routes';
+import { _blocksRouter } from '@modules/blocks/infra/http/routes/_blocks.routes';
+import { _classesRouter } from '@modules/classes/infra/http/routes/_classes.routes';
 
 const router = Router();
 
@@ -18,6 +20,8 @@ router.use('/sub-admins', [
   _trailsRouter,
   _playlistsRouter,
   _platformRolesRouter,
+  _blocksRouter,
+  _classesRouter,
 ]);
 router.use('/sessions', sessionsRouter);
 router.use('/trails', trailsRouter);

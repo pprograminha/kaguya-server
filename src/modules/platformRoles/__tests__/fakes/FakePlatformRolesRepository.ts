@@ -2,7 +2,7 @@ import { IPlatformRole } from '@modules/platformRoles/domain/entities/IPlatformR
 import { IPlatformRolesRepository } from '@modules/platformRoles/domain/repositories/IPlatformRolesRepository';
 import { ICreatePlatformRoleDTO } from '@modules/platformRoles/dtos/ICreatePlatformRoleDTO';
 import { v4 as uuid } from 'uuid';
-import { PlatformRole } from '../../entities/PlatformRole';
+import { PlatformRole } from '../../infra/typeorm/entities/PlatformRole';
 
 class FakePlatformRolesRepository implements IPlatformRolesRepository {
   private platformRoles: IPlatformRole[] = [];

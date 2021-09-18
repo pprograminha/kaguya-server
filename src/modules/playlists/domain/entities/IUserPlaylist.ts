@@ -4,7 +4,9 @@ import { IPlaylist } from './IPlaylist';
 
 interface IUserPlaylist {
   id: string;
-  playlist_percentage_completed: string;
+  playlist_percentage_completed: number;
+  blocks_completed: number;
+  blocks_amount: number;
   user_id: string;
   trail_id: string;
   playlist_id: string;

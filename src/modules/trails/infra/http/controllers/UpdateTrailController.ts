@@ -15,6 +15,6 @@ export class UpdateTrailController {
       name,
     });
 
-    return response.status(201).json(classToClass(trailUpdated));
+    return response.status(200).json(classToClass(trailUpdated));
   }
 }

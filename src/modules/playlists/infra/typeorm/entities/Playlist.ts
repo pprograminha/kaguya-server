@@ -1,4 +1,6 @@
 import { storageConfig } from '@config/storage';
+import { IBlock } from '@modules/blocks/domain/entities/IBlock';
+import { Block } from '@modules/blocks/infra/typeorm/entities/Block';
 import { IPlaylist } from '@modules/playlists/domain/entities/IPlaylist';
 import { IUserPlaylist } from '@modules/playlists/domain/entities/IUserPlaylist';
 import { ITrail } from '@modules/trails/domain/entities/ITrail';
@@ -34,6 +36,9 @@ class Playlist implements IPlaylist {
   @ManyToOne(() => Trail)
   @JoinColumn({ name: 'trail_id' })
   trail: ITrail;
+
+  @OneToMany(() => Block, block => block.playlist)
+  blocks: IBlock[];
 
   @OneToMany(() => UserPlaylist, userPlaylist => userPlaylist.playlist)
   userPlaylists: IUserPlaylist[];

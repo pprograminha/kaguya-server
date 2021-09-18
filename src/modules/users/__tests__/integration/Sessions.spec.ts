@@ -3,8 +3,8 @@ import { commonsConnection } from '@shared/__tests__/commons';
 import request from 'supertest';
 
 describe('Sessions', () => {
-  beforeAll(commonsConnection.beforeAll);
-  afterAll(commonsConnection.afterAll);
+  beforeAll(commonsConnection.createConnection);
+  afterAll(commonsConnection.dropConnection);
 
   it('should be able to authenticate the user', async () => {
     await request(app).post('/users').send({

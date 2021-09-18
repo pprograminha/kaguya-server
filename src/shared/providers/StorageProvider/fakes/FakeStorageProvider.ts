@@ -5,9 +5,7 @@ class FakeStorageProvider implements IStorageProvider {
     return filename;
   }
 
-  async deleteFile(): Promise<null> {
-    return null;
-  }
+  async deleteFile(): Promise<void> {}
 }
 
 export { FakeStorageProvider };

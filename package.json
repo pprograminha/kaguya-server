@@ -4,7 +4,8 @@
     "typeorm": "tsnd -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "build": "tsc",
     "test:unit": "jest --coverage --detectOpenHandles ./src/modules/**/__tests__/unit/**.spec.ts",
-    "test:integration": "cross-env NODE_ENV=test jest --detectOpenHandles ./src/modules/**/__tests__/integration/**.spec.ts"
+    "test:integration": "cross-env NODE_ENV=test jest --detectOpenHandles ./src/modules/**/__tests__/integration/**.spec.ts",
+    "test": "yarn test:integration && yarn test:unit"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

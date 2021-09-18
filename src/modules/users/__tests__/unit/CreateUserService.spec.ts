@@ -1,4 +1,4 @@
-import { FakePlatformRolesRepository } from '@modules/platformRoles/infra/typeorm/repositories/fakes/FakePlatformRolesRepository';
+import { FakePlatformRolesRepository } from '@modules/platformRoles/__tests__/fakes/FakePlatformRolesRepository';
 import { IPlatformUserRole } from '@modules/users/domain/entities/IPlatformUserRole';
 import { FakePlatformUserRolesRepository } from '@modules/users/__tests__/fakes/FakePlatformUserRolesRepository';
 import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';

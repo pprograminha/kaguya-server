@@ -1,4 +1,7 @@
-import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
+import {
+  IRelationshipsDTO,
+  IUsersRepository,
+} from '@modules/users/domain/repositories/IUsersRepository';
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 import { getRepository, Repository } from 'typeorm';
 import { User } from '../entities/User';
@@ -19,11 +22,19 @@ class UsersRepository implements IUsersRepository {
     return user;
   }
 
-  async findById(id: string | number): Promise<User | undefined> {
+  async findById(
+    id: string | number,
+    relationship: IRelationshipsDTO,
+  ): Promise<User | undefined> {
     const user = await this.ormRepository.findOne({
       where: {
         id,
       },
+      ...(relationship && relationship.platform_user_role
+        ? {
+            relations: ['platformUserRoles', 'platformUserRoles.platformRole'],
+          }
+        : {}),
     });
     return user;
   }
@@ -38,6 +49,14 @@ class UsersRepository implements IUsersRepository {
 
   async save(user: User): Promise<User> {
     return this.ormRepository.save(user);
+  }
+
+  async findAll(): Promise<User[]> {
+    const users = await this.ormRepository.find({
+      relations: ['platformUserRoles', 'platformUserRoles.platformRole'],
+    });
+
+    return users;
   }
 }
 

@@ -19,6 +19,7 @@ export class CreateTrails1628282661258 implements MigrationInterface {
           {
             name: 'avatar',
             type: 'varchar',
+            isNullable: true,
           },
           ...commonMigrationOptions,
         ],

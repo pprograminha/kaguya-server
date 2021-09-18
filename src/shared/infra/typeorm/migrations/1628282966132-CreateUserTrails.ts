@@ -9,6 +9,21 @@ export class CreateUserTrails1628282966132 implements MigrationInterface {
         columns: [
           ...commonMigration,
           {
+            name: 'trail_percentage_completed',
+            type: 'int',
+            default: 0,
+          },
+          {
+            name: 'playlists_completed',
+            type: 'int',
+            default: 0,
+          },
+          {
+            name: 'playlists_amount',
+            type: 'int',
+            default: 0,
+          },
+          {
             name: 'user_id',
             type: 'uuid',
           },

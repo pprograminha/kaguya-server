@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -9,6 +10,8 @@ import {
 import { v4 as uuid } from 'uuid';
 
 import { IPlatformRole } from '@modules/platformRoles/domain/entities/IPlatformRole';
+import { IPlatformUserRole } from '@modules/users/domain/entities/IPlatformUserRole';
+import { PlatformUserRole } from '@modules/users/infra/typeorm/entities/PlatformUserRole';
 
 @Entity('platform_roles')
 export class PlatformRole implements IPlatformRole {
@@ -20,6 +23,12 @@ export class PlatformRole implements IPlatformRole {
 
   @Column()
   permission: number;
+
+  @OneToMany(
+    () => PlatformUserRole,
+    platformUserRole => platformUserRole.platformRole,
+  )
+  platformUserRoles: IPlatformUserRole[];
 
   @CreateDateColumn()
   created_at: Date;

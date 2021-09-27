@@ -1,5 +1,9 @@
 {
+  "prisma": {
+    "seed": "ts-node src/shared/infra/prisma/seeders"
+  },
   "scripts": {
+    "prisma:migrate": "yarn prisma migrate dev --schema src/shared/infra/prisma/schema.prisma && yarn prisma db seed",
     "dev:server": "tsnd -r tsconfig-paths/register --transpile-only --inspect --ignore-watch node_modules src/shared/infra/http/server.ts",
     "typeorm": "tsnd -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "build": "tsc",
@@ -8,6 +12,7 @@
     "test": "yarn test:integration && yarn test:unit"
   },
   "dependencies": {
+    "@prisma/client": "^3.1.1",
     "bcryptjs": "^2.4.3",
     "celebrate": "^15.0.0",
     "class-transformer": "^0.4.0",
@@ -44,9 +49,11 @@
     "eslint-plugin-prettier": "^3.4.0",
     "jest": "^27.0.6",
     "prettier": "^2.3.2",
+    "prisma": "^3.1.1",
     "sqlite3": "^5.0.2",
     "supertest": "^6.1.4",
     "ts-jest": "^27.0.4",
+    "ts-node": "^10.2.1",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.3.5"
   }

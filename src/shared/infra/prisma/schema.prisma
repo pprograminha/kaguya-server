@@ -1,0 +1,184 @@
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id String @id
+  name String
+  email String @unique
+  avatar String?
+  platformUserRoles PlatformUserRole[]
+  userPlaylist UserPlaylist[]
+  userTrails UserTrail[]
+  userClasses UserClass[]
+  userBlocks UserBlock[]
+  username String
+  enabled Boolean @default(true)
+  password String
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("users")
+}
+
+model PlatformUserRole {
+  id String @id
+  user_id String
+  user    User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  platformRole    PlatformRole    @relation(fields: [platform_role_id], references: [id], onDelete: Cascade)
+  platform_role_id String
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("platform_user_roles")
+}
+
+model PlatformRole {
+  id String @id
+  role String @unique
+  platformUserRoles  PlatformUserRole[]
+  permission Int  @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("platform_roles")
+}
+
+model UserTrail {
+  id String @id
+  user_id String
+  trail_id String
+  trail Trail @relation(fields: [trail_id], references: [id], onDelete: Cascade)
+  trail_percentage_completed Int @default(0)
+  playlists_completed Int @default(0)
+  playlists_amount Int @default(0)
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("user_trails")
+}
+
+model Trail {
+  id String @id
+  name String
+  description String
+  playlists Playlist[]
+  userTrails UserTrail[]
+  userPlaylist UserPlaylist[]
+  avatar String?
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("trails")
+}
+
+model Playlist {
+  id String @id
+  avatar String?
+  name String
+  description String
+  trail_id String
+  blocks Block[]
+  userBlocks UserBlock[]
+  trail Trail @relation(fields: [trail_id], references: [id], onDelete: Cascade)
+  userPlaylists UserPlaylist[]
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("playlists")
+}
+
+model UserPlaylist {
+  id String @id
+  playlist_percentage_completed Int @default(0)
+  blocks_completed Int @default(0)
+  blocks_amount Int @default(0)
+  user_id String
+  trail_id String
+  playlist_id String
+  trail Trail @relation(fields: [trail_id], references: [id], onDelete: Cascade)
+  user User @relation(fields:[user_id], references: [id], onDelete: Cascade)
+  playlist Playlist @relation(fields:[playlist_id], references: [id], onDelete: Cascade)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  @@map("user_playlists")
+}
+
+model Class {
+  id String @id
+  name String
+  description String
+  link String
+  block Block @relation(fields: [block_id], references: [id], onDelete: Cascade)
+  block_id String
+  articles Article[]
+  userClasses UserClass[]
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("classes")
+}
+
+model UserClass {
+  id String @id
+  completed Boolean
+  user_id String
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  block Block @relation(fields: [block_id], references: [id], onDelete: Cascade)
+  block_id String
+  class_id String
+  class Class @relation(fields: [class_id], references: [id], onDelete: Cascade)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("user_classes")
+}
+
+model Block {
+  id String @id
+  name String
+  classes Class[]
+  playlist Playlist @relation(fields: [playlist_id], references: [id], onDelete: Cascade)
+  playlist_id String
+  userClasses UserClass[]
+  userBlocks UserBlock[]
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("blocks")
+}
+
+model UserBlock {
+  id String @id
+  block_percentage_completed Int @default(0)
+  classes_completed Int @default(0)
+  classes_amount Int @default(0)
+  user_id String
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  playlist Playlist @relation(fields: [playlist_id], references: [id], onDelete: Cascade)
+  playlist_id String
+  block_id String
+  block Block @relation(fields: [block_id], references: [id], onDelete: Cascade)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("user_blocks")
+}
+
+model Article {
+  id String @id
+  description String
+  link String
+  class Class @relation(fields: [class_id], references: [id], onDelete: Cascade)
+  class_id String
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("articles")
+}

@@ -1,5 +1,6 @@
-import { User } from '@modules/users/infra/typeorm/entities/User';
+import { IUser } from '@modules/users/domain/entities/IUser';
+
 // payload: string | object, secret_key: string, options: object | undefined,
 export interface ITokenProvider {
-  signIn(user: User): string;
+  signIn(user: IUser): string;
 }

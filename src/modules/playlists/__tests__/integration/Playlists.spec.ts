@@ -45,4 +45,50 @@ describe('Sessions', () => {
     expect(response.status).toBe(201);
     expect(response.body.name).toBe('Xxxxxxx');
   });
+
+  it('should be able to list playlists from trail', async () => {
+    const { body: trail } = await request(app)
+      .post('/sub-admins/trails')
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .send({
+        name: 'Xxxxxxx',
+        description: 'xxxxxxx xxxxxx',
+      })
+      .expect(201);
+
+    await request(app)
+      .post('/sub-admins/playlists')
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .send({
+        trail_id: trail.id,
+        name: 'Xxxxxxx',
+        description: 'xxxxxxx xxxxxx',
+      });
+
+    await request(app)
+      .post('/sub-admins/playlists')
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .send({
+        trail_id: trail.id,
+        name: 'Xxxx Xxxx',
+        description: 'xxx xx xxx xxxxx xxxx',
+      });
+
+    const response = await request(app)
+      .get('/playlists/trail-list-all')
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .query({
+        trail_id: trail.id,
+      });
+
+    expect(response.status).toBe(200);
+  });
 });

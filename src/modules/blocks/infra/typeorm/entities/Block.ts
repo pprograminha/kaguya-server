@@ -13,6 +13,8 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { IClass } from '@modules/classes/domain/entities/IClass';
+import { Class } from '@modules/classes/infra/typeorm/entities/Class';
 import { UserBlock } from './UserBlock';
 
 @Entity('blocks')
@@ -29,6 +31,9 @@ class Block implements IBlock {
 
   @OneToMany(() => UserBlock, userBlock => userBlock.block)
   userBlocks: IUserBlock[];
+
+  @OneToMany(() => Class, _class => _class.block)
+  classes: IClass[];
 
   @Column()
   playlist_id: string;

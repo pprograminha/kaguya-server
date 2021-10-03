@@ -42,15 +42,15 @@ class CreateUserPlaylistsService {
       throw new AppError('Trail does not exist', 400);
     }
 
-    const promises = playlists.map(playlist => {
-      return this.userPlaylistsRepository.create({
-        user_id: user.id,
-        trail_id: trail.id,
-        playlist_id: playlist.id,
-      });
-    });
+    const userPlaylistsCreate = playlists.map(playlist => ({
+      user_id: user.id,
+      trail_id: trail.id,
+      playlist_id: playlist.id,
+    }));
 
-    const userPlaylists = await Promise.all(promises);
+    const userPlaylists = await this.userPlaylistsRepository.createMany(
+      userPlaylistsCreate,
+    );
 
     return userPlaylists;
   }

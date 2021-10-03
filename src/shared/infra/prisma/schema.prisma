@@ -12,11 +12,11 @@ model User {
   name String
   email String @unique
   avatar String?
-  platformUserRoles PlatformUserRole[]
-  userPlaylist UserPlaylist[]
-  userTrails UserTrail[]
-  userClasses UserClass[]
-  userBlocks UserBlock[]
+  platform_user_roles PlatformUserRole[]
+  user_playlists UserPlaylist[]
+  user_trails UserTrail[]
+  user_classes UserClass[]
+  user_blocks UserBlock[]
   username String
   enabled Boolean @default(true)
   password String
@@ -30,7 +30,7 @@ model PlatformUserRole {
   id String @id
   user_id String
   user    User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  platformRole    PlatformRole    @relation(fields: [platform_role_id], references: [id], onDelete: Cascade)
+  platform_role    PlatformRole    @relation(fields: [platform_role_id], references: [id], onDelete: Cascade)
   platform_role_id String
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
@@ -41,7 +41,7 @@ model PlatformUserRole {
 model PlatformRole {
   id String @id
   role String @unique
-  platformUserRoles  PlatformUserRole[]
+  platform_user_roles  PlatformUserRole[]
   permission Int  @unique
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
@@ -69,8 +69,8 @@ model Trail {
   name String
   description String
   playlists Playlist[]
-  userTrails UserTrail[]
-  userPlaylist UserPlaylist[]
+  user_trails UserTrail[]
+  user_playlists UserPlaylist[]
   avatar String?
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
@@ -85,9 +85,9 @@ model Playlist {
   description String
   trail_id String
   blocks Block[]
-  userBlocks UserBlock[]
+  user_blocks UserBlock[]
   trail Trail @relation(fields: [trail_id], references: [id], onDelete: Cascade)
-  userPlaylists UserPlaylist[]
+  user_playlists UserPlaylist[]
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 
@@ -118,7 +118,7 @@ model Class {
   block Block @relation(fields: [block_id], references: [id], onDelete: Cascade)
   block_id String
   articles Article[]
-  userClasses UserClass[]
+  user_classes UserClass[]
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 
@@ -146,8 +146,8 @@ model Block {
   classes Class[]
   playlist Playlist @relation(fields: [playlist_id], references: [id], onDelete: Cascade)
   playlist_id String
-  userClasses UserClass[]
-  userBlocks UserBlock[]
+  user_classes UserClass[]
+  user_blocks UserBlock[]
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 

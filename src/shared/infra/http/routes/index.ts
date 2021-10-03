@@ -11,6 +11,8 @@ import { userPlaylistsRouter } from '@modules/playlists/infra/http/routes/userPl
 import { _platformRolesRouter } from '@modules/platformRoles/infra/http/routes/_platformRoles.routes';
 import { _blocksRouter } from '@modules/blocks/infra/http/routes/_blocks.routes';
 import { _classesRouter } from '@modules/classes/infra/http/routes/_classes.routes';
+import { playlistsRouter } from '@modules/playlists/infra/http/routes/playlists.routes';
+import { blocksRouter } from '@modules/blocks/infra/http/routes/blocks.routes';
 
 const router = Router();
 
@@ -25,6 +27,8 @@ router.use('/sub-admins', [
 ]);
 router.use('/sessions', sessionsRouter);
 router.use('/trails', trailsRouter);
+router.use('/blocks', blocksRouter);
+router.use('/playlists', playlistsRouter);
 router.use('/user-trails', userTrailsRouter);
 router.use('/user-playlists', userPlaylistsRouter);
 router.use('/platform-roles', platformRolesRouter);

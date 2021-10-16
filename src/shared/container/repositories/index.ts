@@ -18,6 +18,7 @@ import { TrailsRepository } from '@modules/trails/infra/typeorm/repositories/Tra
 import { UserTrailsRepository } from '@modules/trails/infra/typeorm/repositories/UserTrailsRepository';
 import { IPlatformUserRolesRepository } from '@modules/users/domain/repositories/IPlatformUserRolesRepository';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
+import { PrismaUsersRepository } from '@modules/users/infra/prisma/PrismaUsersRepository';
 import { PlatformUserRolesRepository } from '@modules/users/infra/typeorm/repositories/PlatformUserRolesRepository';
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 import { container } from 'tsyringe';
@@ -39,7 +40,7 @@ container.registerSingleton<IUserBlocksRepository>(
 
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
-  UsersRepository,
+  PrismaUsersRepository,
 );
 
 container.registerSingleton<IPlatformUserRolesRepository>(

@@ -75,14 +75,14 @@ describe('CreateUser', () => {
 
     const platformUserRoleFormatted = {
       ...platformUserRole,
-      platformRole,
+      platform_role: platformRole,
     } as IPlatformUserRole;
 
     jest
       .spyOn(fakeUsersRepository, 'findById')
       .mockImplementationOnce(async () => ({
         ...testUser,
-        platformUserRoles: [platformUserRoleFormatted],
+        platform_user_roles: [platformUserRoleFormatted],
       }));
 
     const user = await createUser.execute({
@@ -130,13 +130,13 @@ describe('CreateUser', () => {
         adminPlatformRole.id,
       );
 
-    adminPlatformUserRole.platformRole = adminPlatformRole;
+    adminPlatformUserRole.platform_role = adminPlatformRole;
 
     jest
       .spyOn(fakeUsersRepository, 'findById')
       .mockImplementationOnce(async () => ({
         ...admin,
-        platformUserRoles: [adminPlatformUserRole],
+        platform_user_roles: [adminPlatformUserRole],
       }));
 
     await expect(

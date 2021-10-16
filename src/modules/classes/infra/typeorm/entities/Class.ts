@@ -34,7 +34,7 @@ class Class implements IClass {
   block: IBlock;
 
   @OneToMany(() => UserClass, userClass => userClass.class)
-  userClasses: IUserClass[];
+  user_classes: IUserClass[];
 
   @Column()
   block_id: string;

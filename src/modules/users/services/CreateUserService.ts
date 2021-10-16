@@ -1,5 +1,4 @@
 import { IPlatformRolesRepository } from '@modules/platformRoles/domain/repositories/IPlatformRolesRepository';
-import { PlatformRole } from '@modules/platformRoles/infra/typeorm/entities/PlatformRole';
 import { AppError } from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import { IUser } from '../domain/entities/IUser';
@@ -7,10 +6,6 @@ import { IPlatformUserRolesRepository } from '../domain/repositories/IPlatformUs
 import { IUsersRepository } from '../domain/repositories/IUsersRepository';
 import { ICreateUserRequestDTO } from '../dtos/ICreateUserRequestDTO';
 import { IHashProvider } from '../providers/HashProvider/models/IHashProvider';
-
-interface IResponse extends IUser {
-  userRole: PlatformRole | undefined;
-}
 
 @injectable()
 class CreateUserService {
@@ -34,16 +29,18 @@ class CreateUserService {
     role = 'default',
     password,
     creator_id,
-  }: ICreateUserRequestDTO): Promise<IResponse> {
-    const findUser = await this.usersRepository.findByEmail(email);
+  }: ICreateUserRequestDTO): Promise<IUser> {
+    const checkEmailAlreadyExist = await this.usersRepository.findByEmail(
+      email,
+    );
     const roleFinded = await this.platformRolesRepository.findByRoleName(role);
 
-    if (findUser) {
-      throw new AppError('User already exists');
+    if (checkEmailAlreadyExist) {
+      throw new AppError('Unable to create user', 403);
     }
 
     if (!roleFinded) {
-      throw new AppError('Role does not exist');
+      throw new AppError('Role does not exist', 403);
     }
 
     const hashedPassword = await this.hashProvider.generateHash(password);
@@ -55,8 +52,8 @@ class CreateUserService {
 
       if (!creator) throw new AppError('Creator does not exist', 401);
 
-      const permissions = creator.platformUserRoles.map(
-        platformUserRole => platformUserRole.platformRole.permission,
+      const permissions = creator.platform_user_roles.map(
+        platformUserRole => platformUserRole.platform_role.permission,
       );
 
       const greaterPermission = Math.min.apply(null, permissions);
@@ -64,11 +61,12 @@ class CreateUserService {
       if (roleFinded.permission <= greaterPermission) {
         throw new AppError(
           'You cannot give one permission greater or equal to yours',
+          403,
         );
       }
     }
 
-    const user = await this.usersRepository.create({
+    const userCreated = await this.usersRepository.create({
       email,
       name,
       username: `random${Date.now()}`,
@@ -76,14 +74,15 @@ class CreateUserService {
     });
 
     await this.platformUserRolesRepository.addRoleToUser(
-      user.id,
+      userCreated.id,
       roleFinded.id,
     );
 
-    return {
-      ...user,
-      userRole: roleFinded,
-    };
+    const user = await this.usersRepository.findById(userCreated.id, {
+      platform_user_role: true,
+    });
+
+    return user as IUser;
   }
 }
 

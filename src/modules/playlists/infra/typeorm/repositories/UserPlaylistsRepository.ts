@@ -12,6 +12,18 @@ export class UserPlaylistsRepository implements IUserPlaylistsRepository {
     this.ormRepository = getRepository(UserPlaylist);
   }
 
+  async createMany(datas: ICreateUserPlaylistDTO[]): Promise<IUserPlaylist[]> {
+    const promises = datas.map(async data => {
+      const userPlaylist = this.ormRepository.create(data);
+
+      await this.ormRepository.save(userPlaylist);
+
+      return userPlaylist;
+    });
+
+    return Promise.all(promises);
+  }
+
   async create({
     playlist_id,
     user_id,

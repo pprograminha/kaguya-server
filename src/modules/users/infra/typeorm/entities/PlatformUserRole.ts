@@ -1,5 +1,7 @@
+import { IPlatformRole } from '@modules/platformRoles/domain/entities/IPlatformRole';
 import { PlatformRole } from '@modules/platformRoles/infra/typeorm/entities/PlatformRole';
 import { IPlatformUserRole } from '@modules/users/domain/entities/IPlatformUserRole';
+import { IUser } from '@modules/users/domain/entities/IUser';
 import {
   Column,
   CreateDateColumn,
@@ -25,11 +27,11 @@ export class PlatformUserRole implements IPlatformUserRole {
 
   @ManyToOne(() => PlatformRole)
   @JoinColumn({ name: 'platform_role_id' })
-  platformRole: PlatformRole;
+  platform_role: IPlatformRole;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
-  user: User;
+  user: IUser;
 
   @CreateDateColumn()
   created_at: Date;

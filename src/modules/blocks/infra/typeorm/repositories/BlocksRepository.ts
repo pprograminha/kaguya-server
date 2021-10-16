@@ -54,6 +54,7 @@ export class BlocksRepository implements IBlocksRepository {
       where: {
         playlist_id,
       },
+      relations: ['classes'],
     });
 
     return blocks;

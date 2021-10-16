@@ -11,6 +11,14 @@ import {
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { storageConfig } from '@config/storage';
+import { IUserTrail } from '@modules/trails/domain/entities/IUserTrail';
+import { IPlatformUserRole } from '@modules/users/domain/entities/IPlatformUserRole';
+import { UserPlaylist } from '@modules/playlists/infra/typeorm/entities/UserPlaylist';
+import { IUserPlaylist } from '@modules/playlists/domain/entities/IUserPlaylist';
+import { UserClass } from '@modules/classes/infra/typeorm/entities/UserClass';
+import { IUserClass } from '@modules/classes/domain/entities/IUserClass';
+import { IUserBlock } from '@modules/blocks/domain/entities/IUserBlock';
+import { UserBlock } from '@modules/blocks/infra/typeorm/entities/UserBlock';
 import { PlatformUserRole } from './PlatformUserRole';
 
 @Entity('users')
@@ -28,10 +36,19 @@ class User implements IUser {
   avatar: string;
 
   @OneToMany(() => PlatformUserRole, platformUserRole => platformUserRole.user)
-  platformUserRoles: PlatformUserRole[];
+  platform_user_roles: IPlatformUserRole[];
 
   @OneToMany(() => UserTrail, userTrail => userTrail.user)
-  userTrails: UserTrail[];
+  user_trails: IUserTrail[];
+
+  @OneToMany(() => UserPlaylist, userPlaylist => userPlaylist.user)
+  user_playlists: IUserPlaylist[];
+
+  @OneToMany(() => UserClass, userClass => userClass.user)
+  user_classes: IUserClass[];
+
+  @OneToMany(() => UserBlock, userBlock => userBlock.user)
+  user_blocks: IUserBlock[];
 
   @Column()
   username: string;

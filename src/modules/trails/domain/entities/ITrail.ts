@@ -6,7 +6,7 @@ interface ITrail {
   name: string;
   description: string;
   playlists: IPlaylist[];
-  userTrails: IUserTrail[];
+  user_trails: IUserTrail[];
   avatar: string;
   getAvatarUrl(): string | null;
   avatar_url: string;

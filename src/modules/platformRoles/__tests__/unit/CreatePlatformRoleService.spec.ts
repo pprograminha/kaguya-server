@@ -41,13 +41,13 @@ describe('CreatePlatformRole', () => {
         fakePlatformRole.id,
       );
 
-    fakePlatformUserRole.platformRole = fakePlatformRole;
+    fakePlatformUserRole.platform_role = fakePlatformRole;
 
     jest
       .spyOn(fakeUsersRepository, 'findById')
       .mockImplementationOnce(async () => ({
         ...user,
-        platformUserRoles: [fakePlatformUserRole],
+        platform_user_roles: [fakePlatformUserRole],
       }));
   });
 

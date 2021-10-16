@@ -41,7 +41,7 @@ class Playlist implements IPlaylist {
   blocks: IBlock[];
 
   @OneToMany(() => UserPlaylist, userPlaylist => userPlaylist.playlist)
-  userPlaylists: IUserPlaylist[];
+  user_playlists: IUserPlaylist[];
 
   @Column()
   avatar: string;

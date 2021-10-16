@@ -8,8 +8,13 @@ import cors from 'cors';
 import { errors } from 'celebrate';
 import { storageConfig } from '@config/storage';
 import { MulterError } from 'multer';
+import { graphqlHTTP } from 'express-graphql';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { GraphQLError } from 'graphql';
 import { connection } from '../typeorm/connection';
 import { router } from './routes';
+import { resolvers } from './graphql/resolvers';
+import { typeDefs } from './graphql/typeDefs';
 
 connection();
 
@@ -20,6 +25,33 @@ app.use(express.json());
 app.use('/static', express.static(storageConfig.paths.uploadsFolder));
 app.use(router);
 
+const schema = makeExecutableSchema({
+  resolvers,
+  typeDefs,
+});
+
+app.use(
+  '/graphql',
+  graphqlHTTP({
+    schema,
+    graphiql: true,
+    customFormatErrorFn: (error: GraphQLError) => {
+      if (!error.originalError) return error;
+
+      const stringToStringify = error.originalError.message
+        .replace('Unexpected error value: ', '')
+        .replace(/(\w+:)|(\w+ :)/g, matchedStr => {
+          return `"${matchedStr.substring(0, matchedStr.length - 1)}":`;
+        });
+
+      return {
+        status: 'error',
+        ...JSON.parse(stringToStringify),
+      };
+    },
+  }),
+);
+
 app.use(errors());
 
 app.use(
@@ -28,6 +60,7 @@ app.use(
       return response.status(error.statusCode).json({
         status: 'error',
         message: error.message,
+        statusCode: error.statusCode,
       });
     }
 
@@ -35,6 +68,7 @@ app.use(
       return response.status(403).json({
         status: 'error',
         message: error.message,
+        statusCode: 403,
       });
     }
 
@@ -43,6 +77,7 @@ app.use(
     return response.status(500).json({
       status: 'error',
       message: 'Internal Server Error',
+      statusCode: 500,
     });
   },
 );

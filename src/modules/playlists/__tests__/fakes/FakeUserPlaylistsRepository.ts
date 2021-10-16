@@ -7,6 +7,18 @@ import { UserPlaylist } from '@modules/playlists/infra/typeorm/entities/UserPlay
 export class FakeUserPlaylistsRepository implements IUserPlaylistsRepository {
   private userPlaylists: IUserPlaylist[] = [];
 
+  async createMany(datas: ICreateUserPlaylistDTO[]): Promise<IUserPlaylist[]> {
+    return datas.map(data => {
+      const userPlaylist = new UserPlaylist();
+
+      Object.assign(userPlaylist, data);
+
+      this.userPlaylists.push(userPlaylist);
+
+      return userPlaylist;
+    });
+  }
+
   async create(data: ICreateUserPlaylistDTO): Promise<IUserPlaylist> {
     const userPlaylist = new UserPlaylist();
 

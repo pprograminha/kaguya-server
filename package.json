@@ -6,7 +6,7 @@
   "author": "Marcos Proença, Tiago Gonçalves",
   "license": "MIT",
   "prisma": {
-    "seed": "ts-node src/shared/infra/prisma/seeders"
+    "seed": "node build/shared/infra/prisma/seeders"
   },
   "scripts": {
     "prisma:migrate": "yarn prisma migrate dev && yarn prisma db seed",

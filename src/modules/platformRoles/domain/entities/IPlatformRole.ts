@@ -3,7 +3,7 @@ import { IPlatformUserRole } from '@modules/users/domain/entities/IPlatformUserR
 export interface IPlatformRole {
   id: string;
   role: string;
-  platformUserRoles: IPlatformUserRole[];
+  platform_user_roles: IPlatformUserRole[];
   permission: number;
   created_at: Date;
   updated_at: Date;

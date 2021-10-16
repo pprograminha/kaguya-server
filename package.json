@@ -3,7 +3,7 @@
     "seed": "ts-node src/shared/infra/prisma/seeders"
   },
   "scripts": {
-    "prisma:migrate": "yarn prisma migrate dev --schema src/shared/infra/prisma/schema.prisma && yarn prisma db seed",
+    "prisma:migrate": "yarn prisma migrate dev && yarn prisma db seed",
     "dev:server": "tsnd -r tsconfig-paths/register --transpile-only --inspect --ignore-watch node_modules src/shared/infra/http/server.ts",
     "typeorm": "tsnd -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "build": "tsc",
@@ -12,6 +12,9 @@
     "test": "yarn test:integration && yarn test:unit"
   },
   "dependencies": {
+    "@graphql-tools/load-files": "^6.5.1",
+    "@graphql-tools/merge": "^8.1.2",
+    "@graphql-tools/schema": "^8.2.0",
     "@prisma/client": "^3.1.1",
     "bcryptjs": "^2.4.3",
     "celebrate": "^15.0.0",
@@ -21,6 +24,8 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
+    "express-graphql": "^0.12.0",
+    "graphql": "^15.6.1",
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.3",
     "pg": "^8.7.1",

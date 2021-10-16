@@ -36,19 +36,19 @@ class User implements IUser {
   avatar: string;
 
   @OneToMany(() => PlatformUserRole, platformUserRole => platformUserRole.user)
-  platformUserRoles: IPlatformUserRole[];
+  platform_user_roles: IPlatformUserRole[];
 
   @OneToMany(() => UserTrail, userTrail => userTrail.user)
-  userTrails: IUserTrail[];
+  user_trails: IUserTrail[];
 
   @OneToMany(() => UserPlaylist, userPlaylist => userPlaylist.user)
-  userPlaylists: IUserPlaylist[];
+  user_playlists: IUserPlaylist[];
 
   @OneToMany(() => UserClass, userClass => userClass.user)
-  userClasses: IUserClass[];
+  user_classes: IUserClass[];
 
   @OneToMany(() => UserBlock, userBlock => userBlock.user)
-  userBlocks: IUserBlock[];
+  user_blocks: IUserBlock[];
 
   @Column()
   username: string;

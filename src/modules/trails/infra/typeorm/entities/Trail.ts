@@ -30,7 +30,7 @@ class Trail implements ITrail {
   playlists: IPlaylist[];
 
   @OneToMany(() => UserTrail, userTrail => userTrail.trail)
-  userTrails: IUserTrail[];
+  user_trails: IUserTrail[];
 
   @Column()
   avatar: string;

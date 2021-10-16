@@ -16,13 +16,13 @@ export default async function ensureAdministrator(
     where: {
       id: user_id,
     },
-    relations: ['platformUserRoles', 'platformUserRoles.platformRole'],
+    relations: ['platform_user_roles', 'platform_user_roles.platform_role'],
   });
 
   if (!user) throw new AppError('User does not exist', 401);
 
-  const allowed = user.platformUserRoles.find(
-    platformUserRole => platformUserRole.platformRole.permission === 0,
+  const allowed = user.platform_user_roles.find(
+    platformUserRole => platformUserRole.platform_role.permission === 0,
   );
 
   if (!allowed) throw new AppError('Only administrator can access here', 401);

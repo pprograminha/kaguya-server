@@ -26,9 +26,9 @@ export class PlatformRole implements IPlatformRole {
 
   @OneToMany(
     () => PlatformUserRole,
-    platformUserRole => platformUserRole.platformRole,
+    platformUserRole => platformUserRole.platform_role,
   )
-  platformUserRoles: IPlatformUserRole[];
+  platform_user_roles: IPlatformUserRole[];
 
   @CreateDateColumn()
   created_at: Date;

@@ -52,8 +52,8 @@ class CreateUserService {
 
       if (!creator) throw new AppError('Creator does not exist', 401);
 
-      const permissions = creator.platformUserRoles.map(
-        platformUserRole => platformUserRole.platformRole.permission,
+      const permissions = creator.platform_user_roles.map(
+        platformUserRole => platformUserRole.platform_role.permission,
       );
 
       const greaterPermission = Math.min.apply(null, permissions);

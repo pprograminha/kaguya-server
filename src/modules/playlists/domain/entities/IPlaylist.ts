@@ -8,7 +8,7 @@ interface IPlaylist {
   description: string;
   trail_id: string;
   trail: ITrail;
-  userPlaylists: IUserPlaylist[];
+  user_playlists: IUserPlaylist[];
   created_at: Date;
   updated_at: Date;
 }

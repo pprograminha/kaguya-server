@@ -32,7 +32,10 @@ class UsersRepository implements IUsersRepository {
       },
       ...(relationship && relationship.platform_user_role
         ? {
-            relations: ['platformUserRoles', 'platformUserRoles.platformRole'],
+            relations: [
+              'platform_user_roles',
+              'platform_user_roles.platform_role',
+            ],
           }
         : {}),
     });
@@ -53,7 +56,7 @@ class UsersRepository implements IUsersRepository {
 
   async findAll(): Promise<User[]> {
     const users = await this.ormRepository.find({
-      relations: ['platformUserRoles', 'platformUserRoles.platformRole'],
+      relations: ['platform_user_roles', 'platform_user_roles.platform_role'],
     });
 
     return users;

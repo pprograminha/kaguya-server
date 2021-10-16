@@ -9,11 +9,11 @@ interface IUser {
   name: string;
   email: string;
   avatar: string;
-  platformUserRoles: IPlatformUserRole[];
-  userTrails: IUserTrail[];
-  userPlaylists: IUserPlaylist[];
-  userClasses: IUserClass[];
-  userBlocks: IUserBlock[];
+  platform_user_roles: IPlatformUserRole[];
+  user_trails: IUserTrail[];
+  user_playlists: IUserPlaylist[];
+  user_classes: IUserClass[];
+  user_blocks: IUserBlock[];
   username: string;
   enabled: boolean;
   password: string;

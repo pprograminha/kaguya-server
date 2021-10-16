@@ -7,7 +7,7 @@ interface IBlock {
   name: string;
   playlist: IPlaylist;
   classes: IClass[];
-  userBlocks: IUserBlock[];
+  user_blocks: IUserBlock[];
   playlist_id: string;
   created_at: Date;
   updated_at: Date;

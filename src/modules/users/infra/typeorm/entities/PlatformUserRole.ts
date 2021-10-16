@@ -27,7 +27,7 @@ export class PlatformUserRole implements IPlatformUserRole {
 
   @ManyToOne(() => PlatformRole)
   @JoinColumn({ name: 'platform_role_id' })
-  platformRole: IPlatformRole;
+  platform_role: IPlatformRole;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })

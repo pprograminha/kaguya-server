@@ -30,7 +30,7 @@ class Block implements IBlock {
   playlist: IPlaylist;
 
   @OneToMany(() => UserBlock, userBlock => userBlock.block)
-  userBlocks: IUserBlock[];
+  user_blocks: IUserBlock[];
 
   @OneToMany(() => Class, _class => _class.block)
   classes: IClass[];

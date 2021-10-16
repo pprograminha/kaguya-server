@@ -45,8 +45,8 @@ export class CreatePlatformRoleService {
       throw new AppError('User not logged to create new platform role');
     }
 
-    const permissions = findUserLogged.platformUserRoles.map(
-      platformUserRole => platformUserRole.platformRole.permission,
+    const permissions = findUserLogged.platform_user_roles.map(
+      platformUserRole => platformUserRole.platform_role.permission,
     );
 
     const greaterPermission = Math.min.apply(null, permissions);

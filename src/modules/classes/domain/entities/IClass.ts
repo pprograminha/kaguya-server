@@ -8,7 +8,7 @@ interface IClass {
   link: string;
   block: IBlock;
   block_id: string;
-  userClasses: IUserClass[];
+  user_classes: IUserClass[];
   created_at: Date;
   updated_at: Date;
 }

@@ -11,11 +11,9 @@ const rootPath = path.resolve(
 );
 
 const graphQLConfig = {
-  typeDefs: {
-    path: path.resolve(rootPath, '*.gql'),
-  },
-  resolvers: {
-    path: path.resolve(rootPath, '*.resolvers.ts'),
+  paths: {
+    typeDefs: path.resolve(rootPath, '*.gql'),
+    resolvers: path.resolve(rootPath, '*.resolvers.ts'),
   },
 };
 

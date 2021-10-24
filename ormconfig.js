@@ -1,12 +1,14 @@
-const environment = process.env.NODE_ENV || 'development';
+const enviroment = process.env.NODE_ENV || 'development';
 
 module.exports = {
-  type: 'postgres',
+  type: "postgres",
   url: process.env.DATABASE_URL,
   entities: [
-    environment === 'production'
-    ? 'build/modules/**/infra/typeorm/entities/*.js'
-    : 'src/modules/**/infra/typeorm/entities/*.ts',
+    enviroment === 'production'
+    ? './build/modules/**/infra/typeorm/entities/*.js'
+    : './src/modules/**/infra/typeorm/entities/*.ts'
   ],
-  ssl: environment === 'production' ? { rejectUnauthorized: false } : false,
+  ssl: enviroment === 'production'
+    ? { rejectUnauthorized: false }
+    : false,
 }

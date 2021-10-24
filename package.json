@@ -6,7 +6,7 @@
   "author": "Marcos Proença, Tiago Gonçalves",
   "license": "MIT",
   "prisma": {
-    "seed": "ts-node src/shared/infra/prisma/seeders"
+    "seed": "node build/shared/infra/prisma/seeders"
   },
   "scripts": {
     "prisma:migrate": "yarn prisma migrate dev && yarn prisma db seed",
@@ -16,7 +16,7 @@
     "test:unit": "jest --coverage --detectOpenHandles ./src/modules/**/__tests__/unit/**.spec.ts",
     "test:integration": "cross-env NODE_ENV=test jest --detectOpenHandles ./src/modules/**/__tests__/integration/**.spec.ts",
     "test": "yarn test:integration && yarn test:unit",
-    "start": "node build/shared/infra/http/server.js"
+    "start": "cross-env NODE_ENV=production node build/shared/infra/http/server.js"
   },
   "dependencies": {
     "@graphql-tools/load-files": "^6.5.1",

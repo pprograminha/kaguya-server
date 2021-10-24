@@ -1,4 +1,8 @@
+/**
+ * @jest-environment ./prisma/prisma-environment-jest
+ */
 import { createConnection, getConnection } from 'typeorm';
+import '../infra/prisma/seeders';
 
 const commonsConnection = {
   createConnection: async (): Promise<void> => {

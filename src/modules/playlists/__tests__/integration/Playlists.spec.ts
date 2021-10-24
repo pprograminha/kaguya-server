@@ -1,3 +1,6 @@
+/**
+ * @jest-environment ./prisma/prisma-environment-jest
+ */
 import { app } from '@shared/infra/http/app';
 import { commonsConnection } from '@shared/__tests__/commons';
 import request from 'supertest';

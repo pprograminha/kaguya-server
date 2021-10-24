@@ -1,3 +1,6 @@
+/**
+ * @jest-environment ./prisma/prisma-environment-jest
+ */
 import { v4 as uuid } from 'uuid';
 import { hashSync } from 'bcryptjs';
 import { prisma } from '../connection';

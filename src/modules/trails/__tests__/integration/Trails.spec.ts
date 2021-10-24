@@ -1,3 +1,6 @@
+/**
+ * @jest-environment ./prisma/prisma-environment-jest
+ */
 import { ITrail } from '@modules/trails/domain/entities/ITrail';
 import { app } from '@shared/infra/http/app';
 import { commonsConnection } from '@shared/__tests__/commons';

@@ -23,7 +23,11 @@ const usersResolvers = {
     ): Promise<IUser> => {
       const createUser = container.resolve(CreateUserService);
 
+      console.log('called before');
       const user = await createUser.execute(input);
+      console.log('user: ', user);
+
+      console.log('called after');
 
       return user;
     },

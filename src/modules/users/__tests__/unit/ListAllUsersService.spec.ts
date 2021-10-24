@@ -20,8 +20,6 @@ describe('ListAllUsers', () => {
       (value, key) => key + 1,
     );
 
-    const users: IUser[] = [];
-
     let lastestUser: IUser = {} as IUser;
 
     const promises = arrayOfNumbers.map(async () => {
@@ -32,14 +30,12 @@ describe('ListAllUsers', () => {
         username: 'xxxxx',
       });
 
-      users.push(user);
       lastestUser = user;
     });
-    const response = await listAllUsers.execute();
-
-    expect(users).toEqual(expect.arrayContaining([lastestUser]));
-    expect(response.usersCount).toEqual(5);
+    const users = await listAllUsers.execute();
 
     await Promise.all(promises);
+
+    expect(users).toEqual(expect.arrayContaining([lastestUser]));
   });
 });

@@ -7,10 +7,8 @@ export class ListAllUsersController {
   async handle(request: Request, response: Response): Promise<Response> {
     const listAllUsers = container.resolve(ListAllUsersService);
 
-    const { users, usersCount } = await listAllUsers.execute();
+    const users = await listAllUsers.execute();
 
-    return response
-      .status(200)
-      .json({ usersCount, users: classToClass(users) });
+    return response.status(200).json(classToClass(users));
   }
 }

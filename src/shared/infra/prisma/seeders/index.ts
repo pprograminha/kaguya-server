@@ -1,21 +1,10 @@
-/**
- * @jest-environment ./prisma/prisma-environment-jest
- */
 import { v4 as uuid } from 'uuid';
 import { hashSync } from 'bcryptjs';
 import { prisma } from '../connection';
 
 const main = async () => {
-  const user = await prisma.user.findUnique({
-    where: {
-      email: process.env.ADMIN_ACCESS || '******@*****.****',
-    },
-  });
-
-  if (user) return;
-
-  const platformRoleId = uuid();
-  const platformUserRoleId = uuid();
+  const roleId = uuid();
+  const userRoleId = uuid();
   const userId = uuid();
 
   await prisma.user.create({
@@ -24,34 +13,34 @@ const main = async () => {
       name: process.env.ADMIN_NAME || '*****',
       email: process.env.ADMIN_ACCESS || '******@*****.****',
       password: hashSync(process.env.ADMIN_PASS || '*****'),
-      username: process.env.ADMIN_USER || '*****',
+      username: process.env.ADMIN_USERNAME || '*****',
     },
   });
 
-  await prisma.platformRole.createMany({
+  await prisma.role.createMany({
     data: [
       {
-        id: platformRoleId,
-        role: 'admin',
+        id: roleId,
+        name: 'admin',
         permission: 0,
       },
       {
         id: uuid(),
-        role: 'sub-admin',
+        name: 'sub-admin',
         permission: 1,
       },
       {
         id: uuid(),
-        role: 'default',
+        name: 'default',
         permission: 2,
       },
     ],
   });
 
-  await prisma.platformUserRole.create({
+  await prisma.userRole.create({
     data: {
-      id: platformUserRoleId,
-      platform_role_id: platformRoleId,
+      id: userRoleId,
+      role_id: roleId,
       user_id: userId,
     },
   });
@@ -59,4 +48,4 @@ const main = async () => {
 
 main()
   .catch(error => console.error(error))
-  .finally(() => console.log('seeders done here!'));
+  .finally(() => console.log('seeders up!'));

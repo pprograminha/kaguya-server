@@ -32,7 +32,7 @@ export class AuthenticateUserService {
     const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
-      throw new AppError('User does not exist');
+      throw new AppError('Incorrect email/password combination', 401);
     }
 
     const passwordMatched = await this.hashProvider.compareHash(
@@ -41,7 +41,7 @@ export class AuthenticateUserService {
     );
 
     if (!passwordMatched) {
-      throw new AppError('Incorrect email/password combination.');
+      throw new AppError('Incorrect email/password combination', 401);
     }
 
     const token = this.tokenProvider.signIn(user);

@@ -6,6 +6,12 @@ import { IUsersRepository } from '../../domain/repositories/IUsersRepository';
 class FakeUsersRepository implements IUsersRepository {
   private users: IUser[] = [];
 
+  async findByUsername(username: string): Promise<IUser | undefined> {
+    const userFinded = this.users.find(user => user.username === username);
+
+    return userFinded;
+  }
+
   async findAll(): Promise<IUser[]> {
     return this.users;
   }

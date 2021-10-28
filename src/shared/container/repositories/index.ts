@@ -1,26 +1,27 @@
 import { IBlocksRepository } from '@modules/blocks/domain/repositories/IBlocksRepository';
 import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/IUserBlocksRepository';
+import { PrismaBlocksRepository } from '@modules/blocks/infra/prisma/PrismaBlocksRepository';
+import { PrismaUserBlocksRepository } from '@modules/blocks/infra/prisma/PrismaUserBlocksRepository';
 import { BlocksRepository } from '@modules/blocks/infra/typeorm/repositories/BlocksRepository';
 import { UserBlocksRepository } from '@modules/blocks/infra/typeorm/repositories/UserBlocksRepository';
 import { IClassesRepository } from '@modules/classes/domain/repositories/IClassesRepository';
 import { IUserClassesRepository } from '@modules/classes/domain/repositories/IUserClassesRepository';
 import { ClassesRepository } from '@modules/classes/infra/typeorm/repositories/ClassesRepository';
 import { UserClassesRepository } from '@modules/classes/infra/typeorm/repositories/UserClassesRepository';
-import { IPlatformRolesRepository } from '@modules/platformRoles/domain/repositories/IPlatformRolesRepository';
-import { PlatformRolesRepository } from '@modules/platformRoles/infra/typeorm/repositories/PlatformRolesRepository';
 import { IPlaylistsRepository } from '@modules/playlists/domain/repositories/IPlaylistsRepository';
 import { IUserPlaylistsRepository } from '@modules/playlists/domain/repositories/IUserPlaylistsRepository';
 import { PlaylistsRepository } from '@modules/playlists/infra/typeorm/repositories/PlaylistsRepository';
 import { UserPlaylistsRepository } from '@modules/playlists/infra/typeorm/repositories/UserPlaylistsRepository';
+import { IRolesRepository } from '@modules/roles/domain/repositories/IRolesRepository';
+import { RolesRepository } from '@modules/roles/infra/typeorm/repositories/RolesRepository';
 import { ITrailsRepository } from '@modules/trails/domain/repositories/ITrailsRepository';
 import { IUserTrailsRepository } from '@modules/trails/domain/repositories/IUserTrailsRepository';
 import { TrailsRepository } from '@modules/trails/infra/typeorm/repositories/TrailsRepository';
 import { UserTrailsRepository } from '@modules/trails/infra/typeorm/repositories/UserTrailsRepository';
-import { IPlatformUserRolesRepository } from '@modules/users/domain/repositories/IPlatformUserRolesRepository';
+import { IUserRolesRepository } from '@modules/users/domain/repositories/IUserRolesRepository';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 import { PrismaUsersRepository } from '@modules/users/infra/prisma/PrismaUsersRepository';
-import { PlatformUserRolesRepository } from '@modules/users/infra/typeorm/repositories/PlatformUserRolesRepository';
-import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import { UserRolesRepository } from '@modules/users/infra/typeorm/repositories/UserRolesRepository';
 import { container } from 'tsyringe';
 
 container.registerSingleton<IPlaylistsRepository>(
@@ -30,12 +31,12 @@ container.registerSingleton<IPlaylistsRepository>(
 
 container.registerSingleton<IBlocksRepository>(
   'BlocksRepository',
-  BlocksRepository,
+  PrismaBlocksRepository,
 );
 
 container.registerSingleton<IUserBlocksRepository>(
   'UserBlocksRepository',
-  UserBlocksRepository,
+  PrismaUserBlocksRepository,
 );
 
 container.registerSingleton<IUsersRepository>(
@@ -43,14 +44,14 @@ container.registerSingleton<IUsersRepository>(
   PrismaUsersRepository,
 );
 
-container.registerSingleton<IPlatformUserRolesRepository>(
-  'PlatformUserRolesRepository',
-  PlatformUserRolesRepository,
+container.registerSingleton<IUserRolesRepository>(
+  'UserRolesRepository',
+  UserRolesRepository,
 );
 
-container.registerSingleton<IPlatformRolesRepository>(
-  'PlatformRolesRepository',
-  PlatformRolesRepository,
+container.registerSingleton<IRolesRepository>(
+  'RolesRepository',
+  RolesRepository,
 );
 
 container.registerSingleton<ITrailsRepository>(

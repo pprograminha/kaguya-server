@@ -1,6 +1,6 @@
-import { FakePlatformRolesRepository } from '@modules/platformRoles/__tests__/fakes/FakePlatformRolesRepository';
-import { IPlatformUserRole } from '@modules/users/domain/entities/IPlatformUserRole';
-import { FakePlatformUserRolesRepository } from '@modules/users/__tests__/fakes/FakePlatformUserRolesRepository';
+import { FakeRolesRepository } from '@modules/roles/__tests__/fakes/FakeRolesRepository';
+import { IUserRole } from '@modules/users/domain/entities/IUserRole';
+import { FakeUserRolesRepository } from '@modules/users/__tests__/fakes/FakeUserRolesRepository';
 import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
 import { FakeHashProvider } from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
 import { CreateUserService } from '@modules/users/services/CreateUserService';
@@ -8,29 +8,29 @@ import { AppError } from '@shared/errors/AppError';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeHashProvider: FakeHashProvider;
-let fakePlatformRolesRepository: FakePlatformRolesRepository;
-let fakePlatformUserRolesRepository: FakePlatformUserRolesRepository;
+let fakeRolesRepository: FakeRolesRepository;
+let fakeUserRolesRepository: FakeUserRolesRepository;
 let createUser: CreateUserService;
 
 describe('CreateUser', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeHashProvider = new FakeHashProvider();
-    fakePlatformRolesRepository = new FakePlatformRolesRepository();
-    fakePlatformUserRolesRepository = new FakePlatformUserRolesRepository();
+    fakeRolesRepository = new FakeRolesRepository();
+    fakeUserRolesRepository = new FakeUserRolesRepository();
 
     createUser = new CreateUserService(
       fakeUsersRepository,
       fakeHashProvider,
-      fakePlatformRolesRepository,
-      fakePlatformUserRolesRepository,
+      fakeRolesRepository,
+      fakeUserRolesRepository,
     );
   });
 
   it('should be able to create an user', async () => {
-    await fakePlatformRolesRepository.create({
+    await fakeRolesRepository.create({
       permission: 3,
-      role: 'default',
+      name: 'default',
     });
 
     const user = await createUser.execute({
@@ -50,21 +50,20 @@ describe('CreateUser', () => {
       username: 'xxxxxxx',
     });
 
-    const platformRole = await fakePlatformRolesRepository.create({
+    const role = await fakeRolesRepository.create({
       permission: 0,
-      role: 'admin',
+      name: 'admin',
     });
 
-    await fakePlatformRolesRepository.create({
+    await fakeRolesRepository.create({
       permission: 2,
-      role: 'default',
+      name: 'default',
     });
 
-    const platformUserRole =
-      await fakePlatformUserRolesRepository.addRoleToUser(
-        testUser.id,
-        platformRole.id,
-      );
+    const userRole = await fakeUserRolesRepository.addRoleToUser(
+      testUser.id,
+      role.id,
+    );
 
     const creator = await createUser.execute({
       name: 'Xxxx Xxxx',
@@ -73,16 +72,16 @@ describe('CreateUser', () => {
       role: 'admin',
     });
 
-    const platformUserRoleFormatted = {
-      ...platformUserRole,
-      platform_role: platformRole,
-    } as IPlatformUserRole;
+    const userRoleFormatted = {
+      ...userRole,
+      role,
+    } as IUserRole;
 
     jest
       .spyOn(fakeUsersRepository, 'findById')
       .mockImplementationOnce(async () => ({
         ...testUser,
-        platform_user_roles: [platformUserRoleFormatted],
+        user_roles: [userRoleFormatted],
       }));
 
     const user = await createUser.execute({
@@ -96,9 +95,9 @@ describe('CreateUser', () => {
     expect(user.email).toBe('xxxxx@xxxx.xxx');
   });
   it('should not be able to create an user with non-existent creator', async () => {
-    await fakePlatformRolesRepository.create({
+    await fakeRolesRepository.create({
       permission: 3,
-      role: 'default',
+      name: 'default',
     });
 
     await expect(
@@ -112,9 +111,9 @@ describe('CreateUser', () => {
   });
 
   it('should not be able to create an user with the same role or higher as the administrator', async () => {
-    const adminPlatformRole = await fakePlatformRolesRepository.create({
+    const adminrole = await fakeRolesRepository.create({
       permission: 0,
-      role: 'admin',
+      name: 'admin',
     });
 
     const admin = await createUser.execute({
@@ -124,19 +123,18 @@ describe('CreateUser', () => {
       role: 'admin',
     });
 
-    const adminPlatformUserRole =
-      await fakePlatformUserRolesRepository.addRoleToUser(
-        admin.id,
-        adminPlatformRole.id,
-      );
+    const adminUserRole = await fakeUserRolesRepository.addRoleToUser(
+      admin.id,
+      adminrole.id,
+    );
 
-    adminPlatformUserRole.platform_role = adminPlatformRole;
+    adminUserRole.role = adminrole;
 
     jest
       .spyOn(fakeUsersRepository, 'findById')
       .mockImplementationOnce(async () => ({
         ...admin,
-        platform_user_roles: [adminPlatformUserRole],
+        user_roles: [adminUserRole],
       }));
 
     await expect(
@@ -162,9 +160,9 @@ describe('CreateUser', () => {
   });
 
   it(`should not be able to create an user with another's email`, async () => {
-    await fakePlatformRolesRepository.create({
+    await fakeRolesRepository.create({
       permission: 3,
-      role: 'default',
+      name: 'default',
     });
 
     await createUser.execute({

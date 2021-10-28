@@ -1,8 +1,8 @@
-import { IPlatformRolesRepository } from '@modules/platformRoles/domain/repositories/IPlatformRolesRepository';
+import { IRolesRepository } from '@modules/roles/domain/repositories/IRolesRepository';
 import { AppError } from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import { IUser } from '../domain/entities/IUser';
-import { IPlatformUserRolesRepository } from '../domain/repositories/IPlatformUserRolesRepository';
+import { IUserRolesRepository } from '../domain/repositories/IUserRolesRepository';
 import { IUsersRepository } from '../domain/repositories/IUsersRepository';
 import { ICreateUserRequestDTO } from '../dtos/ICreateUserRequestDTO';
 import { IHashProvider } from '../providers/HashProvider/models/IHashProvider';
@@ -16,11 +16,11 @@ class CreateUserService {
     @inject('HashProvider')
     private hashProvider: IHashProvider,
 
-    @inject('PlatformRolesRepository')
-    private platformRolesRepository: IPlatformRolesRepository,
+    @inject('RolesRepository')
+    private rolesRepository: IRolesRepository,
 
-    @inject('PlatformUserRolesRepository')
-    private platformUserRolesRepository: IPlatformUserRolesRepository,
+    @inject('UserRolesRepository')
+    private userRolesRepository: IUserRolesRepository,
   ) {}
 
   async execute({
@@ -33,7 +33,7 @@ class CreateUserService {
     const checkEmailAlreadyExist = await this.usersRepository.findByEmail(
       email,
     );
-    const roleFinded = await this.platformRolesRepository.findByRoleName(role);
+    const roleFinded = await this.rolesRepository.findByRoleName(role);
 
     if (checkEmailAlreadyExist) {
       throw new AppError('Unable to create user', 403);
@@ -47,13 +47,13 @@ class CreateUserService {
 
     if (creator_id) {
       const creator = await this.usersRepository.findById(creator_id, {
-        platform_user_role: true,
+        user_roles: true,
       });
 
       if (!creator) throw new AppError('Creator does not exist', 401);
 
-      const permissions = creator.platform_user_roles.map(
-        platformUserRole => platformUserRole.platform_role.permission,
+      const permissions = creator.user_roles.map(
+        userRole => userRole.role.permission,
       );
 
       const greaterPermission = Math.min.apply(null, permissions);
@@ -73,13 +73,10 @@ class CreateUserService {
       password: hashedPassword,
     });
 
-    await this.platformUserRolesRepository.addRoleToUser(
-      userCreated.id,
-      roleFinded.id,
-    );
+    await this.userRolesRepository.addRoleToUser(userCreated.id, roleFinded.id);
 
     const user = await this.usersRepository.findById(userCreated.id, {
-      platform_user_role: true,
+      user_roles: true,
     });
 
     return user as IUser;

@@ -6,17 +6,18 @@ type User {
   email: String!,
   username: String!,
   avatar: String,
-  enabled: Boolean!,
   avatar_url: String,
+  enabled: Boolean!,
   created_at: Date!,
   updated_at: Date!,
 }
 
 type Query {
   listAllUsers: [User]
+  showUserProfile(username: String!): User
 }
 
-input UserInput {
+input CreateUserInput {
   name: String!,
   email: String!,
   password: String!,
@@ -25,5 +26,5 @@ input UserInput {
 }
 
 type Mutation {
-  createUser(input: UserInput): User
+  createUser(input: CreateUserInput!): User
 }

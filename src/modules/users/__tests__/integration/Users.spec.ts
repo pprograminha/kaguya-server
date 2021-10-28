@@ -32,7 +32,7 @@ describe('Users', () => {
 
   it('should be able to create an user by creator', async () => {
     await request(app)
-      .post('/sub-admins/platform-roles')
+      .post('/sub-admins/roles')
       .set({
         Authorization: `Bearer ${token}`,
       })
@@ -41,7 +41,7 @@ describe('Users', () => {
         role: 'sub-admin',
       });
 
-    const usersResponse = await request(app)
+    const response = await request(app)
       .post('/sub-admins/users')
       .set({
         Authorization: `Bearer ${token}`,
@@ -53,15 +53,37 @@ describe('Users', () => {
         role: 'sub-admin',
       });
 
-    expect(usersResponse.status).toBe(201);
+    expect(response.status).toBe(201);
   });
   it('should be able to list all users', async () => {
-    const usersResponse = await request(app)
+    const response = await request(app)
       .get('/sub-admins/users/list-all')
       .set({
         Authorization: `Bearer ${token}`,
       });
 
-    expect(usersResponse.status).toBe(200);
+    expect(response.status).toBe(200);
+  });
+  it('display the user profile', async () => {
+    const response = await request(app)
+      .post('/graphql')
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .send({
+        query: `query ShowUserProfile($username: String!){
+          showUserProfile(username: $username){
+              id
+              username
+              email
+          }
+        }`,
+        operationName: 'ShowUserProfile',
+        variables: {
+          username: process.env.ADMIN_USERNAME,
+        },
+      });
+
+    expect(response.status).toBe(200);
   });
 });

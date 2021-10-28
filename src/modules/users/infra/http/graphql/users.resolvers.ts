@@ -2,10 +2,14 @@ import { IUser } from '@modules/users/domain/entities/IUser';
 import { ICreateUserRequestDTO } from '@modules/users/dtos/ICreateUserRequestDTO';
 import { CreateUserService } from '@modules/users/services/CreateUserService';
 import { ListAllUsersService } from '@modules/users/services/ListAllUsersService';
+import { ShowUserProfileService } from '@modules/users/services/ShowUserProfileService';
 import { container } from 'tsyringe';
 
 type GraphQLCreateUser = {
   input: ICreateUserRequestDTO;
+};
+type GraphQLShowUserProfile = {
+  username: string;
 };
 const usersResolvers = {
   Query: {
@@ -15,6 +19,15 @@ const usersResolvers = {
 
       return users;
     },
+    showUserProfile: async (
+      _: any,
+      { username }: GraphQLShowUserProfile,
+    ): Promise<IUser> => {
+      const showUserProfile = container.resolve(ShowUserProfileService);
+      const user = await showUserProfile.execute(username);
+
+      return user;
+    },
   },
   Mutation: {
     createUser: async (
@@ -23,11 +36,7 @@ const usersResolvers = {
     ): Promise<IUser> => {
       const createUser = container.resolve(CreateUserService);
 
-      console.log('called before');
       const user = await createUser.execute(input);
-      console.log('user: ', user);
-
-      console.log('called after');
 
       return user;
     },

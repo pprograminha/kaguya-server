@@ -2,7 +2,7 @@ import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 import { IUser } from '../entities/IUser';
 
 interface IRelationshipsDTO {
-  platform_user_role?: boolean;
+  user_roles?: boolean;
 }
 
 interface IUsersRepository {
@@ -11,6 +11,7 @@ interface IUsersRepository {
     id: string,
     relationships?: IRelationshipsDTO,
   ): Promise<IUser | undefined>;
+  findByUsername(username: string): Promise<IUser | undefined>;
   create(data: ICreateUserDTO): Promise<IUser>;
   save(user: IUser): Promise<IUser>;
 

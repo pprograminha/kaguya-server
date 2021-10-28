@@ -14,12 +14,12 @@ model User {
   name String
   email String @unique
   avatar String?
-  platform_user_roles PlatformUserRole[]
+  user_roles UserRole[]
   user_playlists UserPlaylist[]
   user_trails UserTrail[]
   user_classes UserClass[]
   user_blocks UserBlock[]
-  username String
+  username String @unique
   enabled Boolean @default(true)
   password String
   created_at DateTime @default(now())
@@ -28,27 +28,27 @@ model User {
   @@map("users")
 }
 
-model PlatformUserRole {
+model UserRole {
   id String @id
   user_id String
   user    User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  platform_role    PlatformRole    @relation(fields: [platform_role_id], references: [id], onDelete: Cascade)
-  platform_role_id String
+  role    Role    @relation(fields: [role_id], references: [id], onDelete: Cascade)
+  role_id String
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 
-  @@map("platform_user_roles")
+  @@map("user_roles")
 }
 
-model PlatformRole {
+model Role {
   id String @id
-  role String @unique
-  platform_user_roles  PlatformUserRole[]
+  name String @unique
+  user_roles  UserRole[]
   permission Int  @unique
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 
-  @@map("platform_roles")
+  @@map("roles")
 }
 
 model UserTrail {

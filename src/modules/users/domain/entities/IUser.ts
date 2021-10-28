@@ -2,14 +2,14 @@ import { IUserBlock } from '@modules/blocks/domain/entities/IUserBlock';
 import { IUserClass } from '@modules/classes/domain/entities/IUserClass';
 import { IUserPlaylist } from '@modules/playlists/domain/entities/IUserPlaylist';
 import { IUserTrail } from '@modules/trails/domain/entities/IUserTrail';
-import { IPlatformUserRole } from './IPlatformUserRole';
+import { IUserRole } from './IUserRole';
 
 interface IUser {
   id: string;
   name: string;
   email: string;
   avatar: string;
-  platform_user_roles: IPlatformUserRole[];
+  user_roles: IUserRole[];
   user_trails: IUserTrail[];
   user_playlists: IUserPlaylist[];
   user_classes: IUserClass[];

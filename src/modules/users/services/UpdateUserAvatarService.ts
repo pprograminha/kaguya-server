@@ -3,7 +3,7 @@ import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepos
 import { AppError } from '@shared/errors/AppError';
 import { IStorageProvider } from '@shared/providers/StorageProvider/models/IStorageProvider';
 import { inject, injectable } from 'tsyringe';
-import { IUpdateUserAvatarRequestDTO } from '../../platformRoles/dtos/IUpdateUserAvatarRequestDTO';
+import { IUpdateUserAvatarRequestDTO } from '../../roles/dtos/IUpdateUserAvatarRequestDTO';
 
 @injectable()
 export class UpdateUserAvatarService {

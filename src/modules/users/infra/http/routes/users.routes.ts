@@ -4,6 +4,7 @@ import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import multer from 'multer';
 import { CreateUserController } from '../controllers/CreateUserController';
+import { ValidateTokenController } from '../controllers/ValidateTokenController';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
 const usersRouter = Router();
@@ -11,6 +12,7 @@ const upload = multer(storageConfig.multer);
 
 const createUserController = new CreateUserController();
 const updateUserAvatarController = new UpdateUserAvatarController();
+const validateTokenController = new ValidateTokenController();
 
 usersRouter.post(
   '/',
@@ -23,6 +25,8 @@ usersRouter.post(
   }),
   createUserController.handle,
 );
+
+usersRouter.post('/validate-token', validateTokenController.handle);
 
 usersRouter.patch(
   '/avatar',

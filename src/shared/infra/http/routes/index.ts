@@ -13,6 +13,7 @@ import { _blocksRouter } from '@modules/blocks/infra/http/routes/_blocks.routes'
 import { _classesRouter } from '@modules/classes/infra/http/routes/_classes.routes';
 import { playlistsRouter } from '@modules/playlists/infra/http/routes/playlists.routes';
 import { blocksRouter } from '@modules/blocks/infra/http/routes/blocks.routes';
+import { profileRouter } from '@modules/users/infra/http/routes/profile.routes';
 
 const router = Router();
 
@@ -32,5 +33,6 @@ router.use('/playlists', playlistsRouter);
 router.use('/user-trails', userTrailsRouter);
 router.use('/user-playlists', userPlaylistsRouter);
 router.use('/roles', rolesRouter);
+router.use('/profile', profileRouter);
 
 export { router };

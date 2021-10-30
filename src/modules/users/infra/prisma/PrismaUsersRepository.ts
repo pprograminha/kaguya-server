@@ -8,20 +8,48 @@ import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 import { prisma } from '@shared/infra/prisma/connection';
 
 class PrismaUsersRepository implements IUsersRepository {
-  async findByUsername(username: string): Promise<IUser | undefined> {
+  async findByUsername(
+    username: string,
+    relationship: IRelationshipsDTO,
+  ): Promise<IUser | undefined> {
     const user = await prisma.user.findUnique({
       where: {
         username,
       },
+      ...(relationship && relationship.user_roles
+        ? {
+            include: {
+              user_roles: {
+                include: {
+                  role: true,
+                },
+              },
+            },
+          }
+        : {}),
     });
     return user as IUser;
   }
 
-  async findByEmail(email: string): Promise<IUser | undefined> {
+  async findByEmail(
+    email: string,
+    relationship: IRelationshipsDTO,
+  ): Promise<IUser | undefined> {
     const user = await prisma.user.findUnique({
       where: {
         email,
       },
+      ...(relationship && relationship.user_roles
+        ? {
+            include: {
+              user_roles: {
+                include: {
+                  role: true,
+                },
+              },
+            },
+          }
+        : {}),
     });
     return user as IUser;
   }
@@ -56,6 +84,7 @@ class PrismaUsersRepository implements IUsersRepository {
         ...userData,
       },
     });
+
     return user as IUser;
   }
 

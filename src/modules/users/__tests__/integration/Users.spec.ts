@@ -66,22 +66,12 @@ describe('Users', () => {
   });
   it('display the user profile', async () => {
     const response = await request(app)
-      .post('/graphql')
+      .get('/profile')
       .set({
         Authorization: `Bearer ${token}`,
       })
-      .send({
-        query: `query ShowUserProfile($username: String!){
-          showUserProfile(username: $username){
-              id
-              username
-              email
-          }
-        }`,
-        operationName: 'ShowUserProfile',
-        variables: {
-          username: process.env.ADMIN_USERNAME,
-        },
+      .query({
+        username: process.env.ADMIN_USERNAME,
       });
 
     expect(response.status).toBe(200);

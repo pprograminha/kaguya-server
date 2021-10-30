@@ -6,12 +6,18 @@ interface IRelationshipsDTO {
 }
 
 interface IUsersRepository {
-  findByEmail(email: string): Promise<IUser | undefined>;
+  findByEmail(
+    email: string,
+    relationships?: IRelationshipsDTO,
+  ): Promise<IUser | undefined>;
   findById(
     id: string,
     relationships?: IRelationshipsDTO,
   ): Promise<IUser | undefined>;
-  findByUsername(username: string): Promise<IUser | undefined>;
+  findByUsername(
+    username: string,
+    relationships?: IRelationshipsDTO,
+  ): Promise<IUser | undefined>;
   create(data: ICreateUserDTO): Promise<IUser>;
   save(user: IUser): Promise<IUser>;
 

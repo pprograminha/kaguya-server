@@ -26,7 +26,7 @@ usersRouter.post(
   createUserController.handle,
 );
 
-usersRouter.post('/validate-token', validateTokenController.handle);
+usersRouter.post('/tokens/validate-token', validateTokenController.handle);
 
 usersRouter.patch(
   '/avatar',

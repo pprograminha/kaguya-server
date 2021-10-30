@@ -26,6 +26,7 @@ class CreateUserService {
   async execute({
     email,
     name,
+    username,
     role = 'default',
     password,
     creator_id,
@@ -69,7 +70,7 @@ class CreateUserService {
     const userCreated = await this.usersRepository.create({
       email,
       name,
-      username: `random${Date.now()}`,
+      username,
       password: hashedPassword,
     });
 

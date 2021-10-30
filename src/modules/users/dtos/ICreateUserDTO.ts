@@ -1,6 +1,6 @@
 interface ICreateUserDTO {
   email: string;
-  name: string;
+  name?: string;
   username: string;
   password: string;
 }

@@ -1,7 +1,17 @@
 import { ITokenProvider } from '../models/ITokenProvider';
 
 export class FakeTokenProvider implements ITokenProvider {
-  signIn(): string {
-    return 'fake-custom-token';
+  private token: string;
+
+  verify(token: string): void {
+    if (token !== this.token) {
+      throw new Error('Invalid token');
+    }
+  }
+
+  generate(): string {
+    this.token = 'fake-token';
+
+    return 'fake-token';
   }
 }

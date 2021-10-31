@@ -31,13 +31,21 @@ class CreateUserService {
     password,
     creator_id,
   }: ICreateUserRequestDTO): Promise<IUser> {
-    const checkEmailAlreadyExist = await this.usersRepository.findByEmail(
+    const checkEmailAlreadyExists = await this.usersRepository.findByEmail(
       email,
     );
+
+    const checkUsernameAlreadyExists =
+      await this.usersRepository.findByUsername(username);
+
     const roleFinded = await this.rolesRepository.findByRoleName(role);
 
-    if (checkEmailAlreadyExist) {
+    if (checkEmailAlreadyExists) {
       throw new AppError('Unable to create user', 403);
+    }
+
+    if (checkUsernameAlreadyExists) {
+      throw new AppError('Username entered already exists', 403);
     }
 
     if (!roleFinded) {
@@ -57,7 +65,7 @@ class CreateUserService {
         userRole => userRole.role.permission,
       );
 
-      const greaterPermission = Math.min.apply(null, permissions);
+      const greaterPermission = Math.min(...permissions);
 
       if (roleFinded.permission <= greaterPermission) {
         throw new AppError(

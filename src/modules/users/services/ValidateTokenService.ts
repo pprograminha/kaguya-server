@@ -1,9 +1,13 @@
-import { injectable } from 'tsyringe';
-import { verify } from 'jsonwebtoken';
-import { authConfig } from '@config/auth';
+import { inject, injectable } from 'tsyringe';
+import { ITokenProvider } from '../providers/TokenProvider/models/ITokenProvider';
 
 @injectable()
 class ValidateTokenService {
+  constructor(
+    @inject('TokenProvider')
+    private tokenProvider: ITokenProvider,
+  ) {}
+
   async execute(authorization?: string): Promise<boolean> {
     if (!authorization) return false;
 
@@ -12,7 +16,7 @@ class ValidateTokenService {
     if (!token) return false;
 
     try {
-      verify(token, authConfig.secret);
+      this.tokenProvider.verify(token);
 
       return true;
     } catch {

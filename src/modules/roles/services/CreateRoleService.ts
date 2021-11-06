@@ -26,7 +26,7 @@ export class CreateRoleService {
       throw new AppError('The position with this name already exists.');
     }
 
-    const findRolePermission = await this.rolesRepository.findByRolePermission(
+    const findRolePermission = await this.rolesRepository.findByPermission(
       permission,
     );
 

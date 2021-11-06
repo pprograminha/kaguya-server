@@ -1,5 +1,5 @@
 interface IShowUserProfileRequestDTO {
-  username: string;
+  username?: string;
   user_id: string;
 }
 export { IShowUserProfileRequestDTO };

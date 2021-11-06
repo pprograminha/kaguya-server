@@ -2,11 +2,13 @@ import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAut
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import { ListAllPlaylistsFromTrailController } from '../controllers/ListAllPlaylistsFromTrailController';
+import { ShowPlaylistController } from '../controllers/ShowPlaylistController';
 
 const playlistsRouter = Router();
 
 const listAllPlaylistsFromTrailController =
   new ListAllPlaylistsFromTrailController();
+const showPlaylistController = new ShowPlaylistController();
 
 playlistsRouter.get(
   '/trail-list-all',
@@ -17,6 +19,17 @@ playlistsRouter.get(
     },
   }),
   listAllPlaylistsFromTrailController.handle,
+);
+
+playlistsRouter.get(
+  '/show',
+  ensureAuthenticated,
+  celebrate({
+    [Segments.QUERY]: {
+      playlist_id: Joi.string().uuid().required(),
+    },
+  }),
+  showPlaylistController.handle,
 );
 
 export { playlistsRouter };

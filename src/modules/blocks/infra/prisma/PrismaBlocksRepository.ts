@@ -1,6 +1,9 @@
 import { v4 as uuid } from 'uuid';
 import { IBlock } from '@modules/blocks/domain/entities/IBlock';
-import { IBlocksRepository } from '@modules/blocks/domain/repositories/IBlocksRepository';
+import {
+  IBlocksRepository,
+  Relationship,
+} from '@modules/blocks/domain/repositories/IBlocksRepository';
 import { ICreateBlockDTO } from '@modules/blocks/dtos/ICreateBlockDTO';
 import { prisma } from '@shared/infra/prisma/connection';
 
@@ -37,11 +40,21 @@ class PrismaBlocksRepository implements IBlocksRepository {
     return block as IBlock;
   }
 
-  async findById(block_id: string): Promise<IBlock | undefined> {
+  async findById(
+    block_id: string,
+    relationship: Relationship,
+  ): Promise<IBlock | undefined> {
     const block = await prisma.block.findUnique({
       where: {
         id: block_id,
       },
+      ...(relationship && relationship.classes
+        ? {
+            include: {
+              classes: true,
+            },
+          }
+        : {}),
     });
 
     return block as IBlock;

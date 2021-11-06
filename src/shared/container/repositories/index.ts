@@ -2,8 +2,6 @@ import { IBlocksRepository } from '@modules/blocks/domain/repositories/IBlocksRe
 import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/IUserBlocksRepository';
 import { PrismaBlocksRepository } from '@modules/blocks/infra/prisma/PrismaBlocksRepository';
 import { PrismaUserBlocksRepository } from '@modules/blocks/infra/prisma/PrismaUserBlocksRepository';
-import { BlocksRepository } from '@modules/blocks/infra/typeorm/repositories/BlocksRepository';
-import { UserBlocksRepository } from '@modules/blocks/infra/typeorm/repositories/UserBlocksRepository';
 import { IClassesRepository } from '@modules/classes/domain/repositories/IClassesRepository';
 import { IUserClassesRepository } from '@modules/classes/domain/repositories/IUserClassesRepository';
 import { ClassesRepository } from '@modules/classes/infra/typeorm/repositories/ClassesRepository';
@@ -13,7 +11,7 @@ import { IUserPlaylistsRepository } from '@modules/playlists/domain/repositories
 import { PlaylistsRepository } from '@modules/playlists/infra/typeorm/repositories/PlaylistsRepository';
 import { UserPlaylistsRepository } from '@modules/playlists/infra/typeorm/repositories/UserPlaylistsRepository';
 import { IRolesRepository } from '@modules/roles/domain/repositories/IRolesRepository';
-import { RolesRepository } from '@modules/roles/infra/typeorm/repositories/RolesRepository';
+import { PrismaRolesRepository } from '@modules/roles/infra/prisma/repositories/PrismaRolesRepository';
 import { ITrailsRepository } from '@modules/trails/domain/repositories/ITrailsRepository';
 import { IUserTrailsRepository } from '@modules/trails/domain/repositories/IUserTrailsRepository';
 import { TrailsRepository } from '@modules/trails/infra/typeorm/repositories/TrailsRepository';
@@ -51,7 +49,7 @@ container.registerSingleton<IUserRolesRepository>(
 
 container.registerSingleton<IRolesRepository>(
   'RolesRepository',
-  RolesRepository,
+  PrismaRolesRepository,
 );
 
 container.registerSingleton<ITrailsRepository>(

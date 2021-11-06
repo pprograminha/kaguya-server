@@ -15,18 +15,28 @@ class ShowUserProfileService {
     username,
     user_id,
   }: IShowUserProfileRequestDTO): Promise<IUser> {
-    const user = await this.usersRepository.findByUsername(username, {
-      user_roles: true,
-    });
+    let user: IUser | undefined;
+
+    if (username) {
+      user = await this.usersRepository.findByUsername(username, {
+        user_roles: true,
+      });
+
+      if (!user) {
+        throw new AppError(
+          "Can't possible to show user profile because this username does not exist in the database",
+          403,
+        );
+      }
+    }
     const userWhoMadeRequest = await this.usersRepository.findById(user_id, {
       user_roles: true,
     });
 
-    if (!user) throw new AppError('This user does not exist', 403);
     if (!userWhoMadeRequest)
       throw new AppError('User who made the request does not exist', 401);
 
-    const hasGreaterPermission = user.user_roles.some(
+    const hasGreaterPermission = !!user?.user_roles.some(
       user_role => user_role.role.permission === 0,
     );
 
@@ -38,7 +48,7 @@ class ShowUserProfileService {
     if (hasGreaterPermission && !userWhoMadeRequestHasHighestPermission)
       throw new AppError('You do not have permission to access', 409);
 
-    return user;
+    return user || userWhoMadeRequest;
   }
 }
 

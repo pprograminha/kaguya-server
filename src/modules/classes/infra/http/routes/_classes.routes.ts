@@ -3,10 +3,12 @@ import ensureSubAdministrator from '@modules/users/infra/http/middlewares/ensure
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import { CreateClassController } from '../controllers/CreateClassController';
+import { DeleteClassController } from '../controllers/DeleteClassController';
 
 const _classesRouter = Router();
 
 const createClassController = new CreateClassController();
+const deleteClassController = new DeleteClassController();
 
 _classesRouter.post(
   '/classes',
@@ -25,6 +27,18 @@ _classesRouter.post(
     },
   }),
   createClassController.handle,
+);
+
+_classesRouter.delete(
+  '/classes',
+  ensureAuthenticated,
+  ensureSubAdministrator,
+  celebrate({
+    [Segments.QUERY]: {
+      class_id: Joi.string().uuid().required(),
+    },
+  }),
+  deleteClassController.handle,
 );
 
 export { _classesRouter };

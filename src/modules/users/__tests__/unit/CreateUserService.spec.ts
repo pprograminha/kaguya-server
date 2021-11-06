@@ -34,7 +34,7 @@ describe('CreateUser', () => {
     });
 
     const user = await createUser.execute({
-      name: 'Xxxx Xxxx',
+      username: 'xxxxxx',
       email: 'xxxx@xxxx.xxx',
       password: 'xxxx',
     });
@@ -66,7 +66,7 @@ describe('CreateUser', () => {
     );
 
     const creator = await createUser.execute({
-      name: 'Xxxx Xxxx',
+      username: 'xxxxxxxx',
       email: 'xxxxxx@xxxx.xxx',
       password: 'xxxx',
       role: 'admin',
@@ -85,7 +85,7 @@ describe('CreateUser', () => {
       }));
 
     const user = await createUser.execute({
-      name: 'Xxxx Xxxx',
+      username: 'xxxxxxxxx',
       email: 'xxxxx@xxxx.xxx',
       password: 'xxxx',
       role: 'default',
@@ -102,12 +102,12 @@ describe('CreateUser', () => {
 
     await expect(
       createUser.execute({
-        name: 'Xxxx Xxxx',
+        username: 'xxxxxxx',
         email: 'xxxxx@xxxx.xxx',
         password: 'xxxx',
         creator_id: 'non-existing-creator-id',
       }),
-    ).rejects.toBeInstanceOf(AppError);
+    ).rejects.toEqual(new AppError('Creator does not exist', 401));
   });
 
   it('should not be able to create an user with the same role or higher as the administrator', async () => {
@@ -117,7 +117,7 @@ describe('CreateUser', () => {
     });
 
     const admin = await createUser.execute({
-      name: 'Xxxx Xxxx',
+      username: 'xxxxxxxx',
       email: 'xxxx@xxxx.xxx',
       password: 'xxxx',
       role: 'admin',
@@ -139,24 +139,29 @@ describe('CreateUser', () => {
 
     await expect(
       createUser.execute({
-        name: 'Xxxx Xxxx',
+        username: 'xxxxxxxxx',
         email: 'xxxxx@xxxx.xxx',
         password: 'xxxx',
         role: 'admin',
         creator_id: admin.id,
       }),
-    ).rejects.toBeInstanceOf(AppError);
+    ).rejects.toEqual(
+      new AppError(
+        'You cannot give one permission greater or equal to yours',
+        403,
+      ),
+    );
   });
 
   it('should not be able to create an user with non-existent role', async () => {
     await expect(
       createUser.execute({
-        name: 'Xxxx Xxxx',
+        username: 'xxxxxxx',
         email: 'xxxx@xxxx.xxx',
         password: 'xxxx',
         role: 'non-existing-role',
       }),
-    ).rejects.toBeInstanceOf(AppError);
+    ).rejects.toEqual(new AppError('Role does not exist', 403));
   });
 
   it(`should not be able to create an user with another's email`, async () => {
@@ -166,7 +171,7 @@ describe('CreateUser', () => {
     });
 
     await createUser.execute({
-      name: 'Xxxx Xxxx',
+      username: 'xxxxxx',
       email: 'xxxx@xxxx.xxx',
       password: 'xxxx',
       role: 'default',
@@ -174,11 +179,34 @@ describe('CreateUser', () => {
 
     await expect(
       createUser.execute({
-        name: 'Xxxx Xxxx',
+        username: 'xxxxxxxxxx',
         email: 'xxxx@xxxx.xxx',
         password: 'xxxx',
         role: 'default',
       }),
-    ).rejects.toBeInstanceOf(AppError);
+    ).rejects.toEqual(new AppError('Unable to create user', 403));
+  });
+
+  it(`should not be able to create an user with another's username`, async () => {
+    await fakeRolesRepository.create({
+      permission: 3,
+      name: 'default',
+    });
+
+    await createUser.execute({
+      username: 'custom-username',
+      email: 'xxxx@xxxxx.xxx',
+      password: 'xxxxx',
+      role: 'default',
+    });
+
+    await expect(
+      createUser.execute({
+        username: 'custom-username',
+        email: 'xxxx@xxxx.xxx',
+        password: 'xxxx',
+        role: 'default',
+      }),
+    ).rejects.toEqual(new AppError('Username entered already exists', 403));
   });
 });

@@ -11,7 +11,7 @@ describe('Sessions', () => {
 
   it('should be able to authenticate the user', async () => {
     await request(app).post('/users').send({
-      name: 'Xxx Xxx',
+      username: 'xxxxxx',
       email: 'xxxxx@xxxx.xxx',
       password: 'xxxxxxxx',
     });

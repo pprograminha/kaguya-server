@@ -118,4 +118,98 @@ describe('Blocks', () => {
 
     expect(response.status).toBe(200);
   });
+
+  it('should be able to show the block', async () => {
+    const { body: trail } = await request(app)
+      .post('/sub-admins/trails')
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .send({
+        name: 'Xxxxxx',
+        description: 'xxxxx xxxxx xxx xx xxxxx xxxxx xxxxx xxx xx xxxxx',
+      })
+      .expect(201);
+
+    const { body: playlist } = await request(app)
+      .post('/sub-admins/playlists')
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .send({
+        trail_id: trail.id,
+        name: 'Xxxxxx',
+        description: 'xxxxx xxxxx xxx xx xxxxx xxxxx xxxxx xxx xx xxxxx',
+      })
+      .expect(201);
+
+    const { body: block } = await request(app)
+      .post('/sub-admins/blocks')
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .send({
+        playlist_id: playlist.id,
+        name: 'Xxx Xxxx',
+      })
+      .expect(201);
+
+    const response = await request(app)
+      .get('/blocks/show')
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .query({
+        block_id: block.id,
+      });
+
+    expect(response.status).toBe(200);
+  });
+
+  it('should be able to delete the block', async () => {
+    const { body: trail } = await request(app)
+      .post('/sub-admins/trails')
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .send({
+        name: 'Xxxxxx',
+        description: 'xxxxx xxxxx xxx xx xxxxx xxxxx xxxxx xxx xx xxxxx',
+      })
+      .expect(201);
+
+    const { body: playlist } = await request(app)
+      .post('/sub-admins/playlists')
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .send({
+        trail_id: trail.id,
+        name: 'Xxxxxx',
+        description: 'xxxxx xxxxx xxx xx xxxxx xxxxx xxxxx xxx xx xxxxx',
+      })
+      .expect(201);
+
+    const { body: block } = await request(app)
+      .post('/sub-admins/blocks')
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .send({
+        playlist_id: playlist.id,
+        name: 'Xxx Xxxx',
+      })
+      .expect(201);
+
+    const response = await request(app)
+      .delete('/sub-admins/blocks')
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .query({
+        block_id: block.id,
+      });
+
+    expect(response.status).toBe(200);
+  });
 });

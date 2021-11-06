@@ -7,6 +7,14 @@ import { Role } from '../../infra/typeorm/entities/Role';
 class FakeRolesRepository implements IRolesRepository {
   private roles: IRole[] = [];
 
+  async destroyById(role_id: string): Promise<void> {
+    const roleIndex = this.roles.findIndex(role => role.id === role_id);
+
+    if (roleIndex === -1) return;
+
+    this.roles.splice(roleIndex, 1);
+  }
+
   async create({ permission, name }: ICreateRoleDTO): Promise<IRole> {
     const userRole = new Role();
 
@@ -21,21 +29,19 @@ class FakeRolesRepository implements IRolesRepository {
     return userRole;
   }
 
-  async findByRoleName(roleName: string): Promise<IRole | undefined> {
-    const role = this.roles.find(roleFind => roleFind.name === roleName);
+  async findByRoleName(name: string): Promise<IRole | undefined> {
+    const role = this.roles.find(roleFind => roleFind.name === name);
 
     return role;
   }
 
-  async findByRoleId(role_id: string): Promise<IRole | undefined> {
+  async findById(role_id: string): Promise<IRole | undefined> {
     const role = this.roles.find(roleFind => roleFind.id === role_id);
 
     return role;
   }
 
-  async findByRolePermission(
-    role_permission: number,
-  ): Promise<IRole | undefined> {
+  async findByPermission(role_permission: number): Promise<IRole | undefined> {
     const role = this.roles.find(
       roleFind => roleFind.permission === role_permission,
     );

@@ -14,6 +14,7 @@ import { _classesRouter } from '@modules/classes/infra/http/routes/_classes.rout
 import { playlistsRouter } from '@modules/playlists/infra/http/routes/playlists.routes';
 import { blocksRouter } from '@modules/blocks/infra/http/routes/blocks.routes';
 import { profileRouter } from '@modules/users/infra/http/routes/profile.routes';
+import { classesRouter } from '@modules/classes/infra/http/routes/classes.routes';
 
 const router = Router();
 
@@ -27,6 +28,7 @@ router.use('/sub-admins', [
   _classesRouter,
 ]);
 router.use('/sessions', sessionsRouter);
+router.use('/classes', classesRouter);
 router.use('/trails', trailsRouter);
 router.use('/blocks', blocksRouter);
 router.use('/playlists', playlistsRouter);

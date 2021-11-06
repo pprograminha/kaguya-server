@@ -12,7 +12,7 @@ profileRouter.get(
   ensureAuthenticated,
   celebrate({
     [Segments.QUERY]: {
-      username: Joi.string().min(2).max(100).required(),
+      username: Joi.string().min(2).max(100),
     },
   }),
   showUserProfileController.handle,

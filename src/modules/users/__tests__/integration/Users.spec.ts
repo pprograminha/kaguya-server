@@ -22,7 +22,7 @@ describe('Users', () => {
 
   it('should be able to create an user', async () => {
     const response = await request(app).post('/users').send({
-      name: 'Xxx Xxx',
+      username: 'xxxxxxxx',
       email: 'xxxx@xxxx.xxx',
       password: 'xxxxxxxx',
     });
@@ -48,6 +48,7 @@ describe('Users', () => {
       })
       .send({
         name: 'Xxx Xxx',
+        username: 'xxxxx',
         email: 'xxxxxx@xxxx.xxx',
         password: 'xxxxxxxx',
         role: 'sub-admin',
@@ -64,14 +65,12 @@ describe('Users', () => {
 
     expect(response.status).toBe(200);
   });
-  it('display the user profile', async () => {
+
+  it('should be able to validate the token', async () => {
     const response = await request(app)
-      .get('/profile')
+      .post('/users/tokens/validate-token')
       .set({
         Authorization: `Bearer ${token}`,
-      })
-      .query({
-        username: process.env.ADMIN_USERNAME,
       });
 
     expect(response.status).toBe(200);

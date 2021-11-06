@@ -77,4 +77,17 @@ describe('Trails', () => {
     expect(response.status).toBe(200);
     expect(response.body.name).toBe('Xxxxxxx');
   });
+
+  it('should be able to show the trail', async () => {
+    const response = await request(app)
+      .get('/trails/show')
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .query({
+        trail_id: trail.id,
+      });
+
+    expect(response.status).toBe(200);
+  });
 });

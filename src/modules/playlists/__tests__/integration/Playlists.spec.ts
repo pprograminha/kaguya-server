@@ -1,11 +1,13 @@
 /**
  * @jest-environment ./prisma/prisma-environment-jest
  */
+import { ITrail } from '@modules/trails/domain/entities/ITrail';
 import { app } from '@shared/infra/http/app';
 import { commonsConnection } from '@shared/__tests__/commons';
 import request from 'supertest';
 
 let token: string;
+let trail: ITrail;
 
 describe('Sessions', () => {
   beforeAll(commonsConnection.createConnection);
@@ -20,10 +22,8 @@ describe('Sessions', () => {
       .expect(200);
 
     token = sessionsResponse.body.token;
-  });
 
-  it('should be able to create a playlist', async () => {
-    const { body: trail } = await request(app)
+    const { body: requestTrail } = await request(app)
       .post('/sub-admins/trails')
       .set({
         Authorization: `Bearer ${token}`,
@@ -34,6 +34,10 @@ describe('Sessions', () => {
       })
       .expect(201);
 
+    trail = requestTrail;
+  });
+
+  it('should be able to create a playlist', async () => {
     const response = await request(app)
       .post('/sub-admins/playlists')
       .set({
@@ -50,28 +54,6 @@ describe('Sessions', () => {
   });
 
   it('should be able to list playlists from trail', async () => {
-    const { body: trail } = await request(app)
-      .post('/sub-admins/trails')
-      .set({
-        Authorization: `Bearer ${token}`,
-      })
-      .send({
-        name: 'Xxxxxxx',
-        description: 'xxxxxxx xxxxxx',
-      })
-      .expect(201);
-
-    await request(app)
-      .post('/sub-admins/playlists')
-      .set({
-        Authorization: `Bearer ${token}`,
-      })
-      .send({
-        trail_id: trail.id,
-        name: 'Xxxxxxx',
-        description: 'xxxxxxx xxxxxx',
-      });
-
     await request(app)
       .post('/sub-admins/playlists')
       .set({
@@ -90,6 +72,55 @@ describe('Sessions', () => {
       })
       .query({
         trail_id: trail.id,
+      });
+
+    expect(response.status).toBe(200);
+  });
+  it('should be able to delete the playlist', async () => {
+    const { body: playlist } = await request(app)
+      .post('/sub-admins/playlists')
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .send({
+        trail_id: trail.id,
+        name: 'Xxxx Xxxx',
+        description: 'xxx xx xxx xxxxx xxxx',
+      })
+      .expect(201);
+
+    const response = await request(app)
+      .delete('/sub-admins/playlists')
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .query({
+        playlist_id: playlist.id,
+      });
+
+    expect(response.status).toBe(200);
+  });
+
+  it('should be able to show the playlist', async () => {
+    const { body: playlist } = await request(app)
+      .post('/sub-admins/playlists')
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .send({
+        trail_id: trail.id,
+        name: 'Xxxx Xxxx',
+        description: 'xxx xx xxx xxxxx xxxx',
+      })
+      .expect(201);
+
+    const response = await request(app)
+      .get('/playlists/show')
+      .set({
+        Authorization: `Bearer ${token}`,
+      })
+      .query({
+        playlist_id: playlist.id,
       });
 
     expect(response.status).toBe(200);

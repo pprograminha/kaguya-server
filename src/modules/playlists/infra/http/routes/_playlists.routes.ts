@@ -3,11 +3,13 @@ import ensureSubAdministrator from '@modules/users/infra/http/middlewares/ensure
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import { CreatePlaylistFromTrailController } from '../controllers/CreatePlaylistFromTrailController';
+import { DeletePlaylistController } from '../controllers/DeletePlaylistController';
 
 const _playlistsRouter = Router();
 
 const createPlaylistFromTrailController =
   new CreatePlaylistFromTrailController();
+const deletePlaylistController = new DeletePlaylistController();
 
 _playlistsRouter.post(
   '/playlists',
@@ -21,6 +23,18 @@ _playlistsRouter.post(
     },
   }),
   createPlaylistFromTrailController.handle,
+);
+
+_playlistsRouter.delete(
+  '/playlists',
+  ensureAuthenticated,
+  ensureSubAdministrator,
+  celebrate({
+    [Segments.QUERY]: {
+      playlist_id: Joi.string().uuid().required(),
+    },
+  }),
+  deletePlaylistController.handle,
 );
 
 export { _playlistsRouter };

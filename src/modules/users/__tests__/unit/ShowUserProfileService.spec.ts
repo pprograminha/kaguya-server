@@ -64,6 +64,37 @@ describe('CreateUser', () => {
     expect(user).toHaveProperty('id');
     expect(user.email).toBe(userCreated.email);
   });
+
+  it('show the user profile without username', async () => {
+    const role = await fakeRolesRepository.create({
+      name: 'admin',
+      permission: 0,
+    });
+
+    const userWhoMadeRequest = await fakeUsersRepository.create({
+      email: 'xxxxxx@xxxx.xxx',
+      name: 'Xxxx Xxxx',
+      password: 'xxxxxxx',
+      username: 'xxxxxxxxxx',
+    });
+
+    const userWhoMadeRequestRole = await fakeUserRolesRepository.addRoleToUser(
+      userWhoMadeRequest.id,
+      role.id,
+    );
+
+    userWhoMadeRequestRole.role = role;
+
+    userWhoMadeRequest.user_roles = [userWhoMadeRequestRole];
+
+    const user = await showUserProfile.execute({
+      user_id: userWhoMadeRequest.id,
+    });
+
+    expect(user).toHaveProperty('id');
+    expect(user.email).toBe(userWhoMadeRequest.email);
+  });
+
   it('does not show user profile because the user does not exist', async () => {
     const userWhoMadeRequest = await fakeUsersRepository.create({
       email: 'xxxxxx@xxxx.xxx',
@@ -72,12 +103,31 @@ describe('CreateUser', () => {
       username: 'xxxxxx',
     });
 
+    const role = await fakeRolesRepository.create({
+      name: 'admin',
+      permission: 0,
+    });
+
+    const userRole = await fakeUserRolesRepository.addRoleToUser(
+      userWhoMadeRequest.id,
+      role.id,
+    );
+
+    userRole.role = role;
+
+    userWhoMadeRequest.user_roles = [userRole];
+
     await expect(
       showUserProfile.execute({
         user_id: userWhoMadeRequest.id,
         username: 'non-existing-username',
       }),
-    ).rejects.toEqual(new AppError('This user does not exist', 403));
+    ).rejects.toEqual(
+      new AppError(
+        "Can't possible to show user profile because this username does not exist in the database",
+        403,
+      ),
+    );
   });
 
   it('does not show user profile because the user who made the request does not exist', async () => {
@@ -97,6 +147,7 @@ describe('CreateUser', () => {
       new AppError('User who made the request does not exist', 401),
     );
   });
+
   it('does not show the profile of the highest hierarchy user', async () => {
     const userCreated = await fakeUsersRepository.create({
       email: 'xxxxxx@xxxx.xxx',

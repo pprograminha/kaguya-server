@@ -3,10 +3,12 @@ import ensureSubAdministrator from '@modules/users/infra/http/middlewares/ensure
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import { CreateBlockController } from '../controllers/CreateBlockController';
+import { DeleteBlockController } from '../controllers/DeleteBlockController';
 
 const _blocksRouter = Router();
 
 const createBlockController = new CreateBlockController();
+const deleteBlockController = new DeleteBlockController();
 
 _blocksRouter.post(
   '/blocks',
@@ -19,6 +21,18 @@ _blocksRouter.post(
     },
   }),
   createBlockController.handle,
+);
+
+_blocksRouter.delete(
+  '/blocks',
+  ensureAuthenticated,
+  ensureSubAdministrator,
+  celebrate({
+    [Segments.QUERY]: {
+      block_id: Joi.string().uuid().required(),
+    },
+  }),
+  deleteBlockController.handle,
 );
 
 export { _blocksRouter };

@@ -24,7 +24,15 @@ userTrailsRouter.post(
   createUserTrailController.handle,
 );
 
-userTrailsRouter.get('/list-all', listAllUserTrailsFromUserController.handle);
+userTrailsRouter.get(
+  '/list-all',
+  celebrate({
+    [Segments.BODY]: {
+      user_id: Joi.string().uuid(),
+    },
+  }),
+  listAllUserTrailsFromUserController.handle,
+);
 
 userTrailsRouter.delete(
   '/',

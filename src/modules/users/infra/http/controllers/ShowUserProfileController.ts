@@ -11,7 +11,7 @@ export class ShowUserProfileController {
     const showUserProfile = container.resolve(ShowUserProfileService);
 
     const user = await showUserProfile.execute({
-      username: String(username),
+      username: username as string,
       user_id,
     });
 

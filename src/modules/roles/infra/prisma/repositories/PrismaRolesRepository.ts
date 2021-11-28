@@ -40,7 +40,7 @@ export class PrismaRolesRepository implements IRolesRepository {
       },
     });
 
-    return role as IRole;
+    return (role || undefined) as IRole;
   }
 
   async findById(role_id: string): Promise<IRole | undefined> {
@@ -50,7 +50,7 @@ export class PrismaRolesRepository implements IRolesRepository {
       },
     });
 
-    return role as IRole;
+    return (role || undefined) as IRole;
   }
 
   async listAllRoles(): Promise<IRole[]> {

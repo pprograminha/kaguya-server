@@ -57,7 +57,7 @@ class PrismaBlocksRepository implements IBlocksRepository {
         : {}),
     });
 
-    return block as IBlock;
+    return (block || undefined) as IBlock;
   }
 
   async destroyById(block_id: string): Promise<void> {

@@ -4,6 +4,7 @@ import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import multer from 'multer';
 import { CreateUserController } from '../controllers/CreateUserController';
+import { ListTheUsersAssociatedWithTheTrailController } from '../controllers/ListTheUsersAssociatedWithTheTrailController';
 import { ValidateTokenController } from '../controllers/ValidateTokenController';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
@@ -13,6 +14,8 @@ const upload = multer(storageConfig.multer);
 const createUserController = new CreateUserController();
 const updateUserAvatarController = new UpdateUserAvatarController();
 const validateTokenController = new ValidateTokenController();
+const listTheUsersAssociatedWithTheTrailController =
+  new ListTheUsersAssociatedWithTheTrailController();
 
 usersRouter.post(
   '/',
@@ -27,6 +30,19 @@ usersRouter.post(
 );
 
 usersRouter.post('/tokens/validate-token', validateTokenController.handle);
+usersRouter.get(
+  '/list-all-users-associated-with-trail',
+  ensureAuthenticated,
+  celebrate({
+    [Segments.QUERY]: {
+      skip: Joi.number(),
+      take: Joi.number(),
+      order: Joi.string().regex(/(asc|desc)/),
+      trail_id: Joi.string().uuid().required(),
+    },
+  }),
+  listTheUsersAssociatedWithTheTrailController.handle,
+);
 
 usersRouter.patch(
   '/avatar',

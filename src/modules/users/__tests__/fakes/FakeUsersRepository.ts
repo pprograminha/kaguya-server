@@ -1,10 +1,26 @@
+import { FiltersDTO } from '@modules/trails/domain/repositories/ITrailsRepository';
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 import { User } from '@modules/users/infra/typeorm/entities/User';
 import { IUser } from '../../domain/entities/IUser';
-import { IUsersRepository } from '../../domain/repositories/IUsersRepository';
+import {
+  FindAllUsersAssociatedWithTheTrailDTO,
+  IUsersRepository,
+} from '../../domain/repositories/IUsersRepository';
 
 class FakeUsersRepository implements IUsersRepository {
   private users: IUser[] = [];
+
+  async findAllUsersAssociatedWithTheTrail(
+    filters: FindAllUsersAssociatedWithTheTrailDTO & FiltersDTO,
+  ): Promise<IUser[]> {
+    const users = this.users.filter(user => {
+      return user.user_trails.some(
+        user_trail => user_trail.trail.id === filters.trail_id,
+      );
+    });
+
+    return users;
+  }
 
   async findByUsername(username: string): Promise<IUser | undefined> {
     const userFinded = this.users.find(user => user.username === username);

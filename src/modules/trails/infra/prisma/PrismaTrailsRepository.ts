@@ -59,7 +59,7 @@ export class PrismaTrailsRepository implements ITrailsRepository {
           },
         },
       },
-      ...(filters
+      ...(filters && filters.order
         ? {
             orderBy: [
               {

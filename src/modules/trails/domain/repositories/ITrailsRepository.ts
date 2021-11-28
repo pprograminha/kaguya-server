@@ -4,7 +4,7 @@ import { ITrail } from '../entities/ITrail';
 export type FiltersDTO = {
   skip?: number;
   take?: number;
-  order: 'asc' | 'desc';
+  order?: 'asc' | 'desc';
 };
 interface ITrailsRepository {
   create(data: ICreateTrailDTO): Promise<ITrail>;

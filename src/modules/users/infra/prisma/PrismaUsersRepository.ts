@@ -1,6 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import { IUser } from '@modules/users/domain/entities/IUser';
 import {
+  FindAllUsersAssociatedWithTheTrailDTO,
   IRelationshipsDTO,
   IUsersRepository,
 } from '@modules/users/domain/repositories/IUsersRepository';
@@ -8,6 +9,33 @@ import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 import { prisma } from '@shared/infra/prisma/connection';
 
 class PrismaUsersRepository implements IUsersRepository {
+  async findAllUsersAssociatedWithTheTrail({
+    trail_id,
+    order,
+    skip,
+    take,
+  }: FindAllUsersAssociatedWithTheTrailDTO): Promise<IUser[]> {
+    const users = await prisma.user.findMany({
+      where: {
+        user_trails: {
+          some: {
+            trail_id,
+          },
+        },
+        enabled: true,
+      },
+      orderBy: [
+        {
+          created_at: order,
+        },
+      ],
+      skip,
+      take,
+    });
+
+    return users as IUser[];
+  }
+
   async findByUsername(
     username: string,
     relationship: IRelationshipsDTO,

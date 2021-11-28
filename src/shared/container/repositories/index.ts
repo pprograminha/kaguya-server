@@ -14,7 +14,7 @@ import { IRolesRepository } from '@modules/roles/domain/repositories/IRolesRepos
 import { PrismaRolesRepository } from '@modules/roles/infra/prisma/repositories/PrismaRolesRepository';
 import { ITrailsRepository } from '@modules/trails/domain/repositories/ITrailsRepository';
 import { IUserTrailsRepository } from '@modules/trails/domain/repositories/IUserTrailsRepository';
-import { TrailsRepository } from '@modules/trails/infra/typeorm/repositories/TrailsRepository';
+import { PrismaTrailsRepository } from '@modules/trails/infra/prisma/PrismaTrailsRepository';
 import { UserTrailsRepository } from '@modules/trails/infra/typeorm/repositories/UserTrailsRepository';
 import { IUserRolesRepository } from '@modules/users/domain/repositories/IUserRolesRepository';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
@@ -54,7 +54,7 @@ container.registerSingleton<IRolesRepository>(
 
 container.registerSingleton<ITrailsRepository>(
   'TrailsRepository',
-  TrailsRepository,
+  PrismaTrailsRepository,
 );
 
 container.registerSingleton<IUserTrailsRepository>(

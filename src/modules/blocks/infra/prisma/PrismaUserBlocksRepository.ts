@@ -30,7 +30,7 @@ class PrismaUserBlocksRepository implements IUserBlocksRepository {
       },
     });
 
-    return userBlock as IUserBlock;
+    return (userBlock || undefined) as IUserBlock;
   }
 
   async removeById(user_block_id: string): Promise<void> {

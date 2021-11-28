@@ -28,7 +28,7 @@ class PrismaUsersRepository implements IUsersRepository {
           }
         : {}),
     });
-    return user as IUser;
+    return (user || undefined) as IUser;
   }
 
   async findByEmail(
@@ -51,7 +51,7 @@ class PrismaUsersRepository implements IUsersRepository {
           }
         : {}),
     });
-    return user as IUser;
+    return (user || undefined) as IUser;
   }
 
   async findById(
@@ -74,7 +74,7 @@ class PrismaUsersRepository implements IUsersRepository {
           }
         : {}),
     });
-    return user as IUser;
+    return (user || undefined) as IUser;
   }
 
   async create({
@@ -133,7 +133,7 @@ class PrismaUsersRepository implements IUsersRepository {
       },
     });
 
-    return users as unknown as IUser[];
+    return users as IUser[];
   }
 }
 

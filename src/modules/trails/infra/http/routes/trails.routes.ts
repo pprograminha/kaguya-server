@@ -12,6 +12,14 @@ const showTrailController = new ShowTrailController();
 trailsRouter.get(
   '/list-all',
   ensureAuthenticated,
+  celebrate({
+    [Segments.QUERY]: {
+      skip: Joi.number(),
+      take: Joi.number(),
+      order: Joi.string().regex(/(asc|desc)/),
+      exclude_my_trails: Joi.boolean(),
+    },
+  }),
   listAllTrailsController.handle,
 );
 

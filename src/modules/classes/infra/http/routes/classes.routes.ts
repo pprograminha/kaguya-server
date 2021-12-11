@@ -9,7 +9,7 @@ const showClassController = new ShowClassController();
 const classesRouter = Router();
 
 classesRouter.get(
-  '/classes/show',
+  '/show',
   ensureAuthenticated,
   ensureSubAdministrator,
   celebrate({

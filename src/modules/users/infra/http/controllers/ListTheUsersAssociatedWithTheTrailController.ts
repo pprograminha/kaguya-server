@@ -18,6 +18,8 @@ export class ListTheUsersAssociatedWithTheTrailController {
       take: take as number | undefined,
     });
 
-    return response.status(200).json(classToClass('users', users));
+    return response
+      .status(200)
+      .json(users.map(user => classToClass('user', user)));
   }
 }

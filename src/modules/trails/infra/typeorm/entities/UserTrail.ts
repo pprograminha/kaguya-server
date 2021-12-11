@@ -28,13 +28,7 @@ class UserTrail implements IUserTrail {
   trail: Trail;
 
   @Column()
-  trail_percentage_completed: number;
-
-  @Column()
-  playlists_completed: number;
-
-  @Column()
-  playlists_amount: number;
+  trail_progress_percentage: number;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })

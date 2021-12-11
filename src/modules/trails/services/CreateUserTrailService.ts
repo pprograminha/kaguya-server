@@ -49,16 +49,16 @@ export class CreateUserTrailService {
       user_id,
     });
 
+    await this.createUserPlaylistsService.execute({
+      user_id,
+      trail_id,
+    });
+
     const userTrailFinded = await this.userTrailsRepository.findById(
       userTrail.id,
     );
 
     if (!userTrailFinded) throw new AppError('User trail does not exist', 400);
-
-    await this.createUserPlaylistsService.execute({
-      user_id,
-      trail_id,
-    });
 
     return userTrailFinded;
   }

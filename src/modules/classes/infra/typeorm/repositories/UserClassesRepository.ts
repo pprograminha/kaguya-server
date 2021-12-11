@@ -1,5 +1,7 @@
+import { IClass } from '@modules/classes/domain/entities/IClass';
 import { IUserClass } from '@modules/classes/domain/entities/IUserClass';
 import { IUserClassesRepository } from '@modules/classes/domain/repositories/IUserClassesRepository';
+import { FindUserClassesDTO } from '@modules/classes/dtos/FindUserClassesDTO';
 import { ICreateUserClassDTO } from '@modules/classes/dtos/ICreateUserClassDTO';
 import { UserClass } from '@modules/classes/infra/typeorm/entities/UserClass';
 import { getRepository, Repository } from 'typeorm';
@@ -9,6 +11,14 @@ class UserClassesRepository implements IUserClassesRepository {
 
   constructor() {
     this.ormRepository = getRepository(UserClass);
+  }
+
+  findUserClass(data: FindUserClassesDTO): Promise<IUserClass | undefined> {
+    throw new Error('Method not implemented.');
+  }
+
+  async save(_class: IUserClass): Promise<IUserClass> {
+    throw new Error('Method not implemented.');
   }
 
   async create(data: ICreateUserClassDTO): Promise<IUserClass> {

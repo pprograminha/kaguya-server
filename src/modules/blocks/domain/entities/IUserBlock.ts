@@ -1,13 +1,14 @@
 import { IPlaylist } from '@modules/playlists/domain/entities/IPlaylist';
+import { IUserPlaylist } from '@modules/playlists/domain/entities/IUserPlaylist';
 import { IUser } from '@modules/users/domain/entities/IUser';
 import { IBlock } from './IBlock';
 
 interface IUserBlock {
   id: string;
-  block_percentage_completed: number;
-  classes_completed: number;
-  classes_amount: number;
   user_id: string;
+  playlist_progress_percentage: number;
+  user_playlist_id: string;
+  user_playlist: IUserPlaylist;
   user: IUser;
   playlist: IPlaylist;
   playlist_id: string;

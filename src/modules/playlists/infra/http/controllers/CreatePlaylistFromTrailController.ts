@@ -1,5 +1,5 @@
 import { CreatePlaylistFromTrailService } from '@modules/playlists/services/CreatePlaylistFromTrailService';
-import { classToClass } from 'class-transformer';
+import { classToClass } from '@shared/helpers/classToClass';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -17,6 +17,6 @@ export class CreatePlaylistFromTrailController {
       trail_id,
     });
 
-    return response.status(201).json(classToClass(playlistCreated));
+    return response.status(201).json(classToClass('playlist', playlistCreated));
   }
 }

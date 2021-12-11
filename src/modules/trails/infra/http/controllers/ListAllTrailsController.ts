@@ -1,5 +1,5 @@
-import { classToClass } from 'class-transformer';
 import { ListAllTrailsService } from '@modules/trails/services/ListAllTrailsService';
+import { classToClass } from '@shared/helpers/classToClass';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -16,9 +16,11 @@ export class ListAllTrailsController {
       take: take as number | undefined,
       order: order as 'asc' | 'desc',
       user_id,
-      exclude_my_trails: exclude_my_trails as unknown as boolean,
+      exclude_my_trails: Boolean(exclude_my_trails),
     });
 
-    return response.status(200).json(classToClass(trails));
+    return response
+      .status(200)
+      .json(trails.map(trail => classToClass('trail', trail)));
   }
 }

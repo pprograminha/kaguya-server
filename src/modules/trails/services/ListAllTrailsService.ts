@@ -1,5 +1,4 @@
 import { IBlock } from '@modules/blocks/domain/entities/IBlock';
-import { IPlaylistsRepository } from '@modules/playlists/domain/repositories/IPlaylistsRepository';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 import { AppError } from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
@@ -26,9 +25,6 @@ export class ListAllTrailsService {
 
     @inject('UserTrailsRepository')
     private userTrailsRepository: IUserTrailsRepository,
-
-    @inject('PlaylistsRepository')
-    private playlistsRepository: IPlaylistsRepository,
   ) {}
 
   async execute({

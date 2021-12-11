@@ -1,5 +1,5 @@
 import { ListAllPlaylistsFromTrailService } from '@modules/playlists/services/ListAllPlaylistsFromTrailService';
-import { classToClass } from 'class-transformer';
+import { classToClass } from '@shared/helpers/classToClass';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -11,10 +11,12 @@ export class ListAllPlaylistsFromTrailController {
       ListAllPlaylistsFromTrailService,
     );
 
-    const userPlaylists = await listAllPlaylistsFromTrail.execute(
+    const playlists = await listAllPlaylistsFromTrail.execute(
       trail_id as string,
     );
 
-    return response.status(200).json(classToClass(userPlaylists));
+    return response
+      .status(200)
+      .json(playlists.map(playlist => classToClass('playlist', playlist)));
   }
 }

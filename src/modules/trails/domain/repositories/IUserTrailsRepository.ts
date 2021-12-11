@@ -4,6 +4,7 @@ import { IUserTrail } from '../entities/IUserTrail';
 
 interface IUserTrailsRepository {
   create(data: ICreateUserTrailDTO): Promise<IUserTrail>;
+  save(userTrail: IUserTrail): Promise<IUserTrail>;
   findById(user_trail_id: string): Promise<IUserTrail | undefined>;
   findUserTrail(data: IFindUserTrailDTO): Promise<IUserTrail | undefined>;
   removeById(user_trail_id: string): Promise<void>;

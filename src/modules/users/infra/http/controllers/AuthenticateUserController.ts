@@ -1,5 +1,5 @@
 import { AuthenticateUserService } from '@modules/users/services/AuthenticateUserService';
-import { classToClass } from 'class-transformer';
+import { classToClass } from '@shared/helpers/classToClass';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -15,7 +15,7 @@ export class AuthenticateUserController {
     });
 
     return response.json({
-      user: classToClass(user),
+      user: classToClass('user', user),
       token,
     });
   }

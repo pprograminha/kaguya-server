@@ -1,5 +1,6 @@
+import { ITrail } from '@modules/trails/domain/entities/ITrail';
 import { ShowTrailService } from '@modules/trails/services/ShowTrailService';
-import { classToClass } from 'class-transformer';
+import { classToClass } from '@shared/helpers/classToClass';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -13,6 +14,8 @@ export class ShowTrailController {
       trail_id: trail_id as string,
     });
 
-    return response.status(200).json(classToClass(trail));
+    return response
+      .status(200)
+      .json(classToClass('trail', trail as unknown as ITrail));
   }
 }

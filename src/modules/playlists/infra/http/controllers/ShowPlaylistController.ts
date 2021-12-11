@@ -1,5 +1,5 @@
 import { ShowPlaylistService } from '@modules/playlists/services/ShowPlaylistService';
-import { classToClass } from 'class-transformer';
+import { classToClass } from '@shared/helpers/classToClass';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -13,6 +13,6 @@ export class ShowPlaylistController {
       playlist_id: playlist_id as string,
     });
 
-    return response.status(200).json(classToClass(playlist));
+    return response.status(200).json(classToClass('playlist', playlist));
   }
 }

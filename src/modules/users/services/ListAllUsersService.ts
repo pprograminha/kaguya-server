@@ -1,3 +1,4 @@
+import { FiltersDTO } from '@modules/trails/domain/repositories/ITrailsRepository';
 import { inject, injectable } from 'tsyringe';
 import { IUser } from '../domain/entities/IUser';
 import { IUsersRepository } from '../domain/repositories/IUsersRepository';
@@ -9,8 +10,12 @@ export class ListAllUsersService {
     private usersRepository: IUsersRepository,
   ) {}
 
-  async execute(): Promise<IUser[]> {
-    const users = await this.usersRepository.findAll();
+  async execute({ order = 'asc', skip, take }: FiltersDTO): Promise<IUser[]> {
+    const users = await this.usersRepository.findAll({
+      order,
+      skip,
+      take,
+    });
 
     return users;
   }

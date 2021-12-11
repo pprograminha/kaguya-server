@@ -4,12 +4,13 @@ import { PrismaBlocksRepository } from '@modules/blocks/infra/prisma/PrismaBlock
 import { PrismaUserBlocksRepository } from '@modules/blocks/infra/prisma/PrismaUserBlocksRepository';
 import { IClassesRepository } from '@modules/classes/domain/repositories/IClassesRepository';
 import { IUserClassesRepository } from '@modules/classes/domain/repositories/IUserClassesRepository';
+import { PrismaUserClassesRepository } from '@modules/classes/infra/prisma/PrismaUserClassesRepository';
 import { ClassesRepository } from '@modules/classes/infra/typeorm/repositories/ClassesRepository';
 import { UserClassesRepository } from '@modules/classes/infra/typeorm/repositories/UserClassesRepository';
 import { IPlaylistsRepository } from '@modules/playlists/domain/repositories/IPlaylistsRepository';
 import { IUserPlaylistsRepository } from '@modules/playlists/domain/repositories/IUserPlaylistsRepository';
-import { PlaylistsRepository } from '@modules/playlists/infra/typeorm/repositories/PlaylistsRepository';
-import { UserPlaylistsRepository } from '@modules/playlists/infra/typeorm/repositories/UserPlaylistsRepository';
+import { PrismaPlaylistsRepository } from '@modules/playlists/infra/prisma/PrismaPlaylistsRepository';
+import { PrismaUserPlaylistsRepository } from '@modules/playlists/infra/prisma/PrismaUserPlaylistsRepository';
 import { IRolesRepository } from '@modules/roles/domain/repositories/IRolesRepository';
 import { PrismaRolesRepository } from '@modules/roles/infra/prisma/repositories/PrismaRolesRepository';
 import { ITrailsRepository } from '@modules/trails/domain/repositories/ITrailsRepository';
@@ -24,7 +25,7 @@ import { container } from 'tsyringe';
 
 container.registerSingleton<IPlaylistsRepository>(
   'PlaylistsRepository',
-  PlaylistsRepository,
+  PrismaPlaylistsRepository,
 );
 
 container.registerSingleton<IBlocksRepository>(
@@ -64,12 +65,12 @@ container.registerSingleton<IUserTrailsRepository>(
 
 container.registerSingleton<IUserPlaylistsRepository>(
   'UserPlaylistsRepository',
-  UserPlaylistsRepository,
+  PrismaUserPlaylistsRepository,
 );
 
 container.registerSingleton<IUserClassesRepository>(
   'UserClassesRepository',
-  UserClassesRepository,
+  PrismaUserClassesRepository,
 );
 
 container.registerSingleton<IClassesRepository>(

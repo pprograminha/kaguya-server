@@ -9,11 +9,13 @@ class PrismaUserBlocksRepository implements IUserBlocksRepository {
   async create({
     block_id,
     playlist_id,
+    user_playlist_id,
     user_id,
   }: ICreateUserBlockDTO): Promise<IUserBlock> {
     const userBlock = await prisma.userBlock.create({
       data: {
         id: uuid(),
+        user_playlist_id,
         block_id,
         playlist_id,
         user_id,
@@ -30,7 +32,7 @@ class PrismaUserBlocksRepository implements IUserBlocksRepository {
       },
     });
 
-    return (userBlock || undefined) as IUserBlock;
+    return (userBlock as IUserBlock) || undefined;
   }
 
   async removeById(user_block_id: string): Promise<void> {

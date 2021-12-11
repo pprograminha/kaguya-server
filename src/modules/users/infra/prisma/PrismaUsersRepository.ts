@@ -2,13 +2,78 @@ import { v4 as uuid } from 'uuid';
 import { IUser } from '@modules/users/domain/entities/IUser';
 import {
   FindAllUsersAssociatedWithTheTrailDTO,
+  FindAllUsersAssociatedWithTheBlockDTO,
   IRelationshipsDTO,
   IUsersRepository,
+  FindAllUsersAssociatedWithThePlaylistDTO,
 } from '@modules/users/domain/repositories/IUsersRepository';
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 import { prisma } from '@shared/infra/prisma/connection';
+import { FiltersDTO } from '@modules/trails/domain/repositories/ITrailsRepository';
 
 class PrismaUsersRepository implements IUsersRepository {
+  async findAllUsersAssociatedWithThePlaylist({
+    playlist_id,
+    order,
+    skip,
+    take,
+  }: FindAllUsersAssociatedWithThePlaylistDTO): Promise<IUser[]> {
+    const users = await prisma.user.findMany({
+      where: {
+        user_playlists: {
+          some: {
+            playlist_id,
+          },
+        },
+        enabled: true,
+      },
+      ...(order
+        ? {
+            orderBy: [
+              {
+                created_at: order,
+              },
+            ],
+          }
+        : {}),
+      skip,
+      take,
+    });
+
+    return users as IUser[];
+  }
+
+  async findAllUsersAssociatedWithTheBlock({
+    block_id,
+    order,
+    skip,
+    take,
+  }: FindAllUsersAssociatedWithTheBlockDTO): Promise<IUser[]> {
+    const users = await prisma.user.findMany({
+      where: {
+        user_blocks: {
+          some: {
+            block_id,
+          },
+        },
+        enabled: true,
+      },
+      ...(order
+        ? {
+            orderBy: [
+              {
+                created_at: order,
+              },
+            ],
+          }
+        : {}),
+      skip,
+      take,
+    });
+
+    return users as IUser[];
+  }
+
   async findAllUsersAssociatedWithTheTrail({
     trail_id,
     order,
@@ -24,11 +89,15 @@ class PrismaUsersRepository implements IUsersRepository {
         },
         enabled: true,
       },
-      orderBy: [
-        {
-          created_at: order,
-        },
-      ],
+      ...(order
+        ? {
+            orderBy: [
+              {
+                created_at: order,
+              },
+            ],
+          }
+        : {}),
       skip,
       take,
     });
@@ -40,9 +109,10 @@ class PrismaUsersRepository implements IUsersRepository {
     username: string,
     relationship: IRelationshipsDTO,
   ): Promise<IUser | undefined> {
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findFirst({
       where: {
         username,
+        enabled: true,
       },
       ...(relationship && relationship.user_roles
         ? {
@@ -63,9 +133,10 @@ class PrismaUsersRepository implements IUsersRepository {
     email: string,
     relationship: IRelationshipsDTO,
   ): Promise<IUser | undefined> {
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findFirst({
       where: {
         email,
+        enabled: true,
       },
       ...(relationship && relationship.user_roles
         ? {
@@ -86,9 +157,10 @@ class PrismaUsersRepository implements IUsersRepository {
     id: string | number,
     relationship: IRelationshipsDTO,
   ): Promise<IUser | undefined> {
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findFirst({
       where: {
         id: String(id),
+        enabled: true,
       },
       ...(relationship && relationship.user_roles
         ? {
@@ -150,7 +222,7 @@ class PrismaUsersRepository implements IUsersRepository {
     return userUpdated as IUser;
   }
 
-  async findAll(): Promise<IUser[]> {
+  async findAll({ order, skip, take }: FiltersDTO): Promise<IUser[]> {
     const users = await prisma.user.findMany({
       include: {
         user_roles: {
@@ -159,6 +231,20 @@ class PrismaUsersRepository implements IUsersRepository {
           },
         },
       },
+      where: {
+        enabled: true,
+      },
+      ...(order
+        ? {
+            orderBy: [
+              {
+                created_at: order,
+              },
+            ],
+          }
+        : {}),
+      skip,
+      take,
     });
 
     return users as IUser[];

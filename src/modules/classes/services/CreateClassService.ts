@@ -1,8 +1,10 @@
 import { IBlocksRepository } from '@modules/blocks/domain/repositories/IBlocksRepository';
+import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 import { AppError } from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import { IClass } from '../domain/entities/IClass';
 import { IClassesRepository } from '../domain/repositories/IClassesRepository';
+import { IUserClassesRepository } from '../domain/repositories/IUserClassesRepository';
 import { ICreateClassRequestDTO } from '../dtos/ICreateClassRequestDTO';
 
 @injectable()
@@ -10,6 +12,12 @@ class CreateClassService {
   constructor(
     @inject('ClassesRepository')
     private classesRepository: IClassesRepository,
+
+    @inject('UserClassesRepository')
+    private userClassesRepository: IUserClassesRepository,
+
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
 
     @inject('BlocksRepository')
     private blocksRepository: IBlocksRepository,
@@ -31,6 +39,23 @@ class CreateClassService {
       link,
       name,
     });
+
+    const users = await this.usersRepository.findAllUsersAssociatedWithTheBlock(
+      {
+        block_id,
+      },
+    );
+
+    const userClassPromises = users.map(async user => {
+      await this.userClassesRepository.create({
+        user_id: user.id,
+        block_id: block.id,
+        class_id: classCreated.id,
+        completed: false,
+      });
+    });
+
+    await Promise.all(userClassPromises);
 
     return classCreated;
   }

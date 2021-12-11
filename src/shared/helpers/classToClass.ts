@@ -8,9 +8,21 @@ type User = Omit<IUser, 'password'> & {
   avatar_url: string | null;
 };
 
-type Entity<T extends IUser | IUser[]> = T extends IUser ? User : User[];
+type Trail = ITrail & {
+  avatar_url: string | null;
+};
 
-type EntityTypes = 'user' | 'users';
+type Playlist = IPlaylist & {
+  avatar_url: string | null;
+};
+
+type Entity<T extends IUser | IPlaylist | ITrail> = T extends IUser
+  ? User
+  : T extends ITrail
+  ? Trail
+  : Playlist;
+
+type EntityTypes = 'user' | 'trail' | 'playlist';
 
 function getAvatarUrl(entity: IUser | ITrail | IPlaylist) {
   if (!entity.avatar) return null;
@@ -23,23 +35,27 @@ function getAvatarUrl(entity: IUser | ITrail | IPlaylist) {
   return providersUrl[storageConfig.driver];
 }
 
-export function classToClass<T extends IUser | IUser[]>(
+export function classToClass<T extends IUser | IPlaylist | ITrail>(
   entity_type: EntityTypes,
   entities: T,
 ): Entity<T> {
   const entity = {
     user: {
-      ...entities,
+      ...(entities as IUser),
       password: undefined,
       avatar_url: getAvatarUrl(entities as IUser),
-    } as unknown as Entity<T>,
+    } as Entity<T>,
 
-    users: (entities as IUser[]).map(user => ({
-      ...user,
-      password: undefined,
-      avatar_url: getAvatarUrl(user),
-    })) as unknown as Entity<T>,
+    playlist: {
+      ...(entities as IPlaylist),
+      avatar_url: getAvatarUrl(entities as IPlaylist),
+    } as Entity<T>,
+
+    trail: {
+      ...(entities as ITrail),
+      avatar_url: getAvatarUrl(entities as ITrail),
+    } as Entity<T>,
   }[entity_type];
 
-  return entity;
+  return entity as Entity<T>;
 }

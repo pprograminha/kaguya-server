@@ -1,3 +1,4 @@
+import { FiltersDTO } from '@modules/trails/domain/repositories/ITrailsRepository';
 import { IUser } from '@modules/users/domain/entities/IUser';
 import { ICreateUserRequestDTO } from '@modules/users/dtos/ICreateUserRequestDTO';
 import { CreateUserService } from '@modules/users/services/CreateUserService';
@@ -9,9 +10,12 @@ type GraphQLCreateUser = {
 };
 const usersResolvers = {
   Query: {
-    listAllUsers: async (): Promise<IUser[]> => {
+    listAllUsers: async (
+      _: any,
+      { input: { order, skip, take } }: { input: FiltersDTO },
+    ): Promise<IUser[]> => {
       const listAllUsers = container.resolve(ListAllUsersService);
-      const users = listAllUsers.execute();
+      const users = listAllUsers.execute({ order, skip, take });
 
       return users;
     },

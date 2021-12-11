@@ -12,6 +12,12 @@ export class UserTrailsRepository implements IUserTrailsRepository {
     this.ormRepository = getRepository(UserTrail);
   }
 
+  async save(userTrail: IUserTrail): Promise<IUserTrail> {
+    const userTrailSaved = await this.ormRepository.save(userTrail);
+
+    return userTrailSaved;
+  }
+
   async removeById(user_trail_id: string): Promise<void> {
     await this.ormRepository.delete(user_trail_id);
   }

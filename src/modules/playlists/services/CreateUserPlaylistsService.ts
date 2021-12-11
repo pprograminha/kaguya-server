@@ -1,4 +1,5 @@
 import { ITrailsRepository } from '@modules/trails/domain/repositories/ITrailsRepository';
+import { IUserTrailsRepository } from '@modules/trails/domain/repositories/IUserTrailsRepository';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 import { AppError } from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
@@ -12,6 +13,9 @@ class CreateUserPlaylistsService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
+
+    @inject('UserTrailsRepository')
+    private userTrailsRepository: IUserTrailsRepository,
 
     @inject('UserPlaylistsRepository')
     private userPlaylistsRepository: IUserPlaylistsRepository,
@@ -42,6 +46,15 @@ class CreateUserPlaylistsService {
       throw new AppError('Trail does not exist', 400);
     }
 
+    const userTrail = await this.userTrailsRepository.findUserTrail({
+      trail_id: trail.id,
+      user_id: user.id,
+    });
+
+    if (!userTrail) {
+      throw new AppError('User trail does not exist', 403);
+    }
+
     const userPlaylistsCreate = playlists.map(playlist => ({
       user_id: user.id,
       trail_id: trail.id,
@@ -51,6 +64,10 @@ class CreateUserPlaylistsService {
     const userPlaylists = await this.userPlaylistsRepository.createMany(
       userPlaylistsCreate,
     );
+
+    userTrail.playlists_amount = userPlaylists.length;
+
+    await this.userTrailsRepository.save(userTrail);
 
     return userPlaylists;
   }

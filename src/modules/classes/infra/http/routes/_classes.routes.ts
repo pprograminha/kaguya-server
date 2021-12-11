@@ -18,7 +18,7 @@ _classesRouter.post(
     [Segments.BODY]: {
       link: Joi.string()
         .regex(
-          /^https:\/\/www\.+([A-Za-z]{3,60})+\.com+([/]?)+(([a-zA-Z0-9?!@#$%^&*)(+=._-]{3,60})?)+$/,
+          /^https:\/\/www\.+([A-Za-z]{3,60})+([.com]?)+([/]?)+(([a-zA-Z0-9?!@#$%^&*)(+=._-]{3,60})?)+$/,
         )
         .required(),
       name: Joi.string().max(100).required(),

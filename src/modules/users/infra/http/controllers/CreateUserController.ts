@@ -1,5 +1,5 @@
 import { CreateUserService } from '@modules/users/services/CreateUserService';
-import { classToClass } from 'class-transformer';
+import { classToClass } from '@shared/helpers/classToClass';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -19,7 +19,7 @@ class CreateUserController {
       creator_id,
     });
 
-    return response.status(201).json(classToClass(user));
+    return response.status(201).json(classToClass('user', user));
   }
 }
 

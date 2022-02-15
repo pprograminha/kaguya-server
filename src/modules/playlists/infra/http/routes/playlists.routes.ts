@@ -26,7 +26,9 @@ playlistsRouter.get(
   ensureAuthenticated,
   celebrate({
     [Segments.QUERY]: {
-      playlist_id: Joi.string().uuid().required(),
+      playlist_id: Joi.string().uuid(),
+      trail_id: Joi.string().uuid(),
+      name: Joi.string(),
     },
   }),
   showPlaylistController.handle,

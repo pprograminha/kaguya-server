@@ -1,5 +1,5 @@
 import { ListAllUsersService } from '@modules/users/services/ListAllUsersService';
-import { classToClass } from '@shared/helpers/classToClass';
+import { instanceToInstance } from '@shared/helpers/instanceToInstance';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -16,6 +16,6 @@ export class ListAllUsersController {
 
     return response
       .status(200)
-      .json(users.map(user => classToClass('user', user)));
+      .json(users.map(user => instanceToInstance('user', user)));
   }
 }

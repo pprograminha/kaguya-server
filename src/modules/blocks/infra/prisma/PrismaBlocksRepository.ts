@@ -74,7 +74,24 @@ class PrismaBlocksRepository implements IBlocksRepository {
         playlist_id,
       },
       include: {
-        classes: true,
+        user_blocks: {
+          select: {
+            block_id: true,
+            user_id: true,
+            progress: true,
+          },
+        },
+        classes: {
+          include: {
+            user_classes: {
+              select: {
+                user_id: true,
+                class_id: true,
+                completed: true,
+              },
+            },
+          },
+        },
       },
     });
     return blocks as IBlock[];

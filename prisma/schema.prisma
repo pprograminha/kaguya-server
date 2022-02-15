@@ -56,8 +56,7 @@ model UserTrail {
   user_id String
   trail_id String
   trail Trail @relation(fields: [trail_id], references: [id], onDelete: Cascade)
-  user_playlists UserPlaylist[]
-  trail_progress_percentage Int @default(0)
+  progress Int @default(0)
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
@@ -97,14 +96,11 @@ model Playlist {
 
 model UserPlaylist {
   id String @id
-  playlist_progress_percentage Int @default(0)
+  progress Int @default(0)
   user_id String
   trail_id String
   playlist_id String
-  user_trail_id String
-  user_blocks UserBlock[]
   trail Trail @relation(fields: [trail_id], references: [id], onDelete: Cascade)
-  user_trail UserTrail @relation(fields: [user_trail_id], references: [id], onDelete: Cascade)
   user User @relation(fields:[user_id], references: [id], onDelete: Cascade)
   playlist Playlist @relation(fields:[playlist_id], references: [id], onDelete: Cascade)
   created_at DateTime @default(now())
@@ -130,8 +126,6 @@ model Class {
 model UserClass {
   id String @id
   completed Boolean
-  user_block_id String
-  user_block UserBlock @relation(fields: [user_block_id], references: [id], onDelete: Cascade)
   user_id String
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
   block Block @relation(fields: [block_id], references: [id], onDelete: Cascade)
@@ -160,12 +154,9 @@ model Block {
 
 model UserBlock {
   id String @id
-  playlist_progress_percentage Int @default(0)
+  progress Int @default(0)
   user_id String
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_playlist_id String
-  user_playlist UserPlaylist @relation(fields: [user_playlist_id], references: [id], onDelete: Cascade)
-  user_classes UserClass[]
   playlist Playlist @relation(fields: [playlist_id], references: [id], onDelete: Cascade)
   playlist_id String
   block_id String

@@ -1,6 +1,6 @@
 import { IPlaylist } from '@modules/playlists/domain/entities/IPlaylist';
 import { IPlaylistsRepository } from '@modules/playlists/domain/repositories/IPlaylistsRepository';
-import { ICreatePlaylistDTO } from '@modules/playlists/dtos/ICreatePlaylistDTO';
+import { CreatePlaylistDTO } from '@modules/playlists/dtos/CreatePlaylistDTO';
 import { Playlist } from '@modules/playlists/infra/typeorm/entities/Playlist';
 
 class FakePlaylistsRepository implements IPlaylistsRepository {
@@ -40,7 +40,7 @@ class FakePlaylistsRepository implements IPlaylistsRepository {
     return this.playlists.filter(playlist => playlist.trail_id === trail_id);
   }
 
-  async create(data: ICreatePlaylistDTO): Promise<IPlaylist> {
+  async create(data: CreatePlaylistDTO): Promise<IPlaylist> {
     const playlist = new Playlist();
 
     Object.assign(playlist, data);

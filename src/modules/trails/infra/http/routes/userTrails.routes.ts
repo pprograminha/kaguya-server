@@ -38,7 +38,7 @@ userTrailsRouter.delete(
   '/',
   celebrate({
     [Segments.QUERY]: {
-      user_trail_id: Joi.string().uuid().required(),
+      trail_id: Joi.string().uuid().required(),
     },
   }),
   removeUserTrailController.handle,

@@ -1,5 +1,5 @@
 import { UpdateTrailService } from '@modules/trails/services/UpdateTrailService';
-import { classToClass } from '@shared/helpers/classToClass';
+import { instanceToInstance } from '@shared/helpers/instanceToInstance';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -15,6 +15,6 @@ export class UpdateTrailController {
       name,
     });
 
-    return response.status(200).json(classToClass('trail', trailUpdated));
+    return response.status(200).json(instanceToInstance('trail', trailUpdated));
   }
 }

@@ -24,7 +24,7 @@ class UserPlaylist implements IUserPlaylist {
   user_id: string;
 
   @Column()
-  playlist_progress_percentage: number;
+  progress: number;
 
   @Column()
   playlist_id: string;

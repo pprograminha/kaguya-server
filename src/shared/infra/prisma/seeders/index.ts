@@ -16,7 +16,6 @@ const main = async () => {
       username: process.env.ADMIN_USERNAME || '*****',
     },
   });
-
   await prisma.role.createMany({
     data: [
       {

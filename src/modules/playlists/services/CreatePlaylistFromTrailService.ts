@@ -5,7 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import { IPlaylist } from '../domain/entities/IPlaylist';
 import { IPlaylistsRepository } from '../domain/repositories/IPlaylistsRepository';
 import { IUserPlaylistsRepository } from '../domain/repositories/IUserPlaylistsRepository';
-import { ICreatePlaylistFromTrailRequestDTO } from '../dtos/ICreatePlaylistFromTrailRequestDTO';
+import { CreatePlaylistFromTrailRequestDTO } from '../dtos/CreatePlaylistFromTrailRequestDTO';
 
 @injectable()
 class CreatePlaylistFromTrailService {
@@ -27,7 +27,7 @@ class CreatePlaylistFromTrailService {
     trail_id,
     description,
     name,
-  }: ICreatePlaylistFromTrailRequestDTO): Promise<IPlaylist> {
+  }: CreatePlaylistFromTrailRequestDTO): Promise<IPlaylist> {
     const trail = await this.trailsRepository.findById(trail_id);
 
     if (!trail) {

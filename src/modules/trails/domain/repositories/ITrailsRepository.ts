@@ -9,7 +9,11 @@ export type FiltersDTO = {
 interface ITrailsRepository {
   create(data: ICreateTrailDTO): Promise<ITrail>;
   save(trail: ITrail): Promise<ITrail>;
-  findById(trail_id: string): Promise<ITrail | undefined>;
+  findById(
+    trail_id: string,
+    relationship?: boolean,
+  ): Promise<ITrail | undefined>;
+  findByName(name: string): Promise<ITrail | undefined>;
   destroyById(trail_id: string): Promise<void>;
   findAllTrails(filters?: FiltersDTO): Promise<ITrail[]>;
 }

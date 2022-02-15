@@ -1,18 +1,43 @@
 import { IUserClass } from '@modules/classes/domain/entities/IUserClass';
 import { IUserClassesRepository } from '@modules/classes/domain/repositories/IUserClassesRepository';
-import { FindUserClassesDTO } from '@modules/classes/dtos/FindUserClassesDTO';
 import { ICreateUserClassDTO } from '@modules/classes/dtos/ICreateUserClassDTO';
+import { IFindAllUserClassesFromBlockDTO } from '@modules/classes/dtos/IFindAllUserClassesFromBlockDTO';
+import { IFindOneDTO } from '@modules/classes/dtos/IFindOneDTO';
 import { prisma } from '@shared/infra/prisma/connection';
 import { v4 as uuid } from 'uuid';
 
 class PrismaUserClassesRepository implements IUserClassesRepository {
-  async findUserClasses({
-    class_id,
+  async findAllUserClassesFromBlock({
+    block_id,
     user_id,
-  }: FindUserClassesDTO): Promise<IUserClass[]> {
+  }: IFindAllUserClassesFromBlockDTO): Promise<IUserClass[]> {
     const userClasses = await prisma.userClass.findMany({
       where: {
+        block_id,
+        user_id,
+      },
+    });
+
+    return userClasses as IUserClass[];
+  }
+
+  async findOne({
+    user_id,
+    class_id,
+  }: IFindOneDTO): Promise<IUserClass | undefined> {
+    const userClass = await prisma.userClass.findFirst({
+      where: {
+        user_id,
         class_id,
+      },
+    });
+
+    return (userClass as IUserClass) || undefined;
+  }
+
+  async findAllUserClasses(user_id: string): Promise<IUserClass[]> {
+    const userClasses = await prisma.userClass.findMany({
+      where: {
         user_id,
       },
     });

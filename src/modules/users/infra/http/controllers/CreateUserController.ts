@@ -1,5 +1,5 @@
 import { CreateUserService } from '@modules/users/services/CreateUserService';
-import { classToClass } from '@shared/helpers/classToClass';
+import { instanceToInstance } from '@shared/helpers/instanceToInstance';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -19,7 +19,7 @@ class CreateUserController {
       creator_id,
     });
 
-    return response.status(201).json(classToClass('user', user));
+    return response.status(201).json(instanceToInstance('user', user));
   }
 }
 

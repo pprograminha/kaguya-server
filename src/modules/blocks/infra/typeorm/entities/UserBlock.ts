@@ -22,7 +22,7 @@ class UserBlock implements IUserBlock {
   id: string;
 
   @Column()
-  block_progress_percentage: number;
+  progress: number;
 
   @Column()
   user_id: string;

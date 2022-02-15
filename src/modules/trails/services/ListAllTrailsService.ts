@@ -1,6 +1,7 @@
 import { IBlock } from '@modules/blocks/domain/entities/IBlock';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 import { AppError } from '@shared/errors/AppError';
+import { instanceToInstance } from '@shared/helpers/instanceToInstance';
 import { inject, injectable } from 'tsyringe';
 import { ITrail } from '../domain/entities/ITrail';
 import { ITrailsRepository } from '../domain/repositories/ITrailsRepository';
@@ -44,17 +45,34 @@ export class ListAllTrailsService {
       order,
     });
 
-    let classesAmount = 0;
-
     trails = trails.map(trail => {
-      trail.playlists.forEach(playlist =>
-        playlist.blocks.forEach(block => {
-          classesAmount += (block as IBlock & Count)._count.classes;
-        }),
+      const classesAmount = trail.playlists.reduce(
+        (_, playlist) =>
+          playlist.blocks.reduce(
+            (acc, block) => acc + (block as IBlock & Count)._count.classes,
+            0,
+          ),
+        0,
       );
+
+      let progress = 0;
+
+      const userTrailFinded = trail.user_trails.find(
+        userTrail =>
+          userTrail.user_id === user_id && userTrail.trail_id === trail.id,
+      );
+
+      if (!userTrailFinded)
+        throw new AppError('User trail does not exist', 403);
+
+      if (userTrailFinded) {
+        progress = userTrailFinded.progress;
+      }
 
       return {
         ...trail,
+        progress,
+        user_trails: undefined,
         playlists: undefined,
         _count: {
           ...(trail as ITrail & Count)._count,

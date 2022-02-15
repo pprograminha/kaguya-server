@@ -1,5 +1,5 @@
 import { ListAllPlaylistsFromTrailService } from '@modules/playlists/services/ListAllPlaylistsFromTrailService';
-import { classToClass } from '@shared/helpers/classToClass';
+import { instanceToInstance } from '@shared/helpers/instanceToInstance';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -17,6 +17,6 @@ export class ListAllPlaylistsFromTrailController {
 
     return response
       .status(200)
-      .json(playlists.map(playlist => classToClass('playlist', playlist)));
+      .json(playlists.map(playlist => instanceToInstance('playlist', playlist)));
   }
 }

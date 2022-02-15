@@ -6,7 +6,7 @@ interface IUserTrail {
   user_id: string;
   trail_id: string;
   trail: ITrail;
-  trail_progress_percentage: number;
+  progress: number;
   user: IUser;
   created_at: Date;
   updated_at: Date;

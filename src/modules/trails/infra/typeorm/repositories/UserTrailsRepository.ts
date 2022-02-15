@@ -12,6 +12,20 @@ export class UserTrailsRepository implements IUserTrailsRepository {
     this.ormRepository = getRepository(UserTrail);
   }
 
+  async findOne({
+    trail_id,
+    user_id,
+  }: IFindUserTrailDTO): Promise<IUserTrail | undefined> {
+    const userTrail = await this.ormRepository.findOne({
+      where: {
+        trail_id,
+        user_id,
+      },
+    });
+
+    return userTrail;
+  }
+
   async save(userTrail: IUserTrail): Promise<IUserTrail> {
     const userTrailSaved = await this.ormRepository.save(userTrail);
 

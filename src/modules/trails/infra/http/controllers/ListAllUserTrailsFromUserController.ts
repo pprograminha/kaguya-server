@@ -1,4 +1,4 @@
-import { classToClass } from 'class-transformer';
+import { instanceToInstance } from 'class-transformer';
 import { ListAllUserTrailsFromUserService } from '@modules/trails/services/ListAllUserTrailsFromUserService';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
@@ -15,6 +15,6 @@ export class ListAllUserTrailsFromUserController {
       (user_id as string) || user_logged_id,
     );
 
-    return response.status(200).json(classToClass(userTrails));
+    return response.status(200).json(instanceToInstance(userTrails));
   }
 }

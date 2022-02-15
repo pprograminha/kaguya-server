@@ -14,8 +14,8 @@ type Count = {
 };
 
 type Response = Omit<
-  Omit<Omit<Omit<ITrail, 'playlists'>, 'user_trails'>, 'avatar_url'>,
-  'getAvatarUrl'
+  Omit<Omit<ITrail, 'playlists'>, 'user_trails'>,
+  'avatar_url'
 > &
   Count;
 
@@ -26,20 +26,31 @@ class ShowTrailService {
     private trailsRepository: ITrailsRepository,
   ) {}
 
-  async execute({ trail_id }: ShowTrailRequestDTO): Promise<Response> {
-    const trail = await this.trailsRepository.findById(trail_id);
+  async execute({ trail_id, name }: ShowTrailRequestDTO): Promise<Response> {
+    if (!trail_id && !name)
+      throw new AppError('Trail id or name is required', 400);
+
+    let trail: ITrail | undefined;
+
+    if (trail_id) {
+      trail = await this.trailsRepository.findById(trail_id);
+    } else if (name) {
+      trail = await this.trailsRepository.findByName(name);
+    }
 
     if (!trail) {
       throw new AppError('Trail does not exist', 403);
     }
 
-    let classesAmount = 0;
-
-    trail.playlists.forEach(playlist =>
-      playlist.blocks.forEach(block => {
-        classesAmount += (block as IBlock & Count)._count.classes;
-      }),
+    const classesAmount = trail.playlists.reduce(
+      (_, playlist) =>
+        playlist.blocks.reduce(
+          (acc, block) => acc + (block as IBlock & Count)._count.classes,
+          0,
+        ),
+      0,
     );
+
     return {
       id: trail.id,
       name: trail.name,
@@ -52,7 +63,7 @@ class ShowTrailService {
         users: (trail as any)._count.user_trails,
         classes: classesAmount,
       },
-    };
+    } as Response;
   }
 }
 

@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 export class RemoveUserTrailController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { user_trail_id } = request.query;
+    const { trail_id } = request.query;
 
     const user_id = request.user.id;
 
@@ -12,7 +12,7 @@ export class RemoveUserTrailController {
 
     await removeUserTrail.execute({
       user_id,
-      user_trail_id: user_trail_id as string,
+      trail_id: trail_id as string,
     });
 
     return response.status(200).json();

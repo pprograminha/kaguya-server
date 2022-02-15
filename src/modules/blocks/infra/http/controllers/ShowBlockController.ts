@@ -1,5 +1,5 @@
 import { ShowBlockService } from '@modules/blocks/services/ShowBlockService';
-import { classToClass } from 'class-transformer';
+import { instanceToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -11,7 +11,7 @@ class ShowBlockController {
 
     const block = await showBlock.execute(block_id as string);
 
-    return response.status(200).json(classToClass(block));
+    return response.status(200).json(instanceToInstance(block));
   }
 }
 

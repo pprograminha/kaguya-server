@@ -8,6 +8,40 @@ import { ICreateTrailDTO } from '@modules/trails/dtos/ICreateTrailDTO';
 import { prisma } from '@shared/infra/prisma/connection';
 
 export class PrismaTrailsRepository implements ITrailsRepository {
+  async findByName(name: string): Promise<ITrail | undefined> {
+    const trail = await prisma.trail.findFirst({
+      where: {
+        name: {
+          contains: name.replace(/-/g, ' '),
+          mode: 'insensitive',
+        },
+      },
+      include: {
+        _count: {
+          select: {
+            playlists: true,
+            user_trails: true,
+          },
+        },
+        playlists: {
+          include: {
+            blocks: {
+              include: {
+                classes: true,
+                _count: {
+                  select: {
+                    classes: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+    return (trail as unknown as ITrail | undefined) || undefined;
+  }
+
   async save({
     id: trail_id,
     avatar,
@@ -45,6 +79,7 @@ export class PrismaTrailsRepository implements ITrailsRepository {
             user_trails: true,
           },
         },
+        user_trails: true,
         playlists: {
           include: {
             blocks: {
@@ -102,6 +137,7 @@ export class PrismaTrailsRepository implements ITrailsRepository {
           include: {
             blocks: {
               include: {
+                classes: true,
                 _count: {
                   select: {
                     classes: true,

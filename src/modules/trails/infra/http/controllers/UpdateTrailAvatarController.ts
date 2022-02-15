@@ -1,5 +1,5 @@
 import { UpdateTrailAvatarService } from '@modules/trails/services/UpdateTrailAvatarService';
-import { classToClass } from '@shared/helpers/classToClass';
+import { instanceToInstance } from '@shared/helpers/instanceToInstance';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -16,6 +16,6 @@ export class UpdateTrailAvatarController {
       trail_id,
     });
 
-    return response.status(200).json(classToClass('trail', trail));
+    return response.status(200).json(instanceToInstance('trail', trail));
   }
 }

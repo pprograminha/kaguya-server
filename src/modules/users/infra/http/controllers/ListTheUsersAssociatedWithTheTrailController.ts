@@ -1,5 +1,5 @@
 import { ListTheUsersAssociatedWithTheTrailService } from '@modules/users/services/ListTheUsersAssociatedWithTheTrailService';
-import { classToClass } from '@shared/helpers/classToClass';
+import { instanceToInstance } from '@shared/helpers/instanceToInstance';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -20,6 +20,6 @@ export class ListTheUsersAssociatedWithTheTrailController {
 
     return response
       .status(200)
-      .json(users.map(user => classToClass('user', user)));
+      .json(users.map(user => instanceToInstance('user', user)));
   }
 }

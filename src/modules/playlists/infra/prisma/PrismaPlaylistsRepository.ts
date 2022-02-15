@@ -1,10 +1,27 @@
 import { IPlaylist } from '@modules/playlists/domain/entities/IPlaylist';
 import { IPlaylistsRepository } from '@modules/playlists/domain/repositories/IPlaylistsRepository';
-import { ICreatePlaylistDTO } from '@modules/playlists/dtos/ICreatePlaylistDTO';
+import { CreatePlaylistDTO } from '@modules/playlists/dtos/CreatePlaylistDTO';
+import { IFindByNameDTO } from '@modules/playlists/dtos/IFindByNameDTO';
 import { prisma } from '@shared/infra/prisma/connection';
 import { v4 as uuid } from 'uuid';
 
 export class PrismaPlaylistsRepository implements IPlaylistsRepository {
+  async findByName({
+    trail_id,
+    name,
+  }: IFindByNameDTO): Promise<IPlaylist | undefined> {
+    const playlist = await prisma.playlist.findFirst({
+      where: {
+        name: {
+          contains: name.replace(/-/g, ' '),
+          mode: 'insensitive',
+        },
+        trail_id,
+      },
+    });
+    return (playlist as IPlaylist | undefined) || undefined;
+  }
+
   async save({
     id,
     avatar,
@@ -38,7 +55,7 @@ export class PrismaPlaylistsRepository implements IPlaylistsRepository {
     description,
     name,
     trail_id,
-  }: ICreatePlaylistDTO): Promise<IPlaylist> {
+  }: CreatePlaylistDTO): Promise<IPlaylist> {
     const playlist = await prisma.playlist.create({
       data: {
         id: uuid(),

@@ -1,5 +1,5 @@
 import { ListAllTrailsService } from '@modules/trails/services/ListAllTrailsService';
-import { classToClass } from '@shared/helpers/classToClass';
+import { instanceToInstance } from '@shared/helpers/instanceToInstance';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -21,6 +21,6 @@ export class ListAllTrailsController {
 
     return response
       .status(200)
-      .json(trails.map(trail => classToClass('trail', trail)));
+      .json(trails.map(trail => instanceToInstance('trail', trail)));
   }
 }

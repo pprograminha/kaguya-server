@@ -1,5 +1,5 @@
 import { CreateRoleService } from '@modules/roles/services/CreateRoleService';
-import { classToClass } from 'class-transformer';
+import { instanceToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -16,6 +16,6 @@ export class CreateRoleController {
       role,
     });
 
-    return response.status(201).json(classToClass(roleCreated));
+    return response.status(201).json(instanceToInstance(roleCreated));
   }
 }

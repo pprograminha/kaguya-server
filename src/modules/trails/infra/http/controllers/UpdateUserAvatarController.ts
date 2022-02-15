@@ -1,5 +1,5 @@
 import { UpdateUserAvatarService } from '@modules/users/services/UpdateUserAvatarService';
-import { classToClass } from '@shared/helpers/classToClass';
+import { instanceToInstance } from '@shared/helpers/instanceToInstance';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -16,6 +16,6 @@ export class UpdateUserAvatarController {
       user_id,
     });
 
-    return response.status(200).json(classToClass('user', user));
+    return response.status(200).json(instanceToInstance('user', user));
   }
 }

@@ -2,10 +2,35 @@ import { IUserPlaylist } from '@modules/playlists/domain/entities/IUserPlaylist'
 import { IUserPlaylistsRepository } from '@modules/playlists/domain/repositories/IUserPlaylistsRepository';
 import { ICreateUserPlaylistDTO } from '@modules/playlists/dtos/ICreateUserPlaylistDTO';
 import { IFindAllUserPlaylistsFromTrailDTO } from '@modules/playlists/dtos/IFindAllUserPlaylistsFromTrailDTO';
+import { IFindOneDTO } from '@modules/playlists/dtos/IFindOneDTO';
 import { prisma } from '@shared/infra/prisma/connection';
 import { v4 as uuid } from 'uuid';
 
 export class PrismaUserPlaylistsRepository implements IUserPlaylistsRepository {
+  async findOne({
+    playlist_id,
+    user_id,
+  }: IFindOneDTO): Promise<IUserPlaylist | undefined> {
+    const userPlaylist = await prisma.userPlaylist.findFirst({
+      where: {
+        playlist_id,
+        user_id,
+      },
+    });
+    return userPlaylist as IUserPlaylist;
+  }
+
+  async save({ id, progress }: IUserPlaylist): Promise<void> {
+    await prisma.userPlaylist.update({
+      where: {
+        id,
+      },
+      data: {
+        progress,
+      },
+    });
+  }
+
   async createMany(datas: ICreateUserPlaylistDTO[]): Promise<IUserPlaylist[]> {
     const promises = datas.map(async data => {
       const userPlaylist = await prisma.userPlaylist.create({

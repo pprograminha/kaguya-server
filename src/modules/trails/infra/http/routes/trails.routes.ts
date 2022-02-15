@@ -28,7 +28,8 @@ trailsRouter.get(
   ensureAuthenticated,
   celebrate({
     [Segments.QUERY]: {
-      trail_id: Joi.string().uuid().required(),
+      trail_id: Joi.string().uuid(),
+      name: Joi.string(),
     },
   }),
   showTrailController.handle,

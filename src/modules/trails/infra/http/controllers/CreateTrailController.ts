@@ -1,5 +1,5 @@
 import { CreateTrailService } from '@modules/trails/services/CreateTrailService';
-import { classToClass } from '@shared/helpers/classToClass';
+import { instanceToInstance } from '@shared/helpers/instanceToInstance';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -14,6 +14,6 @@ export class CreateTrailController {
       name,
     });
 
-    return response.status(201).json(classToClass('trail', trailCreated));
+    return response.status(201).json(instanceToInstance('trail', trailCreated));
   }
 }

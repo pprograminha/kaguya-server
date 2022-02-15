@@ -1,6 +1,6 @@
 import { IPlaylist } from '@modules/playlists/domain/entities/IPlaylist';
 import { IPlaylistsRepository } from '@modules/playlists/domain/repositories/IPlaylistsRepository';
-import { ICreatePlaylistDTO } from '@modules/playlists/dtos/ICreatePlaylistDTO';
+import { CreatePlaylistDTO } from '@modules/playlists/dtos/CreatePlaylistDTO';
 import { getRepository, Repository } from 'typeorm';
 import { Playlist } from '../entities/Playlist';
 
@@ -27,7 +27,7 @@ export class PlaylistsRepository implements IPlaylistsRepository {
     description,
     name,
     trail_id,
-  }: ICreatePlaylistDTO): Promise<IPlaylist> {
+  }: CreatePlaylistDTO): Promise<IPlaylist> {
     const playlist = this.ormRepository.create({
       description,
       name,

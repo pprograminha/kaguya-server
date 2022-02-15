@@ -8,6 +8,8 @@ interface IUserTrailsRepository {
   findById(user_trail_id: string): Promise<IUserTrail | undefined>;
   findUserTrail(data: IFindUserTrailDTO): Promise<IUserTrail | undefined>;
   removeById(user_trail_id: string): Promise<void>;
+  findOne(data: IFindUserTrailDTO): Promise<IUserTrail | undefined>;
+
   findAllUserTrails(user_id: string): Promise<IUserTrail[]>;
 }
 export { IUserTrailsRepository };

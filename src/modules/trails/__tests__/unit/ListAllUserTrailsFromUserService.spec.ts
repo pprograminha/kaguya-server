@@ -30,7 +30,9 @@ describe('ListAllUserTrailsFromUser', () => {
       user_id: user.id,
     });
 
-    const trails = await listAllUserTrailsFromUser.execute(user.id);
+    const trails = await listAllUserTrailsFromUser.execute({
+      user_id: user.id,
+    });
 
     expect(trails).toEqual(expect.arrayContaining([trail]));
   });

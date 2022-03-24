@@ -1,19 +1,27 @@
 import { FakeBlocksRepository } from '@modules/blocks/__tests__/fakes/FakeBlocksRepository';
 import { CreateClassService } from '@modules/classes/services/CreateClassService';
+import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
 import { AppError } from '@shared/errors/AppError';
 import { FakeClassesRepository } from '../fakes/FakeClassesRepository';
+import { FakeUserClassesRepository } from '../fakes/FakeUserClassesRepository';
 
 let fakeClassesRepository: FakeClassesRepository;
 let fakeBlocksRepository: FakeBlocksRepository;
+let fakeUsersRepository: FakeUsersRepository;
+let fakeUserClassesRepository: FakeUserClassesRepository;
 let createClass: CreateClassService;
 
 describe('CreateClass', () => {
   beforeEach(() => {
     fakeClassesRepository = new FakeClassesRepository();
+    fakeUserClassesRepository = new FakeUserClassesRepository();
+    fakeUsersRepository = new FakeUsersRepository();
     fakeBlocksRepository = new FakeBlocksRepository();
 
     createClass = new CreateClassService(
       fakeClassesRepository,
+      fakeUserClassesRepository,
+      fakeUsersRepository,
       fakeBlocksRepository,
     );
   });

@@ -10,8 +10,6 @@ interface ITrail {
   user_trails: IUserTrail[];
   user_playlists: IUserPlaylist[];
   avatar: string;
-  getAvatarUrl(): string | null;
-  avatar_url: string;
   created_at: Date;
   updated_at: Date;
 }

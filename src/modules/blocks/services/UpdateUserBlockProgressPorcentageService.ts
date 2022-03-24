@@ -1,7 +1,7 @@
 import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/IUserBlocksRepository';
 import { IUserClassesRepository } from '@modules/classes/domain/repositories/IUserClassesRepository';
 import { AppError } from '@shared/errors/AppError';
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from '@shared/container';
 import { IUserBlock } from '../domain/entities/IUserBlock';
 import { IUpdateUserBlockProgressPorcentageRequestDTO } from '../dtos/IUpdateUserBlockProgressPorcentageRequestDTO';
 

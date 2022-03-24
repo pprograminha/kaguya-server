@@ -1,6 +1,6 @@
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 import { AppError } from '@shared/errors/AppError';
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from '@shared/container';
 import { IClass } from '../domain/entities/IClass';
 import { IClassesRepository } from '../domain/repositories/IClassesRepository';
 import { IUserClassesRepository } from '../domain/repositories/IUserClassesRepository';

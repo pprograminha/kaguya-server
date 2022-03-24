@@ -2,11 +2,13 @@ import { FakePlaylistsRepository } from '@modules/playlists/__tests__/fakes/Fake
 import { ListAllBlocksFromPlaylistService } from '@modules/blocks/services/ListAllBlocksFromPlaylistService';
 import { FakeTrailsRepository } from '@modules/trails/__tests__/fakes/FakeTrailsRepository';
 import { AppError } from '@shared/errors/AppError';
+import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
 import { FakeBlocksRepository } from '../fakes/FakeBlocksRepository';
 
 let fakePlaylistsRepository: FakePlaylistsRepository;
 let fakeBlocksRepository: FakeBlocksRepository;
 let fakeTrailsRepository: FakeTrailsRepository;
+let fakeUsersRepository: FakeUsersRepository;
 
 let listAllBlocksFromPlaylist: ListAllBlocksFromPlaylistService;
 
@@ -15,6 +17,7 @@ describe('ListAllBlocksFromPlaylist', () => {
     fakePlaylistsRepository = new FakePlaylistsRepository();
     fakeTrailsRepository = new FakeTrailsRepository();
     fakeBlocksRepository = new FakeBlocksRepository();
+    fakeUsersRepository = new FakeUsersRepository();
 
     listAllBlocksFromPlaylist = new ListAllBlocksFromPlaylistService(
       fakePlaylistsRepository,
@@ -32,6 +35,13 @@ describe('ListAllBlocksFromPlaylist', () => {
       description: 'Xxxxx xxxx',
       name: 'Xxxxx',
       trail_id: trail.id,
+    });
+
+    const user = await fakeUsersRepository.create({
+      email: 'xxxxx@xxxx.xxx',
+      name: 'Xxxxx',
+      password: '00000000',
+      username: 'xxxxx',
     });
 
     const blocksAmount = Array.from(
@@ -56,15 +66,37 @@ describe('ListAllBlocksFromPlaylist', () => {
       trail_id: trail.id,
     });
 
-    const blocks = await listAllBlocksFromPlaylist.execute(playlist.id);
+    jest
+      .spyOn(fakeBlocksRepository, 'findAllBlocksFromPlaylist')
+      .mockImplementationOnce(async () =>
+        blocksCreated.map(block => ({
+          ...block,
+          classes: [],
+          user_blocks: [],
+        })),
+      );
 
-    expect(blocks).toEqual([...blocksCreated]);
-    expect(blocks).toEqual(expect.arrayContaining([...blocksCreated]));
+    const blocks = await listAllBlocksFromPlaylist.execute({
+      playlist_id: playlist.id,
+      user_id: user.id,
+    });
+
+    expect(blocks.length).toEqual(blocksCreated.length);
   });
 
   it('should not be able to list all blocks from playlist if non-existing playlist', async () => {
+    const user = await fakeUsersRepository.create({
+      email: 'xxxxxx@xxxx.xxx',
+      name: 'Xxxxx',
+      password: '00000000',
+      username: 'xxxxx',
+    });
+
     await expect(
-      listAllBlocksFromPlaylist.execute('non-existing-playlist'),
+      listAllBlocksFromPlaylist.execute({
+        playlist_id: 'non-existing-playlist',
+        user_id: user.id,
+      }),
     ).rejects.toBeInstanceOf(AppError);
   });
 });

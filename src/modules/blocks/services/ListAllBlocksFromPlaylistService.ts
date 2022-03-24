@@ -1,6 +1,6 @@
 import { IPlaylistsRepository } from '@modules/playlists/domain/repositories/IPlaylistsRepository';
 import { AppError } from '@shared/errors/AppError';
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from '@shared/container';
 import { IBlock } from '../domain/entities/IBlock';
 import { IBlocksRepository } from '../domain/repositories/IBlocksRepository';
 import { IListAllBlocksFromPlaylistRequestDTO } from '../dtos/IListAllBlocksFromPlaylistRequestDTO';

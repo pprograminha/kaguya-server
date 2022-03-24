@@ -2,10 +2,20 @@ import { IUserTrail } from '@modules/trails/domain/entities/IUserTrail';
 import { IUserTrailsRepository } from '@modules/trails/domain/repositories/IUserTrailsRepository';
 import { ICreateUserTrailDTO } from '@modules/trails/dtos/ICreateUserTrailDTO';
 import { IFindUserTrailDTO } from '@modules/trails/dtos/IFindUserTrailDTO';
-import { UserTrail } from '@modules/trails/infra/typeorm/entities/UserTrail';
+import { UserTrail } from '@modules/trails/entities/UserTrail';
 
 export class FakeUserTrailsRepository implements IUserTrailsRepository {
   private userTrails: IUserTrail[] = [];
+
+  async save(userTrail: IUserTrail): Promise<IUserTrail> {
+    const userTrailIndex = this.userTrails.findIndex(
+      userTrailFind => userTrailFind.id === userTrail.id,
+    );
+
+    this.userTrails[userTrailIndex] = userTrail;
+
+    return userTrail;
+  }
 
   async removeById(user_trail_id: string): Promise<void> {
     const userTrails = this.userTrails.filter(

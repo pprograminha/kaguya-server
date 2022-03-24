@@ -1,5 +1,4 @@
 import { CreateClassService } from '@modules/classes/services/CreateClassService';
-import { instanceToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -16,6 +15,6 @@ export class CreateClassController {
       name,
     });
 
-    return response.status(201).json(instanceToInstance(classCreated));
+    return response.status(201).json(classCreated);
   }
 }

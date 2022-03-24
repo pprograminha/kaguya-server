@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import { IUserRole } from '@modules/users/domain/entities/IUserRole';
 import { IUserRolesRepository } from '@modules/users/domain/repositories/IUserRolesRepository';
-import { UserRole } from '../../infra/typeorm/entities/UserRole';
+import { UserRole } from '@modules/users/entities/UserRole';
 
 class FakeUserRolesRepository implements IUserRolesRepository {
   private UserRoles: IUserRole[] = [];

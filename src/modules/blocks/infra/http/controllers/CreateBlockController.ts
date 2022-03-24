@@ -1,5 +1,4 @@
 import { CreateBlockService } from '@modules/blocks/services/CreateBlockService';
-import { instanceToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -14,7 +13,7 @@ class CreateBlockController {
       playlist_id,
     });
 
-    return response.status(201).json(instanceToInstance(blockCreated));
+    return response.status(201).json(blockCreated);
   }
 }
 

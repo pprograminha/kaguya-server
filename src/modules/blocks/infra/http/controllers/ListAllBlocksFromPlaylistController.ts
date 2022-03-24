@@ -1,5 +1,4 @@
 import { ListAllBlocksFromPlaylistService } from '@modules/blocks/services/ListAllBlocksFromPlaylistService';
-import { instanceToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -18,7 +17,7 @@ class ListAllBlocksFromPlaylistController {
       playlist_id: playlist_id as string,
     });
 
-    return response.status(200).json(instanceToInstance(blocks));
+    return response.status(200).json(blocks);
   }
 }
 

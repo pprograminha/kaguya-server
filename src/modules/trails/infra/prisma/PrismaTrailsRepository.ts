@@ -17,6 +17,7 @@ export class PrismaTrailsRepository implements ITrailsRepository {
         },
       },
       include: {
+        user_trails: true,
         _count: {
           select: {
             playlists: true,
@@ -127,6 +128,7 @@ export class PrismaTrailsRepository implements ITrailsRepository {
         id: trail_id,
       },
       include: {
+        user_trails: true,
         _count: {
           select: {
             playlists: true,

@@ -1,8 +1,7 @@
 import { IBlock } from '@modules/blocks/domain/entities/IBlock';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
+import { inject, injectable } from '@shared/container';
 import { AppError } from '@shared/errors/AppError';
-import { instanceToInstance } from '@shared/helpers/instanceToInstance';
-import { inject, injectable } from 'tsyringe';
 import { ITrail } from '../domain/entities/ITrail';
 import { ITrailsRepository } from '../domain/repositories/ITrailsRepository';
 import { IUserTrailsRepository } from '../domain/repositories/IUserTrailsRepository';
@@ -61,9 +60,6 @@ export class ListAllTrailsService {
         userTrail =>
           userTrail.user_id === user_id && userTrail.trail_id === trail.id,
       );
-
-      if (!userTrailFinded)
-        throw new AppError('User trail does not exist', 403);
 
       if (userTrailFinded) {
         progress = userTrailFinded.progress;

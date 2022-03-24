@@ -1,5 +1,5 @@
+import { inject, injectable } from '@shared/container';
 import { AppError } from '@shared/errors/AppError';
-import { inject, injectable } from 'tsyringe';
 import { IUser } from '../domain/entities/IUser';
 import { IUsersRepository } from '../domain/repositories/IUsersRepository';
 import { IHashProvider } from '../providers/HashProvider/models/IHashProvider';

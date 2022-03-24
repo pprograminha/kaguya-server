@@ -1,5 +1,4 @@
 import { ListAllRolesService } from '@modules/roles/services/ListAllRolesService';
-import { instanceToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -9,6 +8,6 @@ export class ListAllRolesController {
 
     const allRoles = await listAllRoles.execute();
 
-    return response.status(200).json(instanceToInstance(allRoles));
+    return response.status(200).json(allRoles);
   }
 }

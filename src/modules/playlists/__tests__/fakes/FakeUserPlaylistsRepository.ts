@@ -2,10 +2,32 @@ import { IUserPlaylist } from '@modules/playlists/domain/entities/IUserPlaylist'
 import { IUserPlaylistsRepository } from '@modules/playlists/domain/repositories/IUserPlaylistsRepository';
 import { ICreateUserPlaylistDTO } from '@modules/playlists/dtos/ICreateUserPlaylistDTO';
 import { IFindAllUserPlaylistsFromTrailDTO } from '@modules/playlists/dtos/IFindAllUserPlaylistsFromTrailDTO';
-import { UserPlaylist } from '@modules/playlists/infra/typeorm/entities/UserPlaylist';
+import { IFindOneDTO } from '@modules/playlists/dtos/IFindOneDTO';
+import { UserPlaylist } from '@modules/playlists/entities/UserPlaylist';
 
 export class FakeUserPlaylistsRepository implements IUserPlaylistsRepository {
   private userPlaylists: IUserPlaylist[] = [];
+
+  async findOne({
+    playlist_id,
+    user_id,
+  }: IFindOneDTO): Promise<IUserPlaylist | undefined> {
+    const userPlaylistFinded = this.userPlaylists.find(
+      userPlaylist =>
+        userPlaylist.playlist_id === playlist_id &&
+        userPlaylist.user_id === user_id,
+    );
+
+    return userPlaylistFinded;
+  }
+
+  async save(userPlaylist: IUserPlaylist): Promise<void> {
+    const userPlaylistIndex = this.userPlaylists.findIndex(
+      findUserPlaylist => findUserPlaylist.id === userPlaylist.id,
+    );
+
+    this.userPlaylists[userPlaylistIndex] = userPlaylist;
+  }
 
   async createMany(datas: ICreateUserPlaylistDTO[]): Promise<IUserPlaylist[]> {
     return datas.map(data => {

@@ -1,6 +1,6 @@
 import { AppError } from '@shared/errors/AppError';
 import { IStorageProvider } from '@shared/providers/StorageProvider/models/IStorageProvider';
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from '@shared/container';
 import { ITrail } from '../domain/entities/ITrail';
 import { ITrailsRepository } from '../domain/repositories/ITrailsRepository';
 

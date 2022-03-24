@@ -1,7 +1,7 @@
 import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/IUserBlocksRepository';
 import { IUserPlaylistsRepository } from '@modules/playlists/domain/repositories/IUserPlaylistsRepository';
 import { AppError } from '@shared/errors/AppError';
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from '@shared/container';
 import { IUserPlaylist } from '../domain/entities/IUserPlaylist';
 import { IUpdateUserPlaylistProgressPorcentageRequestDTO } from '../dtos/IUpdateUserPlaylistProgressPorcentageRequestDTO';
 

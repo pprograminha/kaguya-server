@@ -1,9 +1,9 @@
 import { FakeRolesRepository } from '@modules/roles/__tests__/fakes/FakeRolesRepository';
 import { IUserRole } from '@modules/users/domain/entities/IUserRole';
-import { FakeUserRolesRepository } from '@modules/users/__tests__/fakes/FakeUserRolesRepository';
-import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
 import { FakeHashProvider } from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
 import { CreateUserService } from '@modules/users/services/CreateUserService';
+import { FakeUserRolesRepository } from '@modules/users/__tests__/fakes/FakeUserRolesRepository';
+import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
 import { AppError } from '@shared/errors/AppError';
 
 let fakeUsersRepository: FakeUsersRepository;

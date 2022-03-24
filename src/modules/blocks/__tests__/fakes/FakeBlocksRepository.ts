@@ -1,7 +1,7 @@
-import { Block } from '@modules/blocks/infra/typeorm/entities/Block';
 import { IBlock } from '@modules/blocks/domain/entities/IBlock';
 import { IBlocksRepository } from '@modules/blocks/domain/repositories/IBlocksRepository';
 import { ICreateBlockDTO } from '@modules/blocks/dtos/ICreateBlockDTO';
+import { Block } from '@modules/blocks/entities/Block';
 
 class FakeBlocksRepository implements IBlocksRepository {
   private blocks: IBlock[] = [];

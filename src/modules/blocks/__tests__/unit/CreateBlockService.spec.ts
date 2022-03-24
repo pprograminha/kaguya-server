@@ -2,22 +2,30 @@ import { FakePlaylistsRepository } from '@modules/playlists/__tests__/fakes/Fake
 import { CreateBlockService } from '@modules/blocks/services/CreateBlockService';
 import { FakeTrailsRepository } from '@modules/trails/__tests__/fakes/FakeTrailsRepository';
 import { AppError } from '@shared/errors/AppError';
+import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
 import { FakeBlocksRepository } from '../fakes/FakeBlocksRepository';
+import { FakeUserBlocksRepository } from '../fakes/FakeUserBlocksRepository';
 
 let fakeBlocksRepository: FakeBlocksRepository;
 let fakePlaylistsRepository: FakePlaylistsRepository;
 let fakeTrailsRepository: FakeTrailsRepository;
+let fakeUsersRepository: FakeUsersRepository;
+let fakeUserBlocksRepository: FakeUserBlocksRepository;
 let createBlock: CreateBlockService;
 
 describe('CreateBlock', () => {
   beforeEach(() => {
     fakeBlocksRepository = new FakeBlocksRepository();
     fakePlaylistsRepository = new FakePlaylistsRepository();
+    fakeUsersRepository = new FakeUsersRepository();
+    fakeUserBlocksRepository = new FakeUserBlocksRepository();
     fakeTrailsRepository = new FakeTrailsRepository();
 
     createBlock = new CreateBlockService(
       fakePlaylistsRepository,
       fakeBlocksRepository,
+      fakeUsersRepository,
+      fakeUserBlocksRepository,
     );
   });
 

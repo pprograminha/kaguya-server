@@ -1,6 +1,6 @@
 import { IBlock } from '@modules/blocks/domain/entities/IBlock';
 import { AppError } from '@shared/errors/AppError';
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from '@shared/container';
 import { ITrail } from '../domain/entities/ITrail';
 import { ITrailsRepository } from '../domain/repositories/ITrailsRepository';
 import { ShowTrailRequestDTO } from '../dtos/ShowTrailRequestDTO';
@@ -13,11 +13,15 @@ type Count = {
   };
 };
 
-type Response = Omit<
-  Omit<Omit<ITrail, 'playlists'>, 'user_trails'>,
-  'avatar_url'
-> &
-  Count;
+type Response = {
+  id: string;
+  name: string;
+  description: string;
+  avatar: string;
+  progress: number;
+  created_at: Date;
+  updated_at: Date;
+} & Count;
 
 @injectable()
 class ShowTrailService {
@@ -26,17 +30,18 @@ class ShowTrailService {
     private trailsRepository: ITrailsRepository,
   ) {}
 
-  async execute({ trail_id, name }: ShowTrailRequestDTO): Promise<Response> {
+  async execute({
+    trail_id,
+    user_id,
+    name,
+  }: ShowTrailRequestDTO): Promise<Response> {
     if (!trail_id && !name)
       throw new AppError('Trail id or name is required', 400);
 
     let trail: ITrail | undefined;
 
-    if (trail_id) {
-      trail = await this.trailsRepository.findById(trail_id);
-    } else if (name) {
-      trail = await this.trailsRepository.findByName(name);
-    }
+    if (trail_id) trail = await this.trailsRepository.findById(trail_id);
+    else trail = await this.trailsRepository.findByName(name as string);
 
     if (!trail) {
       throw new AppError('Trail does not exist', 403);
@@ -51,19 +56,30 @@ class ShowTrailService {
       0,
     );
 
+    let progress = 0;
+    const userTrailFinded = trail.user_trails.find(
+      userTrail =>
+        userTrail.user_id === user_id && userTrail.trail_id === trail?.id,
+    );
+
+    if (userTrailFinded) {
+      progress = userTrailFinded.progress;
+    }
+
     return {
       id: trail.id,
       name: trail.name,
       description: trail.description,
       avatar: trail.avatar,
-      created_at: trail.created_at,
-      updated_at: trail.updated_at,
+      progress,
       _count: {
         playlists: (trail as ITrail & Count)._count.playlists,
         users: (trail as any)._count.user_trails,
         classes: classesAmount,
       },
-    } as Response;
+      created_at: trail.created_at,
+      updated_at: trail.updated_at,
+    };
   }
 }
 

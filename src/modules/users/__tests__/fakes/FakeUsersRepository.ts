@@ -1,14 +1,40 @@
 import { FiltersDTO } from '@modules/trails/domain/repositories/ITrailsRepository';
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
-import { User } from '@modules/users/infra/typeorm/entities/User';
+import { User } from '@modules/users/entities/User';
 import { IUser } from '../../domain/entities/IUser';
 import {
+  FindAllUsersAssociatedWithTheBlockDTO,
+  FindAllUsersAssociatedWithThePlaylistDTO,
   FindAllUsersAssociatedWithTheTrailDTO,
   IUsersRepository,
 } from '../../domain/repositories/IUsersRepository';
 
 class FakeUsersRepository implements IUsersRepository {
   private users: IUser[] = [];
+
+  async findAllUsersAssociatedWithThePlaylist({
+    playlist_id,
+  }: FindAllUsersAssociatedWithThePlaylistDTO): Promise<IUser[]> {
+    const users = this.users.filter(user => {
+      return user.user_playlists.some(
+        user_playlist => user_playlist.playlist.id === playlist_id,
+      );
+    });
+
+    return users;
+  }
+
+  async findAllUsersAssociatedWithTheBlock({
+    block_id,
+  }: FindAllUsersAssociatedWithTheBlockDTO): Promise<IUser[]> {
+    const users = this.users.filter(findUser => {
+      return findUser.user_blocks.some(
+        user_block => user_block.block.id === block_id,
+      );
+    });
+
+    return users;
+  }
 
   async findAllUsersAssociatedWithTheTrail(
     filters: FindAllUsersAssociatedWithTheTrailDTO & FiltersDTO,

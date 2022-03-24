@@ -32,7 +32,9 @@ describe('ListAllUsers', () => {
 
       lastestUser = user;
     });
-    const users = await listAllUsers.execute();
+    const users = await listAllUsers.execute({
+      order: 'desc',
+    });
 
     await Promise.all(promises);
 

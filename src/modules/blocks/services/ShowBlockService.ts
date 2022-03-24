@@ -1,5 +1,5 @@
 import { AppError } from '@shared/errors/AppError';
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from '@shared/container';
 import { IBlock } from '../domain/entities/IBlock';
 import { IBlocksRepository } from '../domain/repositories/IBlocksRepository';
 

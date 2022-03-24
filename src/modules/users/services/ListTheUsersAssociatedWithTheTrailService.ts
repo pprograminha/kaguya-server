@@ -1,4 +1,4 @@
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from '@shared/container';
 import { IUser } from '../domain/entities/IUser';
 import { IUsersRepository } from '../domain/repositories/IUsersRepository';
 import { ListTheUsersAssociatedWithTheTrailRequestDTO } from '../dtos/ListTheUsersAssociatedWithTheTrailRequestDTO';

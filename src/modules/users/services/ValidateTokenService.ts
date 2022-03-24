@@ -1,4 +1,4 @@
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from '@shared/container';
 import { ITokenProvider } from '../providers/TokenProvider/models/ITokenProvider';
 
 @injectable()

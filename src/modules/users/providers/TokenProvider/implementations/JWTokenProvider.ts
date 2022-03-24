@@ -1,6 +1,6 @@
 import { sign, verify } from 'jsonwebtoken';
 import { authConfig } from '@config/auth';
-import { User } from '@modules/users/infra/typeorm/entities/User';
+import { IUser } from '@modules/users/domain/entities/IUser';
 import { ITokenProvider } from '../models/ITokenProvider';
 
 export class JWTokenProvider implements ITokenProvider {
@@ -10,7 +10,7 @@ export class JWTokenProvider implements ITokenProvider {
     verify(token, secret);
   }
 
-  generate(user: User): string {
+  generate(user: IUser): string {
     const { secret, expiresIn } = authConfig;
 
     const token = sign({}, secret, {

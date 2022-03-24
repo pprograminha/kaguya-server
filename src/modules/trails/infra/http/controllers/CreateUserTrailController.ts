@@ -1,4 +1,3 @@
-import { instanceToInstance } from 'class-transformer';
 import { CreateUserTrailService } from '@modules/trails/services/CreateUserTrailService';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
@@ -16,6 +15,6 @@ export class CreateUserTrailController {
       trail_id,
     });
 
-    return response.status(201).json(instanceToInstance(userTrailCreated));
+    return response.status(201).json(userTrailCreated);
   }
 }

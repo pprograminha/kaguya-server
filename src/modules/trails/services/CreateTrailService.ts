@@ -1,4 +1,4 @@
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from '@shared/container';
 import { ITrail } from '../domain/entities/ITrail';
 import { ITrailsRepository } from '../domain/repositories/ITrailsRepository';
 import { ICreateTrailRequestDTO } from '../dtos/ICreateTrailRequestDTO';

@@ -2,10 +2,16 @@ import { FakeTrailsRepository } from '@modules/trails/__tests__/fakes/FakeTrails
 import { RemoveUserTrailService } from '@modules/trails/services/RemoveUserTrailService';
 import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
 import { AppError } from '@shared/errors/AppError';
+import { FakeUserPlaylistsRepository } from '@modules/playlists/__tests__/fakes/FakeUserPlaylistsRepository';
+import { FakeUserBlocksRepository } from '@modules/blocks/__tests__/fakes/FakeUserBlocksRepository';
+import { FakeUserClassesRepository } from '@modules/classes/__tests__/fakes/FakeUserClassesRepository';
 import { FakeUserTrailsRepository } from '../fakes/FakeUserTrailsRepository';
 
 let fakeUserTrailsRepository: FakeUserTrailsRepository;
+let fakeUserPlaylistsRepository: FakeUserPlaylistsRepository;
+let fakeUserBlocksRepository: FakeUserBlocksRepository;
 let fakeUsersRepository: FakeUsersRepository;
+let fakeUserClassesRepository: FakeUserClassesRepository;
 let fakeTrailsRepository: FakeTrailsRepository;
 
 let removeUserTrail: RemoveUserTrailService;
@@ -13,11 +19,18 @@ let removeUserTrail: RemoveUserTrailService;
 describe('RemoveUserTrail', () => {
   beforeEach(() => {
     fakeUserTrailsRepository = new FakeUserTrailsRepository();
+    fakeUserPlaylistsRepository = new FakeUserPlaylistsRepository();
     fakeTrailsRepository = new FakeTrailsRepository();
+    fakeUserBlocksRepository = new FakeUserBlocksRepository();
+    fakeUserClassesRepository = new FakeUserClassesRepository();
     fakeUsersRepository = new FakeUsersRepository();
 
     removeUserTrail = new RemoveUserTrailService(
       fakeUserTrailsRepository,
+      fakeUserPlaylistsRepository,
+      fakeTrailsRepository,
+      fakeUserBlocksRepository,
+      fakeUserClassesRepository,
       fakeUsersRepository,
     );
   });
@@ -29,8 +42,14 @@ describe('RemoveUserTrail', () => {
       username: 'xxxxxx',
       password: 'xxxxxx',
     });
+
+    const trail = await fakeTrailsRepository.create({
+      name: 'xxxxxxxxx',
+      description: 'xxxxxx',
+    });
+
     const userTrail = await fakeUserTrailsRepository.create({
-      trail_id: 'trail-id',
+      trail_id: trail.id,
       user_id: user.id,
     });
 
@@ -38,7 +57,7 @@ describe('RemoveUserTrail', () => {
 
     await removeUserTrail.execute({
       user_id: user.id,
-      user_trail_id: userTrail.id,
+      trail_id: trail.id,
     });
 
     expect(removeById).toHaveBeenCalledWith(userTrail.id);
@@ -50,15 +69,10 @@ describe('RemoveUserTrail', () => {
       name: 'Xxxx',
     });
 
-    const userTrail = await fakeUserTrailsRepository.create({
-      trail_id: trail.id,
-      user_id: 'non-existing-user',
-    });
-
     await expect(
       removeUserTrail.execute({
         user_id: 'non-existing-user',
-        user_trail_id: userTrail.id,
+        trail_id: trail.id,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -71,10 +85,15 @@ describe('RemoveUserTrail', () => {
       password: 'xxxxxx',
     });
 
+    const trail = await fakeTrailsRepository.create({
+      description: 'Xxxx',
+      name: 'Xxxx',
+    });
+
     await expect(
       removeUserTrail.execute({
         user_id: user.id,
-        user_trail_id: 'non-existing-user-trail',
+        trail_id: trail.id,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

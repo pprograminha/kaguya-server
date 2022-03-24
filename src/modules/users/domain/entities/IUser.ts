@@ -17,8 +17,6 @@ interface IUser {
   username: string;
   enabled: boolean;
   password: string;
-  getAvatarUrl(): string | null;
-  avatar_url: string;
   created_at: Date;
   updated_at: Date;
 }

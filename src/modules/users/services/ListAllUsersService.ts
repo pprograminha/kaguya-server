@@ -1,5 +1,5 @@
 import { FiltersDTO } from '@modules/trails/domain/repositories/ITrailsRepository';
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from '@shared/container';
 import { IUser } from '../domain/entities/IUser';
 import { IUsersRepository } from '../domain/repositories/IUsersRepository';
 

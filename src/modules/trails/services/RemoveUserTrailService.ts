@@ -3,7 +3,7 @@ import { IUserClassesRepository } from '@modules/classes/domain/repositories/IUs
 import { IUserPlaylistsRepository } from '@modules/playlists/domain/repositories/IUserPlaylistsRepository';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 import { AppError } from '@shared/errors/AppError';
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from '@shared/container';
 import { ITrailsRepository } from '../domain/repositories/ITrailsRepository';
 import { IUserTrailsRepository } from '../domain/repositories/IUserTrailsRepository';
 import { IDestroyUserTrailRequestDTO } from '../dtos/IDestroyUserTrailRequestDTO';
@@ -42,7 +42,7 @@ export class RemoveUserTrailService {
 
     if (!trail) throw new AppError('Trail does not exist', 400);
 
-    const userTrail = await this.userTrailsRepository.findOne({
+    const userTrail = await this.userTrailsRepository.findUserTrail({
       trail_id,
       user_id,
     });

@@ -1,6 +1,6 @@
 import { IUserPlaylistsRepository } from '@modules/playlists/domain/repositories/IUserPlaylistsRepository';
 import { AppError } from '@shared/errors/AppError';
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from '@shared/container';
 import { IUserTrail } from '../domain/entities/IUserTrail';
 import { IUserTrailsRepository } from '../domain/repositories/IUserTrailsRepository';
 import { IUpdateUserTrailProgressPorcentageRequestDTO } from '../dtos/IUpdateUserTrailProgressPorcentageRequestDTO';
@@ -19,7 +19,7 @@ export class UpdateUserTrailProgressPorcentageService {
     trail_id,
     user_id,
   }: IUpdateUserTrailProgressPorcentageRequestDTO): Promise<IUserTrail> {
-    const userTrail = await this.userTrailsRepository.findOne({
+    const userTrail = await this.userTrailsRepository.findUserTrail({
       trail_id,
       user_id,
     });

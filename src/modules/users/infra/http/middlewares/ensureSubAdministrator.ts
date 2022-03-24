@@ -1,7 +1,6 @@
 import { AppError } from '@shared/errors/AppError';
+import { prisma } from '@shared/infra/prisma/connection';
 import { NextFunction, Request, Response } from 'express';
-import { getRepository } from 'typeorm';
-import { User } from '../../typeorm/entities/User';
 
 export default async function ensureSubAdministrator(
   request: Request,
@@ -10,13 +9,17 @@ export default async function ensureSubAdministrator(
 ): Promise<void> {
   const user_id = request.user.id;
 
-  const usersRepository = getRepository(User);
-
-  const user = await usersRepository.findOne({
+  const user = await prisma.user.findUnique({
     where: {
       id: user_id,
     },
-    relations: ['user_roles', 'user_roles.role'],
+    include: {
+      user_roles: {
+        include: {
+          role: true,
+        },
+      },
+    },
   });
 
   if (!user) throw new AppError('User does not exist', 401);

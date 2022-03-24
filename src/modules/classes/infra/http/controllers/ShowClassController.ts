@@ -1,5 +1,4 @@
 import { ShowClassService } from '@modules/classes/services/ShowClassService';
-import { instanceToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -15,6 +14,6 @@ export class ShowClassController {
       name: name as string,
     });
 
-    return response.status(200).json(instanceToInstance(_class));
+    return response.status(200).json(_class);
   }
 }

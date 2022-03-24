@@ -1,5 +1,5 @@
 import { AppError } from '@shared/errors/AppError';
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from '@shared/container';
 import { IClassesRepository } from '../domain/repositories/IClassesRepository';
 
 @injectable()

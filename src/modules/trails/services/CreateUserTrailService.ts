@@ -1,7 +1,7 @@
 import { CreateUserPlaylistsService } from '@modules/playlists/services/CreateUserPlaylistsService';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 import { AppError } from '@shared/errors/AppError';
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from '@shared/container';
 import { IUserTrail } from '../domain/entities/IUserTrail';
 import { ITrailsRepository } from '../domain/repositories/ITrailsRepository';
 import { IUserTrailsRepository } from '../domain/repositories/IUserTrailsRepository';

@@ -20,4 +20,3 @@ tmp/**
 yarn-lock.error
 
 *.sqlite
-*.sql

@@ -1,4 +1,4 @@
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from '@shared/container';
 import { IRole } from '../domain/entities/IRole';
 import { IRolesRepository } from '../domain/repositories/IRolesRepository';
 

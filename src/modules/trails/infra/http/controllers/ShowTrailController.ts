@@ -7,11 +7,13 @@ import { container } from 'tsyringe';
 export class ShowTrailController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { trail_id, name } = request.query;
+    const user_id = request.user.id;
 
     const showTrail = container.resolve(ShowTrailService);
 
     const trail = await showTrail.execute({
       trail_id: trail_id as string,
+      user_id,
       name: name as string,
     });
 

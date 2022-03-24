@@ -1,7 +1,7 @@
 import { ITrailsRepository } from '@modules/trails/domain/repositories/ITrailsRepository';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 import { AppError } from '@shared/errors/AppError';
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from '@shared/container';
 import { IUserPlaylist } from '../domain/entities/IUserPlaylist';
 import { IUserPlaylistsRepository } from '../domain/repositories/IUserPlaylistsRepository';
 import { IListAllUserPlaylistsFromTrailRequestDTO } from '../dtos/IListAllUserPlaylistsFromTrailRequestDTO';

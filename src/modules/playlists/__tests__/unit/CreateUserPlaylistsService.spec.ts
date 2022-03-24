@@ -2,28 +2,48 @@ import { FakeTrailsRepository } from '@modules/trails/__tests__/fakes/FakeTrails
 import { CreateUserPlaylistsService } from '@modules/playlists/services/CreateUserPlaylistsService';
 import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
 import { AppError } from '@shared/errors/AppError';
-import { FakePlaylistsRepository } from '../fakes/FakePlaylistsRepository';
+import { FakeUserTrailsRepository } from '@modules/trails/__tests__/fakes/FakeUserTrailsRepository';
+import { FakeBlocksRepository } from '@modules/blocks/__tests__/fakes/FakeBlocksRepository';
+import { FakeUserBlocksRepository } from '@modules/blocks/__tests__/fakes/FakeUserBlocksRepository';
+import { FakeClassesRepository } from '@modules/classes/__tests__/fakes/FakeClassesRepository';
+import { FakeUserClassesRepository } from '@modules/classes/__tests__/fakes/FakeUserClassesRepository';
 import { FakeUserPlaylistsRepository } from '../fakes/FakeUserPlaylistsRepository';
+import { FakePlaylistsRepository } from '../fakes/FakePlaylistsRepository';
 
 let fakePlaylistsRepository: FakePlaylistsRepository;
 let fakeUsersRepository: FakeUsersRepository;
 let fakeUserPlaylistsRepository: FakeUserPlaylistsRepository;
 let fakeTrailsRepository: FakeTrailsRepository;
+let fakeUserTrailsRepository: FakeUserTrailsRepository;
+let fakeBlocksRepository: FakeBlocksRepository;
+let fakeUserBlocksRepository: FakeUserBlocksRepository;
+let fakeClassesRepository: FakeClassesRepository;
+let fakeUserClassesRepository: FakeUserClassesRepository;
 
 let createUserPlaylists: CreateUserPlaylistsService;
 
 describe('CreatePlaylist', () => {
   beforeEach(() => {
+    fakeUsersRepository = new FakeUsersRepository();
+    fakeUserTrailsRepository = new FakeUserTrailsRepository();
+    fakeUserPlaylistsRepository = new FakeUserPlaylistsRepository();
     fakePlaylistsRepository = new FakePlaylistsRepository();
     fakeTrailsRepository = new FakeTrailsRepository();
-    fakeUsersRepository = new FakeUsersRepository();
-    fakeUserPlaylistsRepository = new FakeUserPlaylistsRepository();
+    fakeBlocksRepository = new FakeBlocksRepository();
+    fakeUserBlocksRepository = new FakeUserBlocksRepository();
+    fakeClassesRepository = new FakeClassesRepository();
+    fakeUserClassesRepository = new FakeUserClassesRepository();
 
     createUserPlaylists = new CreateUserPlaylistsService(
       fakeUsersRepository,
+      fakeUserTrailsRepository,
       fakeUserPlaylistsRepository,
       fakePlaylistsRepository,
       fakeTrailsRepository,
+      fakeBlocksRepository,
+      fakeUserBlocksRepository,
+      fakeClassesRepository,
+      fakeUserClassesRepository,
     );
   });
 
@@ -38,6 +58,11 @@ describe('CreatePlaylist', () => {
     const trail = await fakeTrailsRepository.create({
       name: 'Xxxx Xxx',
       description: 'Xxxx Xxx',
+    });
+
+    await fakeUserTrailsRepository.create({
+      trail_id: trail.id,
+      user_id: user.id,
     });
 
     const playlistsAmount = Array.from(

@@ -1,6 +1,6 @@
 import { ITrailsRepository } from '@modules/trails/domain/repositories/ITrailsRepository';
 import { AppError } from '@shared/errors/AppError';
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from '@shared/container';
 import { IPlaylist } from '../domain/entities/IPlaylist';
 import { IPlaylistsRepository } from '../domain/repositories/IPlaylistsRepository';
 

@@ -11,12 +11,9 @@ import { MulterError } from 'multer';
 import { graphqlHTTP } from 'express-graphql';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { GraphQLError } from 'graphql';
-import { connection } from '../typeorm/connection';
 import { router } from './routes';
 import { resolvers } from './graphql/resolvers';
 import { typeDefs } from './graphql/typeDefs';
-
-connection();
 
 const app = express();
 

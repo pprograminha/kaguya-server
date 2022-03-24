@@ -3,6 +3,7 @@ import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 import { IUser } from '../entities/IUser';
 
 interface IRelationshipsDTO {
+  user?: boolean;
   user_roles?: boolean;
 }
 export type FindAllUsersAssociatedWithTheTrailDTO = {

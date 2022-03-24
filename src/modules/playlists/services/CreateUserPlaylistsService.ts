@@ -6,7 +6,7 @@ import { ITrailsRepository } from '@modules/trails/domain/repositories/ITrailsRe
 import { IUserTrailsRepository } from '@modules/trails/domain/repositories/IUserTrailsRepository';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 import { AppError } from '@shared/errors/AppError';
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from '@shared/container';
 import { IUserPlaylist } from '../domain/entities/IUserPlaylist';
 import { IPlaylistsRepository } from '../domain/repositories/IPlaylistsRepository';
 import { IUserPlaylistsRepository } from '../domain/repositories/IUserPlaylistsRepository';

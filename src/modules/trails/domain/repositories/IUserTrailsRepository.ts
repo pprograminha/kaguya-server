@@ -1,5 +1,6 @@
 import { ICreateUserTrailDTO } from '@modules/trails/dtos/ICreateUserTrailDTO';
 import { IFindUserTrailDTO } from '@modules/trails/dtos/IFindUserTrailDTO';
+import { IRelationshipsDTO } from '@modules/users/domain/repositories/IUsersRepository';
 import { IUserTrail } from '../entities/IUserTrail';
 
 interface IUserTrailsRepository {
@@ -8,8 +9,9 @@ interface IUserTrailsRepository {
   findById(user_trail_id: string): Promise<IUserTrail | undefined>;
   findUserTrail(data: IFindUserTrailDTO): Promise<IUserTrail | undefined>;
   removeById(user_trail_id: string): Promise<void>;
-  findOne(data: IFindUserTrailDTO): Promise<IUserTrail | undefined>;
-
-  findAllUserTrails(user_id: string): Promise<IUserTrail[]>;
+  findAllUserTrails(
+    user_id: string,
+    relationship?: IRelationshipsDTO,
+  ): Promise<IUserTrail[]>;
 }
 export { IUserTrailsRepository };

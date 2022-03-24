@@ -2,7 +2,7 @@ import { IUser } from '@modules/users/domain/entities/IUser';
 import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 import { AppError } from '@shared/errors/AppError';
 import { IStorageProvider } from '@shared/providers/StorageProvider/models/IStorageProvider';
-import { inject, injectable } from 'tsyringe';
+import { inject, injectable } from '@shared/container';
 import { IUpdateUserAvatarRequestDTO } from '../../roles/dtos/IUpdateUserAvatarRequestDTO';
 
 @injectable()

@@ -2,7 +2,7 @@ import { IRole } from '@modules/roles/domain/entities/IRole';
 import { IRolesRepository } from '@modules/roles/domain/repositories/IRolesRepository';
 import { ICreateRoleDTO } from '@modules/roles/dtos/ICreateRoleDTO';
 import { v4 as uuid } from 'uuid';
-import { Role } from '../../infra/typeorm/entities/Role';
+import { Role } from '../../entities/Role';
 
 class FakeRolesRepository implements IRolesRepository {
   private roles: IRole[] = [];

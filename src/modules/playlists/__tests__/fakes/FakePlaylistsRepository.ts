@@ -1,10 +1,22 @@
 import { IPlaylist } from '@modules/playlists/domain/entities/IPlaylist';
 import { IPlaylistsRepository } from '@modules/playlists/domain/repositories/IPlaylistsRepository';
 import { CreatePlaylistDTO } from '@modules/playlists/dtos/CreatePlaylistDTO';
-import { Playlist } from '@modules/playlists/infra/typeorm/entities/Playlist';
+import { IFindByNameDTO } from '@modules/playlists/dtos/IFindByNameDTO';
+import { Playlist } from '@modules/playlists/entities/Playlist';
 
 class FakePlaylistsRepository implements IPlaylistsRepository {
   private playlists: IPlaylist[] = [];
+
+  async findByName({
+    name,
+    trail_id,
+  }: IFindByNameDTO): Promise<IPlaylist | undefined> {
+    const playlistFinded = this.playlists.find(
+      playlist => playlist.name === name && playlist.trail_id === trail_id,
+    );
+
+    return playlistFinded;
+  }
 
   async save(playlist: IPlaylist): Promise<IPlaylist> {
     const indexFinded = this.playlists.findIndex(

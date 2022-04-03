@@ -1,18 +1,17 @@
-import { v4 as uuid } from 'uuid';
 import { ITrail } from '@modules/trails/domain/entities/ITrail';
-import {
-  FiltersDTO,
-  ITrailsRepository,
-} from '@modules/trails/domain/repositories/ITrailsRepository';
+import { ITrailsRepository } from '@modules/trails/domain/repositories/ITrailsRepository';
+import { FindAllTrailsDTO } from '@modules/trails/dtos/FindAllTrailsDTO';
 import { ICreateTrailDTO } from '@modules/trails/dtos/ICreateTrailDTO';
 import { prisma } from '@shared/infra/prisma/connection';
+import { AsyncMaybe } from '@shared/types/app';
+import crypto from 'crypto';
 
 export class PrismaTrailsRepository implements ITrailsRepository {
-  async findByName(name: string): Promise<ITrail | undefined> {
+  async findByName(name: string): AsyncMaybe<ITrail> {
     const trail = await prisma.trail.findFirst({
       where: {
         name: {
-          contains: name.replace(/-/g, ' '),
+          equals: name.replace(/-/g, ' '),
           mode: 'insensitive',
         },
       },
@@ -40,7 +39,7 @@ export class PrismaTrailsRepository implements ITrailsRepository {
         },
       },
     });
-    return (trail as unknown as ITrail | undefined) || undefined;
+    return trail as unknown as ITrail;
   }
 
   async save({
@@ -71,8 +70,21 @@ export class PrismaTrailsRepository implements ITrailsRepository {
     });
   }
 
-  async findAllTrails(filters: FiltersDTO): Promise<ITrail[]> {
+  async findAllTrails(data: FindAllTrailsDTO): Promise<ITrail[]> {
     const trails = await prisma.trail.findMany({
+      ...(data && data.except_user_id
+        ? {
+            where: {
+              NOT: {
+                user_trails: {
+                  some: {
+                    user_id: data.except_user_id,
+                  },
+                },
+              },
+            },
+          }
+        : {}),
       include: {
         _count: {
           select: {
@@ -95,17 +107,17 @@ export class PrismaTrailsRepository implements ITrailsRepository {
           },
         },
       },
-      ...(filters && filters.order
+      ...(data && data.order
         ? {
             orderBy: [
               {
-                created_at: filters.order,
+                created_at: data.order,
               },
             ],
           }
         : {}),
-      take: filters?.take,
-      skip: filters?.skip,
+      take: data?.take,
+      skip: data?.skip,
     });
 
     return trails as unknown as ITrail[];
@@ -114,7 +126,7 @@ export class PrismaTrailsRepository implements ITrailsRepository {
   async create(data: ICreateTrailDTO): Promise<ITrail> {
     const trail = await prisma.trail.create({
       data: {
-        id: uuid(),
+        id: crypto.randomUUID(),
         ...data,
       },
     });
@@ -122,7 +134,7 @@ export class PrismaTrailsRepository implements ITrailsRepository {
     return trail as ITrail;
   }
 
-  async findById(trail_id: string): Promise<ITrail | undefined> {
+  async findById(trail_id: string): AsyncMaybe<ITrail> {
     const trail = await prisma.trail.findUnique({
       where: {
         id: trail_id,
@@ -152,6 +164,6 @@ export class PrismaTrailsRepository implements ITrailsRepository {
       },
     });
 
-    return (trail || undefined) as unknown as ITrail;
+    return trail as unknown as ITrail;
   }
 }

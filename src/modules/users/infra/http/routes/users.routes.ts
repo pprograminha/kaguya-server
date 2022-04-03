@@ -3,9 +3,9 @@ import { UpdateUserAvatarController } from '@modules/trails/infra/http/controlle
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import multer from 'multer';
-import { CreateUserController } from '../controllers/CreateUserController';
-import { ListTheUsersAssociatedWithTheTrailController } from '../controllers/ListTheUsersAssociatedWithTheTrailController';
-import { ValidateTokenController } from '../controllers/ValidateTokenController';
+import { CreateUserController } from '../controllers/create-user-controller';
+import { ListTheUsersAssociatedWithTheTrailController } from '../controllers/list-the-users-associated-with-the-trail-controller';
+import { ValidateTokenController } from '../controllers/validate-token-controller';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
 const usersRouter = Router();

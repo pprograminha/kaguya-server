@@ -1,6 +1,6 @@
-import { IPlaylist } from '@modules/playlists/domain/entities/IPlaylist';
-import { IUserPlaylist } from '@modules/playlists/domain/entities/IUserPlaylist';
-import { IUserTrail } from './IUserTrail';
+import { IPlaylist } from '@modules/playlists/domain/entities/iplaylist';
+import { IUserPlaylist } from '@modules/playlists/domain/entities/iuser-playlist';
+import { IUserTrail } from './iuser-trail';
 
 interface ITrail {
   id: string;

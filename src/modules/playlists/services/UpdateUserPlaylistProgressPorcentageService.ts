@@ -1,9 +1,9 @@
-import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/IUserBlocksRepository';
-import { IUserPlaylistsRepository } from '@modules/playlists/domain/repositories/IUserPlaylistsRepository';
+import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/iuser-blocks-repository';
 import { AppError } from '@shared/errors/AppError';
 import { inject, injectable } from '@shared/container';
-import { IUserPlaylist } from '../domain/entities/IUserPlaylist';
-import { IUpdateUserPlaylistProgressPorcentageRequestDTO } from '../dtos/IUpdateUserPlaylistProgressPorcentageRequestDTO';
+import { IUserPlaylist } from '../domain/entities/iuser-playlist';
+import { UpdateUserPlaylistProgressPorcentageRequestDTO } from '../dtos/update-user-playlist-progress-porcentage-request-dto';
+import { IUserPlaylistsRepository } from '../domain/repositories/iuser-playlists-repository';
 
 @injectable()
 export class UpdateUserPlaylistProgressPorcentageService {
@@ -18,7 +18,7 @@ export class UpdateUserPlaylistProgressPorcentageService {
   async execute({
     playlist_id,
     user_id,
-  }: IUpdateUserPlaylistProgressPorcentageRequestDTO): Promise<IUserPlaylist> {
+  }: UpdateUserPlaylistProgressPorcentageRequestDTO): Promise<IUserPlaylist> {
     const userPlaylist = await this.userPlaylistsRepository.findOne({
       playlist_id,
       user_id,

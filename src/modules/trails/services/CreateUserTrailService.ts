@@ -1,8 +1,8 @@
 import { CreateUserPlaylistsService } from '@modules/playlists/services/CreateUserPlaylistsService';
-import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
+import { IUsersRepository } from '@modules/users/domain/repositories/iusers-repository';
 import { AppError } from '@shared/errors/AppError';
 import { inject, injectable } from '@shared/container';
-import { IUserTrail } from '../domain/entities/IUserTrail';
+import { IUserTrail } from '../domain/entities/iuser-trail';
 import { ITrailsRepository } from '../domain/repositories/ITrailsRepository';
 import { IUserTrailsRepository } from '../domain/repositories/IUserTrailsRepository';
 import { ICreateUserTrailRequestDTO } from '../dtos/ICreateUserTrailRequestDTO';

@@ -1,6 +1,6 @@
 import { FakeUserRolesRepository } from '@modules/users/__tests__/fakes/FakeUserRolesRepository';
 import { CreateRoleService } from '@modules/roles/services/CreateRoleService';
-import { IUser } from '@modules/users/domain/entities/IUser';
+import { IUser } from '@modules/users/domain/entities/iuser';
 import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
 import { AppError } from '@shared/errors/AppError';
 import { FakeRolesRepository } from '../fakes/FakeRolesRepository';

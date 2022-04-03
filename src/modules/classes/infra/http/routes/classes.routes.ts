@@ -1,9 +1,9 @@
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
-import { ChangeCompleteUserClassController } from '../controllers/ChangeCompleteUserClassController';
-import { ListClassesController } from '../controllers/ListClassesService';
-import { ShowClassController } from '../controllers/ShowClassController';
+import { ChangeCompleteUserClassController } from '../controllers/change-complete-user-class-controller';
+import { ListClassesController } from '../controllers/list-classes-service';
+import { ShowClassController } from '../controllers/show-class-controller';
 
 const showClassController = new ShowClassController();
 const listClassesController = new ListClassesController();

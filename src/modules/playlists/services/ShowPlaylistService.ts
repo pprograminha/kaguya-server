@@ -1,8 +1,9 @@
 import { AppError } from '@shared/errors/AppError';
 import { inject, injectable } from '@shared/container';
-import { IPlaylist } from '../domain/entities/IPlaylist';
-import { IPlaylistsRepository } from '../domain/repositories/IPlaylistsRepository';
-import { ShowPlaylistRequestDTO } from '../dtos/ShowPlaylistRequestDTO';
+import { Maybe } from '@shared/types/app';
+import { IPlaylist } from '../domain/entities/iplaylist';
+import { IPlaylistsRepository } from '../domain/repositories/iplaylists-repository';
+import { ShowPlaylistRequestDTO } from '../dtos/show-playlist-request-dto';
 
 @injectable()
 class ShowPlaylistService {
@@ -19,7 +20,7 @@ class ShowPlaylistService {
     if (!playlist_id && (!name || !trail_id))
       throw new AppError('Missing parameters', 400);
 
-    let playlist: IPlaylist | undefined;
+    let playlist: Maybe<IPlaylist>;
 
     if (playlist_id) {
       playlist = await this.playlistsRepository.findById(playlist_id);

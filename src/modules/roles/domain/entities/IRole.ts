@@ -1,4 +1,4 @@
-import { IUserRole } from '@modules/users/domain/entities/IUserRole';
+import { IUserRole } from '@modules/users/domain/entities/iuser-role';
 
 export interface IRole {
   id: string;

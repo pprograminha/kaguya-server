@@ -2,7 +2,8 @@ import { IRole } from '@modules/roles/domain/entities/IRole';
 import { IRolesRepository } from '@modules/roles/domain/repositories/IRolesRepository';
 import { ICreateRoleDTO } from '@modules/roles/dtos/ICreateRoleDTO';
 import { prisma } from '@shared/infra/prisma/connection';
-import { v4 as uuid } from 'uuid';
+import { AsyncMaybe } from '@shared/types/app';
+import crypto from 'crypto';
 
 export class PrismaRolesRepository implements IRolesRepository {
   async destroyById(role_id: string): Promise<void> {
@@ -16,14 +17,14 @@ export class PrismaRolesRepository implements IRolesRepository {
   async create(data: ICreateRoleDTO): Promise<IRole> {
     const role = await prisma.role.create({
       data: {
-        id: uuid(),
+        id: crypto.randomUUID(),
         ...data,
       },
     });
     return role as IRole;
   }
 
-  async findByRoleName(name: string): Promise<IRole | undefined> {
+  async findByRoleName(name: string): AsyncMaybe<IRole> {
     const role = await prisma.role.findUnique({
       where: {
         name,
@@ -33,24 +34,24 @@ export class PrismaRolesRepository implements IRolesRepository {
     return role as IRole;
   }
 
-  async findByPermission(permission: number): Promise<IRole | undefined> {
+  async findByPermission(permission: number): AsyncMaybe<IRole> {
     const role = await prisma.role.findUnique({
       where: {
         permission,
       },
     });
 
-    return (role || undefined) as IRole;
+    return role as IRole;
   }
 
-  async findById(role_id: string): Promise<IRole | undefined> {
+  async findById(role_id: string): AsyncMaybe<IRole> {
     const role = await prisma.role.findUnique({
       where: {
         id: role_id,
       },
     });
 
-    return (role || undefined) as IRole;
+    return role as IRole;
   }
 
   async listAllRoles(): Promise<IRole[]> {

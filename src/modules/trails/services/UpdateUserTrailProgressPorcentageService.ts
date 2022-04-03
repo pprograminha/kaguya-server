@@ -1,7 +1,7 @@
-import { IUserPlaylistsRepository } from '@modules/playlists/domain/repositories/IUserPlaylistsRepository';
 import { AppError } from '@shared/errors/AppError';
 import { inject, injectable } from '@shared/container';
-import { IUserTrail } from '../domain/entities/IUserTrail';
+import { IUserPlaylistsRepository } from '@modules/playlists/domain/repositories/iuser-playlists-repository';
+import { IUserTrail } from '../domain/entities/iuser-trail';
 import { IUserTrailsRepository } from '../domain/repositories/IUserTrailsRepository';
 import { IUpdateUserTrailProgressPorcentageRequestDTO } from '../dtos/IUpdateUserTrailProgressPorcentageRequestDTO';
 

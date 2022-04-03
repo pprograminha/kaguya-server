@@ -1,9 +1,9 @@
-import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/IUserBlocksRepository';
-import { IUserClassesRepository } from '@modules/classes/domain/repositories/IUserClassesRepository';
-import { IUserPlaylistsRepository } from '@modules/playlists/domain/repositories/IUserPlaylistsRepository';
-import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
+import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/iuser-blocks-repository';
+import { IUserClassesRepository } from '@modules/classes/domain/repositories/iuser-classes-repository';
+import { IUsersRepository } from '@modules/users/domain/repositories/iusers-repository';
 import { AppError } from '@shared/errors/AppError';
 import { inject, injectable } from '@shared/container';
+import { IUserPlaylistsRepository } from '@modules/playlists/domain/repositories/iuser-playlists-repository';
 import { ITrailsRepository } from '../domain/repositories/ITrailsRepository';
 import { IUserTrailsRepository } from '../domain/repositories/IUserTrailsRepository';
 import { IDestroyUserTrailRequestDTO } from '../dtos/IDestroyUserTrailRequestDTO';
@@ -47,7 +47,7 @@ export class RemoveUserTrailService {
       user_id,
     });
 
-    if (!userTrail) throw new AppError('User Trail does not exist', 400);
+    if (!userTrail) throw new AppError('User Trail does not exist', 429);
 
     await this.userTrailsRepository.removeById(userTrail.id);
 

@@ -1,5 +1,5 @@
 import { UpdateTrailAvatarService } from '@modules/trails/services/UpdateTrailAvatarService';
-import { instanceToInstance } from '@shared/helpers/instanceToInstance';
+import { instanceToInstance } from '@shared/helpers/instance-to-instance';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 

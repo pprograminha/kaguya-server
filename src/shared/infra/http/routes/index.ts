@@ -15,10 +15,13 @@ import { playlistsRouter } from '@modules/playlists/infra/http/routes/playlists.
 import { blocksRouter } from '@modules/blocks/infra/http/routes/blocks.routes';
 import { profileRouter } from '@modules/users/infra/http/routes/profile.routes';
 import { classesRouter } from '@modules/classes/infra/http/routes/classes.routes';
+import { likesRouter } from '@modules/likes/infra/http/routes/likes.routes';
+import { historiesRouter } from '@modules/histories/infra/http/routes/histories.routes';
 
 const router = Router();
 
 router.use('/users', usersRouter);
+router.use('/histories', historiesRouter);
 router.use('/sub-admins', [
   _usersRouter,
   _trailsRouter,
@@ -28,6 +31,7 @@ router.use('/sub-admins', [
   _classesRouter,
 ]);
 router.use('/sessions', sessionsRouter);
+router.use('/likes', likesRouter);
 router.use('/classes', classesRouter);
 router.use('/trails', trailsRouter);
 router.use('/blocks', blocksRouter);

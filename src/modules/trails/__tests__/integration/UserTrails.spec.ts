@@ -2,15 +2,11 @@
  * @jest-environment ./prisma/prisma-environment-jest
  */
 import { app } from '@shared/infra/http/app';
-import { commonsConnection } from '@shared/__tests__/commons';
 import request from 'supertest';
 
 let token: string;
 
 describe('UserTrails', () => {
-  beforeAll(commonsConnection.createConnection);
-  afterAll(commonsConnection.dropConnection);
-
   beforeAll(async () => {
     const sessionsResponse = await request(app)
       .post('/sessions')
@@ -56,7 +52,7 @@ describe('UserTrails', () => {
     expect(response.status).toBe(200);
   });
 
-  it('should be able to list all user trails from user', async () => {
+  it('should be able to delete user trail', async () => {
     const { body: trail } = await request(app)
       .post('/sub-admins/trails')
       .set({
@@ -84,7 +80,7 @@ describe('UserTrails', () => {
         Authorization: `Bearer ${token}`,
       })
       .query({
-        user_trail_id: userTrail.id,
+        trail_id: userTrail.trail_id,
       });
 
     expect(response.status).toBe(200);

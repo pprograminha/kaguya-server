@@ -1,8 +1,9 @@
-import { IUserTrail } from '@modules/trails/domain/entities/IUserTrail';
+import { IUserTrail } from '@modules/trails/domain/entities/iuser-trail';
 import { IUserTrailsRepository } from '@modules/trails/domain/repositories/IUserTrailsRepository';
 import { ICreateUserTrailDTO } from '@modules/trails/dtos/ICreateUserTrailDTO';
 import { IFindUserTrailDTO } from '@modules/trails/dtos/IFindUserTrailDTO';
-import { UserTrail } from '@modules/trails/entities/UserTrail';
+import { UserTrail } from '@modules/trails/entities/user-trail';
+import { AsyncMaybe } from '@shared/types/app';
 
 export class FakeUserTrailsRepository implements IUserTrailsRepository {
   private userTrails: IUserTrail[] = [];
@@ -28,7 +29,7 @@ export class FakeUserTrailsRepository implements IUserTrailsRepository {
   async findUserTrail({
     trail_id,
     user_id,
-  }: IFindUserTrailDTO): Promise<IUserTrail | undefined> {
+  }: IFindUserTrailDTO): AsyncMaybe<IUserTrail> {
     const userTrailFinded = this.userTrails.find(
       userTrail =>
         userTrail.trail_id === trail_id && userTrail.user_id === user_id,
@@ -48,14 +49,20 @@ export class FakeUserTrailsRepository implements IUserTrailsRepository {
   async create(data: ICreateUserTrailDTO): Promise<IUserTrail> {
     const userTrail = new UserTrail();
 
-    Object.assign(userTrail, data);
+    Object.assign(userTrail, {
+      ...data,
+      progress: 0,
+      enabled: true,
+      created_at: new Date(),
+      updated_at: new Date(),
+    });
 
     this.userTrails.push(userTrail);
 
     return userTrail;
   }
 
-  async findById(user_trail_id: string): Promise<IUserTrail | undefined> {
+  async findById(user_trail_id: string): AsyncMaybe<IUserTrail> {
     const userTrail = this.userTrails.find(
       userTrailFind => userTrailFind.id === user_trail_id,
     );

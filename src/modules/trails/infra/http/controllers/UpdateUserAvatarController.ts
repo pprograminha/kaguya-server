@@ -1,5 +1,5 @@
-import { UpdateUserAvatarService } from '@modules/users/services/UpdateUserAvatarService';
-import { instanceToInstance } from '@shared/helpers/instanceToInstance';
+import { UpdateUserAvatarService } from '@modules/users/services/update-user-avatar-service';
+import { instanceToInstance } from '@shared/helpers/instance-to-instance';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 

@@ -1,16 +1,17 @@
-import { IUserTrail } from '@modules/trails/domain/entities/IUserTrail';
+import { IUserTrail } from '@modules/trails/domain/entities/iuser-trail';
 import { IUserTrailsRepository } from '@modules/trails/domain/repositories/IUserTrailsRepository';
 import { ICreateUserTrailDTO } from '@modules/trails/dtos/ICreateUserTrailDTO';
 import { IFindUserTrailDTO } from '@modules/trails/dtos/IFindUserTrailDTO';
-import { IRelationshipsDTO } from '@modules/users/domain/repositories/IUsersRepository';
+import { IRelationshipsDTO } from '@modules/users/domain/repositories/iusers-repository';
 import { prisma } from '@shared/infra/prisma/connection';
-import { v4 as uuid } from 'uuid';
+import { AsyncMaybe } from '@shared/types/app';
+import crypto from 'crypto';
 
 class PrismaUserTrailsRepository implements IUserTrailsRepository {
   async create(data: ICreateUserTrailDTO): Promise<IUserTrail> {
     const userTrail = await prisma.userTrail.create({
       data: {
-        id: uuid(),
+        id: crypto.randomUUID(),
         ...data,
       },
     });
@@ -24,6 +25,7 @@ class PrismaUserTrailsRepository implements IUserTrailsRepository {
         id: userTrail.id,
       },
       data: {
+        enabled: userTrail.enabled,
         progress: userTrail.progress,
         updated_at: new Date(),
       },
@@ -32,7 +34,7 @@ class PrismaUserTrailsRepository implements IUserTrailsRepository {
     return userTrailUpdated as IUserTrail;
   }
 
-  async findById(user_trail_id: string): Promise<IUserTrail | undefined> {
+  async findById(user_trail_id: string): AsyncMaybe<IUserTrail> {
     const userTrail = await prisma.userTrail.findUnique({
       where: {
         id: user_trail_id,
@@ -43,13 +45,13 @@ class PrismaUserTrailsRepository implements IUserTrailsRepository {
       },
     });
 
-    return (userTrail as IUserTrail | null) || undefined;
+    return userTrail as IUserTrail | null;
   }
 
   async findUserTrail({
     trail_id,
     user_id,
-  }: IFindUserTrailDTO): Promise<IUserTrail | undefined> {
+  }: IFindUserTrailDTO): AsyncMaybe<IUserTrail> {
     const userTrail = await prisma.userTrail.findFirst({
       where: {
         trail_id,
@@ -60,7 +62,7 @@ class PrismaUserTrailsRepository implements IUserTrailsRepository {
       },
     });
 
-    return (userTrail as IUserTrail | null) || undefined;
+    return userTrail as IUserTrail | null;
   }
 
   async removeById(user_trail_id: string): Promise<void> {

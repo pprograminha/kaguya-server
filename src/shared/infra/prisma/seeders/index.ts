@@ -1,21 +1,32 @@
-import { v4 as uuid } from 'uuid';
 import { hashSync } from 'bcryptjs';
+import crypto from 'crypto';
 import { prisma } from '../connection';
 
 const main = async () => {
-  const roleId = uuid();
-  const userRoleId = uuid();
-  const userId = uuid();
+  const roleId = crypto.randomUUID();
+  const userRoleId = crypto.randomUUID();
+  const userId = crypto.randomUUID();
 
-  await prisma.user.create({
-    data: {
-      id: userId,
-      name: process.env.ADMIN_NAME || '*****',
-      email: process.env.ADMIN_ACCESS || '******@*****.****',
-      password: hashSync(process.env.ADMIN_PASS || '*****'),
-      username: process.env.ADMIN_USERNAME || '*****',
+  const data = {
+    id: userId,
+    name: process.env.ADMIN_NAME || '*****',
+    email: process.env.ADMIN_ACCESS || '******@*****.****',
+    password: hashSync(process.env.ADMIN_PASS || '*****'),
+    username: process.env.ADMIN_USERNAME || '*****',
+  };
+
+  const user = await prisma.user.findUnique({
+    where: {
+      email: data.email,
     },
   });
+
+  if (user) return;
+
+  await prisma.user.create({
+    data,
+  });
+
   await prisma.role.createMany({
     data: [
       {
@@ -24,12 +35,12 @@ const main = async () => {
         permission: 0,
       },
       {
-        id: uuid(),
+        id: crypto.randomUUID(),
         name: 'sub-admin',
         permission: 1,
       },
       {
-        id: uuid(),
+        id: crypto.randomUUID(),
         name: 'default',
         permission: 2,
       },
@@ -47,4 +58,4 @@ const main = async () => {
 
 main()
   .catch(error => console.error(error))
-  .finally(() => console.log('seeders up!'));
+  .finally(() => console.log('Seeders up!'));

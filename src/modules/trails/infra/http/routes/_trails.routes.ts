@@ -4,7 +4,7 @@ import ensureSubAdministrator from '@modules/users/infra/http/middlewares/ensure
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import multer from 'multer';
-import { CreateTrailController } from '../controllers/CreateTrailController';
+import { CreateTrailController } from '../controllers/create-trail-controller';
 import { DestroyTrailController } from '../controllers/DestroyTrailController';
 import { UpdateTrailAvatarController } from '../controllers/UpdateTrailAvatarController';
 import { UpdateTrailController } from '../controllers/UpdateTrailController';

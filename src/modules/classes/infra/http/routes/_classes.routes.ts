@@ -2,8 +2,8 @@ import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAut
 import ensureSubAdministrator from '@modules/users/infra/http/middlewares/ensureSubAdministrator';
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
-import { CreateClassController } from '../controllers/CreateClassController';
-import { DeleteClassController } from '../controllers/DeleteClassController';
+import { CreateClassController } from '../controllers/create-class-controller';
+import { DeleteClassController } from '../controllers/delete-class-controller';
 
 const _classesRouter = Router();
 
@@ -16,11 +16,7 @@ _classesRouter.post(
   ensureSubAdministrator,
   celebrate({
     [Segments.BODY]: {
-      link: Joi.string()
-        .regex(
-          /^https:\/\/www\.+([A-Za-z]{3,60})+([.com]?)+([/]?)+(([a-zA-Z0-9?!@#$%^&*)(+=._-]{3,60})?)+$/,
-        )
-        .required(),
+      link: Joi.string().required(),
       name: Joi.string().max(100).required(),
       description: Joi.string().max(255).required(),
       block_id: Joi.string().uuid().required(),

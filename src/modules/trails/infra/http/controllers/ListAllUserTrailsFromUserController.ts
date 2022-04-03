@@ -1,4 +1,5 @@
 import { ListAllUserTrailsFromUserService } from '@modules/trails/services/ListAllUserTrailsFromUserService';
+import { instanceToInstance } from '@shared/helpers/instance-to-instance';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -10,11 +11,13 @@ export class ListAllUserTrailsFromUserController {
     );
     const user_logged_id = request.user.id;
 
-    const userTrails = await listAllUserTrailsFromUser.execute({
+    const trails = await listAllUserTrailsFromUser.execute({
       user_id: (user_id as string) || user_logged_id,
-      user: user as unknown as boolean,
+      user: Boolean(user),
     });
 
-    return response.status(200).json(userTrails);
+    return response
+      .status(200)
+      .json(trails.map(trail => instanceToInstance('trail', trail)));
   }
 }

@@ -1,33 +1,34 @@
-import { IUserRole } from '@modules/users/domain/entities/IUserRole';
-import { IUserRolesRepository } from '@modules/users/domain/repositories/IUserRolesRepository';
+import { IUserRole } from '@modules/users/domain/entities/iuser-role';
+import { IUserRolesRepository } from '@modules/users/domain/repositories/iuser-roles-repository';
 import { prisma } from '@shared/infra/prisma/connection';
-import { v4 as uuid } from 'uuid';
+import { AsyncMaybe } from '@shared/types/app';
+import crypto from 'crypto';
 
 export class PrismaUserRolesRepository implements IUserRolesRepository {
-  async findByUserId(user_id: string): Promise<IUserRole | undefined> {
+  async findByUserId(user_id: string): AsyncMaybe<IUserRole> {
     const userRole = await prisma.userRole.findFirst({
       where: {
         user_id,
       },
     });
 
-    return (userRole as IUserRole | null) || undefined;
+    return userRole as IUserRole;
   }
 
-  async findByRoleId(role_id: string): Promise<IUserRole | undefined> {
+  async findByRoleId(role_id: string): AsyncMaybe<IUserRole> {
     const userRole = await prisma.userRole.findFirst({
       where: {
         role_id,
       },
     });
 
-    return (userRole as IUserRole | null) || undefined;
+    return userRole as IUserRole;
   }
 
   async addRoleToUser(user_id: string, role_id: string): Promise<IUserRole> {
     const userRole = await prisma.userRole.create({
       data: {
-        id: uuid(),
+        id: crypto.randomUUID(),
         user_id,
         role_id,
       },

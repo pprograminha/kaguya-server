@@ -1,5 +1,5 @@
-import { IBlock } from '@modules/blocks/domain/entities/IBlock';
-import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
+import { IBlock } from '@modules/blocks/domain/entities/iblock';
+import { IUsersRepository } from '@modules/users/domain/repositories/iusers-repository';
 import { inject, injectable } from '@shared/container';
 import { AppError } from '@shared/errors/AppError';
 import { ITrail } from '../domain/entities/ITrail';
@@ -32,6 +32,7 @@ export class ListAllTrailsService {
     take,
     order = 'asc',
     user_id,
+    get_user_trail = false,
     exclude_my_trails = false,
   }: ListAllTrailsRequestDTO): Promise<ITrail[]> {
     const user = await this.usersRepository.findById(user_id);
@@ -39,6 +40,11 @@ export class ListAllTrailsService {
     if (!user) throw new AppError('User does not exist', 403);
 
     let trails = await this.trailsRepository.findAllTrails({
+      ...(exclude_my_trails
+        ? {
+            except_user_id: user_id,
+          }
+        : {}),
       skip,
       take,
       order,
@@ -56,18 +62,27 @@ export class ListAllTrailsService {
 
       let progress = 0;
 
-      const userTrailFinded = trail.user_trails.find(
+      const findedUserTrail = trail.user_trails.find(
         userTrail =>
           userTrail.user_id === user_id && userTrail.trail_id === trail.id,
       );
 
-      if (userTrailFinded) {
-        progress = userTrailFinded.progress;
+      if (findedUserTrail) {
+        progress = findedUserTrail.progress;
       }
 
       return {
         ...trail,
-        progress,
+        ...(get_user_trail
+          ? {
+              user_trail: findedUserTrail
+                ? {
+                    progress,
+                    enabled: findedUserTrail?.enabled,
+                  }
+                : null,
+            }
+          : {}),
         user_trails: undefined,
         playlists: undefined,
         _count: {
@@ -78,16 +93,6 @@ export class ListAllTrailsService {
         },
       };
     }) as unknown as ITrail[];
-
-    if (exclude_my_trails) {
-      const userTrails = (
-        await this.userTrailsRepository.findAllUserTrails(user.id)
-      ).map(userTrail => userTrail.trail);
-
-      userTrails.forEach(userTrail => {
-        trails = trails.filter(trail => trail.id !== userTrail.id);
-      });
-    }
 
     return trails;
   }

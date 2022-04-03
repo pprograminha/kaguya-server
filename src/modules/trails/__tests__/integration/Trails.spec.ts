@@ -3,16 +3,12 @@
  */
 import { ITrail } from '@modules/trails/domain/entities/ITrail';
 import { app } from '@shared/infra/http/app';
-import { commonsConnection } from '@shared/__tests__/commons';
 import request from 'supertest';
 
 let token: string;
 let trail: ITrail;
 
 describe('Trails', () => {
-  beforeAll(commonsConnection.createConnection);
-  afterAll(commonsConnection.dropConnection);
-
   beforeAll(async () => {
     const sessionsResponse = await request(app)
       .post('/sessions')

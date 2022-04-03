@@ -1,4 +1,6 @@
+import { FindAllTrailsDTO } from '@modules/trails/dtos/FindAllTrailsDTO';
 import { ICreateTrailDTO } from '@modules/trails/dtos/ICreateTrailDTO';
+import { AsyncMaybe } from '@shared/types/app';
 import { ITrail } from '../entities/ITrail';
 
 export type FiltersDTO = {
@@ -9,12 +11,9 @@ export type FiltersDTO = {
 interface ITrailsRepository {
   create(data: ICreateTrailDTO): Promise<ITrail>;
   save(trail: ITrail): Promise<ITrail>;
-  findById(
-    trail_id: string,
-    relationship?: boolean,
-  ): Promise<ITrail | undefined>;
-  findByName(name: string): Promise<ITrail | undefined>;
+  findById(trail_id: string, relationship?: boolean): AsyncMaybe<ITrail>;
+  findByName(name: string): AsyncMaybe<ITrail>;
   destroyById(trail_id: string): Promise<void>;
-  findAllTrails(filters?: FiltersDTO): Promise<ITrail[]>;
+  findAllTrails(data?: FindAllTrailsDTO): Promise<ITrail[]>;
 }
 export { ITrailsRepository };

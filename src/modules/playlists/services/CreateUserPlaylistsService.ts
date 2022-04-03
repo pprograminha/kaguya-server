@@ -1,16 +1,16 @@
-import { IBlocksRepository } from '@modules/blocks/domain/repositories/IBlocksRepository';
-import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/IUserBlocksRepository';
-import { IClassesRepository } from '@modules/classes/domain/repositories/IClassesRepository';
-import { IUserClassesRepository } from '@modules/classes/domain/repositories/IUserClassesRepository';
+import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/iuser-blocks-repository';
+import { IUserClassesRepository } from '@modules/classes/domain/repositories/iuser-classes-repository';
 import { ITrailsRepository } from '@modules/trails/domain/repositories/ITrailsRepository';
 import { IUserTrailsRepository } from '@modules/trails/domain/repositories/IUserTrailsRepository';
-import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
+import { IUsersRepository } from '@modules/users/domain/repositories/iusers-repository';
 import { AppError } from '@shared/errors/AppError';
 import { inject, injectable } from '@shared/container';
-import { IUserPlaylist } from '../domain/entities/IUserPlaylist';
-import { IPlaylistsRepository } from '../domain/repositories/IPlaylistsRepository';
-import { IUserPlaylistsRepository } from '../domain/repositories/IUserPlaylistsRepository';
-import { ICreateUserPlaylistsRequestDTO } from '../dtos/ICreateUserPlaylistsRequestDTO';
+import { IBlocksRepository } from '@modules/blocks/domain/repositories/iblocks-repository';
+import { IClassesRepository } from '@modules/classes/domain/repositories/iclasses-repository';
+import { IUserPlaylist } from '../domain/entities/iuser-playlist';
+import { IPlaylistsRepository } from '../domain/repositories/iplaylists-repository';
+import { IUserPlaylistsRepository } from '../domain/repositories/iuser-playlists-repository';
+import { CreateUserPlaylistsRequestDTO } from '../dtos/create-user-playlists-request-dto';
 
 @injectable()
 class CreateUserPlaylistsService {
@@ -46,7 +46,7 @@ class CreateUserPlaylistsService {
   async execute({
     trail_id,
     user_id,
-  }: ICreateUserPlaylistsRequestDTO): Promise<IUserPlaylist[]> {
+  }: CreateUserPlaylistsRequestDTO): Promise<IUserPlaylist[]> {
     const user = await this.usersRepository.findById(user_id);
     const trail = await this.trailsRepository.findById(trail_id);
 

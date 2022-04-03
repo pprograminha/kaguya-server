@@ -1,8 +1,8 @@
 import { FiltersDTO } from '@modules/trails/domain/repositories/ITrailsRepository';
-import { IUser } from '@modules/users/domain/entities/IUser';
+import { IUser } from '@modules/users/domain/entities/iuser';
 import { ICreateUserRequestDTO } from '@modules/users/dtos/ICreateUserRequestDTO';
-import { CreateUserService } from '@modules/users/services/CreateUserService';
-import { ListAllUsersService } from '@modules/users/services/ListAllUsersService';
+import { CreateUserService } from '@modules/users/services/create-user-service';
+import { ListAllUsersService } from '@modules/users/services/list-all-users-service';
 import { container } from 'tsyringe';
 
 type GraphQLCreateUser = {

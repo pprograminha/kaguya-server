@@ -1,7 +1,8 @@
 import { IRole } from '@modules/roles/domain/entities/IRole';
 import { IRolesRepository } from '@modules/roles/domain/repositories/IRolesRepository';
 import { ICreateRoleDTO } from '@modules/roles/dtos/ICreateRoleDTO';
-import { v4 as uuid } from 'uuid';
+import { AsyncMaybe } from '@shared/types/app';
+import crypto from 'crypto';
 import { Role } from '../../entities/Role';
 
 class FakeRolesRepository implements IRolesRepository {
@@ -19,7 +20,7 @@ class FakeRolesRepository implements IRolesRepository {
     const userRole = new Role();
 
     Object.assign(userRole, {
-      id: uuid(),
+      id: crypto.randomUUID(),
       permission,
       name,
     });
@@ -29,19 +30,19 @@ class FakeRolesRepository implements IRolesRepository {
     return userRole;
   }
 
-  async findByRoleName(name: string): Promise<IRole | undefined> {
+  async findByRoleName(name: string): AsyncMaybe<IRole> {
     const role = this.roles.find(roleFind => roleFind.name === name);
 
     return role;
   }
 
-  async findById(role_id: string): Promise<IRole | undefined> {
+  async findById(role_id: string): AsyncMaybe<IRole> {
     const role = this.roles.find(roleFind => roleFind.id === role_id);
 
     return role;
   }
 
-  async findByPermission(role_permission: number): Promise<IRole | undefined> {
+  async findByPermission(role_permission: number): AsyncMaybe<IRole> {
     const role = this.roles.find(
       roleFind => roleFind.permission === role_permission,
     );

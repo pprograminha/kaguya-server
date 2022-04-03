@@ -1,6 +1,7 @@
-import { IBlock } from '@modules/blocks/domain/entities/IBlock';
-import { AppError } from '@shared/errors/AppError';
+import { IBlock } from '@modules/blocks/domain/entities/iblock';
 import { inject, injectable } from '@shared/container';
+import { AppError } from '@shared/errors/AppError';
+import { Maybe } from '@shared/types/app';
 import { ITrail } from '../domain/entities/ITrail';
 import { ITrailsRepository } from '../domain/repositories/ITrailsRepository';
 import { ShowTrailRequestDTO } from '../dtos/ShowTrailRequestDTO';
@@ -18,7 +19,10 @@ type Response = {
   name: string;
   description: string;
   avatar: string;
-  progress: number;
+  user_trail: {
+    progress: number;
+    enabled: boolean;
+  } | null;
   created_at: Date;
   updated_at: Date;
 } & Count;
@@ -38,7 +42,7 @@ class ShowTrailService {
     if (!trail_id && !name)
       throw new AppError('Trail id or name is required', 400);
 
-    let trail: ITrail | undefined;
+    let trail: Maybe<ITrail>;
 
     if (trail_id) trail = await this.trailsRepository.findById(trail_id);
     else trail = await this.trailsRepository.findByName(name as string);
@@ -57,13 +61,13 @@ class ShowTrailService {
     );
 
     let progress = 0;
-    const userTrailFinded = trail.user_trails.find(
+    const findedUserTrail = trail.user_trails.find(
       userTrail =>
         userTrail.user_id === user_id && userTrail.trail_id === trail?.id,
     );
 
-    if (userTrailFinded) {
-      progress = userTrailFinded.progress;
+    if (findedUserTrail) {
+      progress = findedUserTrail.progress;
     }
 
     return {
@@ -71,7 +75,12 @@ class ShowTrailService {
       name: trail.name,
       description: trail.description,
       avatar: trail.avatar,
-      progress,
+      user_trail: findedUserTrail
+        ? {
+            progress,
+            enabled: findedUserTrail.enabled,
+          }
+        : null,
       _count: {
         playlists: (trail as ITrail & Count)._count.playlists,
         users: (trail as any)._count.user_trails,

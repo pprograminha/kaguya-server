@@ -1,13 +1,14 @@
 import { FiltersDTO } from '@modules/trails/domain/repositories/ITrailsRepository';
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
-import { User } from '@modules/users/entities/User';
-import { IUser } from '../../domain/entities/IUser';
+import { User } from '@modules/users/entities/user';
+import { AsyncMaybe } from '@shared/types/app';
+import { IUser } from '../../domain/entities/iuser';
 import {
   FindAllUsersAssociatedWithTheBlockDTO,
   FindAllUsersAssociatedWithThePlaylistDTO,
   FindAllUsersAssociatedWithTheTrailDTO,
   IUsersRepository,
-} from '../../domain/repositories/IUsersRepository';
+} from '../../domain/repositories/iusers-repository';
 
 class FakeUsersRepository implements IUsersRepository {
   private users: IUser[] = [];
@@ -48,7 +49,7 @@ class FakeUsersRepository implements IUsersRepository {
     return users;
   }
 
-  async findByUsername(username: string): Promise<IUser | undefined> {
+  async findByUsername(username: string): AsyncMaybe<IUser> {
     const userFinded = this.users.find(user => user.username === username);
 
     return userFinded;
@@ -80,12 +81,12 @@ class FakeUsersRepository implements IUsersRepository {
     return user;
   }
 
-  async findByEmail(email: string): Promise<IUser | undefined> {
+  async findByEmail(email: string): AsyncMaybe<IUser> {
     const user = this.users.find(findUser => findUser.email === email);
     return user;
   }
 
-  async findById(id: string | number): Promise<IUser | undefined> {
+  async findById(id: string | number): AsyncMaybe<IUser> {
     const user = this.users.find(findUser => findUser.id === id);
     return user;
   }

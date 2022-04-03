@@ -1,6 +1,6 @@
 import { IRole } from '@modules/roles/domain/entities/IRole';
-import { IUserRole } from '@modules/users/domain/entities/IUserRole';
-import { v4 as uuid } from 'uuid';
+import { IUserRole } from '@modules/users/domain/entities/iuser-role';
+import crypto from 'crypto';
 
 export class Role implements IRole {
   id: string;
@@ -16,6 +16,6 @@ export class Role implements IRole {
   updated_at: Date;
 
   constructor() {
-    if (!this.id) this.id = uuid();
+    this.id = crypto.randomUUID();
   }
 }

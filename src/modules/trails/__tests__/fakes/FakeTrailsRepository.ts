@@ -1,12 +1,13 @@
 import { ITrail } from '@modules/trails/domain/entities/ITrail';
 import { ITrailsRepository } from '@modules/trails/domain/repositories/ITrailsRepository';
 import { ICreateTrailDTO } from '@modules/trails/dtos/ICreateTrailDTO';
-import { Trail } from '@modules/trails/entities/Trail';
+import { Trail } from '@modules/trails/entities/trail';
+import { AsyncMaybe } from '@shared/types/app';
 
 export class FakeTrailsRepository implements ITrailsRepository {
   private trails: ITrail[] = [];
 
-  async findByName(name: string): Promise<ITrail | undefined> {
+  async findByName(name: string): AsyncMaybe<ITrail> {
     const trail = this.trails.find(trailFind => trailFind.name === name);
 
     return trail;
@@ -42,7 +43,7 @@ export class FakeTrailsRepository implements ITrailsRepository {
     return trail;
   }
 
-  async findById(trail_id: string): Promise<ITrail | undefined> {
+  async findById(trail_id: string): AsyncMaybe<ITrail> {
     const trail = this.trails.find(trailFind => trailFind.id === trail_id);
 
     return trail;

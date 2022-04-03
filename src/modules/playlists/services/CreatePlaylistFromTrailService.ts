@@ -1,11 +1,11 @@
 import { ITrailsRepository } from '@modules/trails/domain/repositories/ITrailsRepository';
-import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
+import { IUsersRepository } from '@modules/users/domain/repositories/iusers-repository';
 import { AppError } from '@shared/errors/AppError';
 import { inject, injectable } from '@shared/container';
-import { IPlaylist } from '../domain/entities/IPlaylist';
-import { IPlaylistsRepository } from '../domain/repositories/IPlaylistsRepository';
-import { IUserPlaylistsRepository } from '../domain/repositories/IUserPlaylistsRepository';
-import { CreatePlaylistFromTrailRequestDTO } from '../dtos/CreatePlaylistFromTrailRequestDTO';
+import { IPlaylist } from '../domain/entities/iplaylist';
+import { IPlaylistsRepository } from '../domain/repositories/iplaylists-repository';
+import { IUserPlaylistsRepository } from '../domain/repositories/iuser-playlists-repository';
+import { CreatePlaylistFromTrailRequestDTO } from '../dtos/create-playlist-from-trail-request-dto';
 
 @injectable()
 class CreatePlaylistFromTrailService {
@@ -46,15 +46,15 @@ class CreatePlaylistFromTrailService {
       },
     );
 
-    const userBlockPromises = users.map(async user => {
-      await this.userPlaylistsRepository.create({
+    const userPlaylistPromises = users.map(user =>
+      this.userPlaylistsRepository.create({
         user_id: user.id,
         trail_id: trail.id,
         playlist_id: playlist.id,
-      });
-    });
+      }),
+    );
 
-    await Promise.all(userBlockPromises);
+    await Promise.all(userPlaylistPromises);
 
     return playlist;
   }

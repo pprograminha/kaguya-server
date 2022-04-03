@@ -2,16 +2,17 @@ import { FakeTrailsRepository } from '@modules/trails/__tests__/fakes/FakeTrails
 import { RemoveUserTrailService } from '@modules/trails/services/RemoveUserTrailService';
 import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
 import { AppError } from '@shared/errors/AppError';
-import { FakeUserPlaylistsRepository } from '@modules/playlists/__tests__/fakes/FakeUserPlaylistsRepository';
-import { FakeUserBlocksRepository } from '@modules/blocks/__tests__/fakes/FakeUserBlocksRepository';
-import { FakeUserClassesRepository } from '@modules/classes/__tests__/fakes/FakeUserClassesRepository';
+import { InMemoryUserPlaylistsRepository } from '@modules/playlists/__tests__/in-memory/in-memory-user-playlists-repository';
+
+import { InMemoryUserClassesRepository } from '@modules/classes/__tests__/in-memory/in-memory-user-classes-repository';
+import { InMemoryUserBlocksRepository } from '@modules/blocks/__tests__/in-memory/in-memory-user-blocks-repository';
 import { FakeUserTrailsRepository } from '../fakes/FakeUserTrailsRepository';
 
 let fakeUserTrailsRepository: FakeUserTrailsRepository;
-let fakeUserPlaylistsRepository: FakeUserPlaylistsRepository;
-let fakeUserBlocksRepository: FakeUserBlocksRepository;
+let inMemoryUserPlaylistsRepository: InMemoryUserPlaylistsRepository;
+let inMemoryUserBlocksRepository: InMemoryUserBlocksRepository;
 let fakeUsersRepository: FakeUsersRepository;
-let fakeUserClassesRepository: FakeUserClassesRepository;
+let inMemoryUserClassesRepository: InMemoryUserClassesRepository;
 let fakeTrailsRepository: FakeTrailsRepository;
 
 let removeUserTrail: RemoveUserTrailService;
@@ -19,18 +20,18 @@ let removeUserTrail: RemoveUserTrailService;
 describe('RemoveUserTrail', () => {
   beforeEach(() => {
     fakeUserTrailsRepository = new FakeUserTrailsRepository();
-    fakeUserPlaylistsRepository = new FakeUserPlaylistsRepository();
+    inMemoryUserPlaylistsRepository = new InMemoryUserPlaylistsRepository();
     fakeTrailsRepository = new FakeTrailsRepository();
-    fakeUserBlocksRepository = new FakeUserBlocksRepository();
-    fakeUserClassesRepository = new FakeUserClassesRepository();
+    inMemoryUserBlocksRepository = new InMemoryUserBlocksRepository();
+    inMemoryUserClassesRepository = new InMemoryUserClassesRepository();
     fakeUsersRepository = new FakeUsersRepository();
 
     removeUserTrail = new RemoveUserTrailService(
       fakeUserTrailsRepository,
-      fakeUserPlaylistsRepository,
+      inMemoryUserPlaylistsRepository,
       fakeTrailsRepository,
-      fakeUserBlocksRepository,
-      fakeUserClassesRepository,
+      inMemoryUserBlocksRepository,
+      inMemoryUserClassesRepository,
       fakeUsersRepository,
     );
   });

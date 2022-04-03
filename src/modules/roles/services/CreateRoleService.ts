@@ -1,6 +1,6 @@
 import { IRole } from '@modules/roles/domain/entities/IRole';
 import { ICreateRoleRequestDTO } from '@modules/roles/dtos/ICreateRoleRequestDTO';
-import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
+import { IUsersRepository } from '@modules/users/domain/repositories/iusers-repository';
 import { AppError } from '@shared/errors/AppError';
 import { inject, injectable } from '@shared/container';
 import { IRolesRepository } from '../domain/repositories/IRolesRepository';

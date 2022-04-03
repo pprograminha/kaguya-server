@@ -1,8 +1,8 @@
 import { ITrail } from '@modules/trails/domain/entities/ITrail';
-import { IUser } from '@modules/users/domain/entities/IUser';
-import { v4 as uuid } from 'uuid';
-import { IPlaylist } from '../domain/entities/IPlaylist';
-import { IUserPlaylist } from '../domain/entities/IUserPlaylist';
+import { IUser } from '@modules/users/domain/entities/iuser';
+import crypto from 'crypto';
+import { IPlaylist } from '../domain/entities/iplaylist';
+import { IUserPlaylist } from '../domain/entities/iuser-playlist';
 
 class UserPlaylist implements IUserPlaylist {
   id: string;
@@ -26,9 +26,7 @@ class UserPlaylist implements IUserPlaylist {
   updated_at: Date;
 
   constructor() {
-    if (!this.id) {
-      this.id = uuid();
-    }
+    this.id = crypto.randomUUID();
   }
 }
 export { UserPlaylist };

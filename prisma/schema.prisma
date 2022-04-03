@@ -19,11 +19,15 @@ model User {
   user_trails UserTrail[]
   user_classes UserClass[]
   user_blocks UserBlock[]
+  likes Like[]
+  dislikes DisLike[]
+  views View[]
+  histories History[]
   username String @unique
   enabled Boolean @default(true)
   password String
   created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("users")
 }
@@ -35,7 +39,7 @@ model UserRole {
   role    Role    @relation(fields: [role_id], references: [id], onDelete: Cascade)
   role_id String
   created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("user_roles")
 }
@@ -46,7 +50,7 @@ model Role {
   user_roles  UserRole[]
   permission Int  @unique
   created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("roles")
 }
@@ -58,8 +62,9 @@ model UserTrail {
   trail Trail @relation(fields: [trail_id], references: [id], onDelete: Cascade)
   progress Int @default(0)
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  enabled Boolean @default(true)
   created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("user_trails")
 }
@@ -73,7 +78,7 @@ model Trail {
   user_playlists UserPlaylist[]
   avatar String?
   created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("trails")
 }
@@ -89,7 +94,7 @@ model Playlist {
   trail Trail @relation(fields: [trail_id], references: [id], onDelete: Cascade)
   user_playlists UserPlaylist[]
   created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("playlists")
 }
@@ -104,7 +109,7 @@ model UserPlaylist {
   user User @relation(fields:[user_id], references: [id], onDelete: Cascade)
   playlist Playlist @relation(fields:[playlist_id], references: [id], onDelete: Cascade)
   created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  updated_at DateTime @updatedAt
   @@map("user_playlists")
 }
 
@@ -117,8 +122,12 @@ model Class {
   block_id String
   articles Article[]
   user_classes UserClass[]
+  dislikes DisLike[]
+  likes Like[]
+  views View[]
+  histories History[]
   created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("classes")
 }
@@ -133,7 +142,7 @@ model UserClass {
   class_id String
   class Class @relation(fields: [class_id], references: [id], onDelete: Cascade)
   created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("user_classes")
 }
@@ -147,7 +156,7 @@ model Block {
   user_classes UserClass[]
   user_blocks UserBlock[]
   created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("blocks")
 }
@@ -162,9 +171,57 @@ model UserBlock {
   block_id String
   block Block @relation(fields: [block_id], references: [id], onDelete: Cascade)
   created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("user_blocks")
+}
+
+model Like {
+  id String @id
+  user_id String
+  user User @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  class_id String
+  class Class @relation(fields: [class_id], references: [id], onDelete: Cascade)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("likes")
+}
+
+model View {
+  id String @id
+  user_id String
+  user User @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  class_id String
+  class Class @relation(fields: [class_id], references: [id], onDelete: Cascade)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("views")
+}
+
+model DisLike {
+  id String @id
+  user_id String
+  user User @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  class_id String
+  class Class @relation(fields: [class_id], references: [id], onDelete: Cascade)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("dislikes")
+}
+
+model History {
+  id String @id
+  user_id String
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  class Class @relation(fields: [class_id], references: [id], onDelete: Cascade)
+  class_id String
+  recent_at DateTime @default(now())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  @@map("histories")
 }
 
 model Article {
@@ -174,7 +231,7 @@ model Article {
   class Class @relation(fields: [class_id], references: [id], onDelete: Cascade)
   class_id String
   created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("articles")
 }

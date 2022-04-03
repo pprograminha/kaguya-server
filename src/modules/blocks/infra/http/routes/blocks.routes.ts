@@ -1,8 +1,8 @@
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
-import { ListAllBlocksFromPlaylistController } from '../controllers/ListAllBlocksFromPlaylistController';
-import { ShowBlockController } from '../controllers/ShowBlockController';
+import { ListAllBlocksFromPlaylistController } from '../controllers/list-all-blocks-from-playlist-controller';
+import { ShowBlockController } from '../controllers/show-block-controller';
 
 const blocksRouter = Router();
 

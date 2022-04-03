@@ -1,6 +1,6 @@
 /* eslint-disable */
 const NodeEnvironment = require("jest-environment-node");
-const { v4: uuid } = require("uuid");
+const crypto = require("crypto");
 const { execSync } = require("child_process");
 const { resolve } = require("path");
 const { Client } = require("pg");
@@ -15,7 +15,7 @@ class CustomEnvironment extends NodeEnvironment {
   constructor(config) {
     super(config);
 
-    this.schema = `schema_${uuid()}`;
+    this.schema = `schema_${crypto.randomUUID()}`;
 
     console.log("schemas", this.schema);
 

@@ -1,7 +1,7 @@
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
-import { CreateUserController } from '../controllers/CreateUserController';
-import { ListAllUsersController } from '../controllers/ListAllUsersController';
+import { CreateUserController } from '../controllers/create-user-controller';
+import { ListAllUsersController } from '../controllers/list-all-users-controller';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 import ensureSubAdministrator from '../middlewares/ensureSubAdministrator';
 

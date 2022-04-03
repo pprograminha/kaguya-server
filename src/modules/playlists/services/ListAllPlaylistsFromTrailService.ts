@@ -1,8 +1,8 @@
 import { ITrailsRepository } from '@modules/trails/domain/repositories/ITrailsRepository';
 import { AppError } from '@shared/errors/AppError';
 import { inject, injectable } from '@shared/container';
-import { IPlaylist } from '../domain/entities/IPlaylist';
-import { IPlaylistsRepository } from '../domain/repositories/IPlaylistsRepository';
+import { IPlaylist } from '../domain/entities/iplaylist';
+import { IPlaylistsRepository } from '../domain/repositories/iplaylists-repository';
 
 @injectable()
 class ListAllPlaylistsFromTrailService {

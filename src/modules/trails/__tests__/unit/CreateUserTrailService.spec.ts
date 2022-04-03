@@ -3,23 +3,27 @@ import { CreateUserTrailService } from '@modules/trails/services/CreateUserTrail
 import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
 import { AppError } from '@shared/errors/AppError';
 import { CreateUserPlaylistsService } from '@modules/playlists/services/CreateUserPlaylistsService';
-import { FakeUserPlaylistsRepository } from '@modules/playlists/__tests__/fakes/FakeUserPlaylistsRepository';
-import { FakePlaylistsRepository } from '@modules/playlists/__tests__/fakes/FakePlaylistsRepository';
-import { FakeBlocksRepository } from '@modules/blocks/__tests__/fakes/FakeBlocksRepository';
-import { FakeUserBlocksRepository } from '@modules/blocks/__tests__/fakes/FakeUserBlocksRepository';
-import { FakeClassesRepository } from '@modules/classes/__tests__/fakes/FakeClassesRepository';
-import { FakeUserClassesRepository } from '@modules/classes/__tests__/fakes/FakeUserClassesRepository';
+
+import { InMemoryBlocksRepository } from '@modules/blocks/__tests__/in-memory/in-memory-blocks-repository';
+
+import { InMemoryClassesRepository } from '@modules/classes/__tests__/in-memory/in-memory-classes-repository';
+import { InMemoryUserClassesRepository } from '@modules/classes/__tests__/in-memory/in-memory-user-classes-repository';
+
+import { InMemoryUserBlocksRepository } from '@modules/blocks/__tests__/in-memory/in-memory-user-blocks-repository';
+
+import { InMemoryUserPlaylistsRepository } from '@modules/playlists/__tests__/in-memory/in-memory-user-playlists-repository';
+import { InMemoryPlaylistsRepository } from '@modules/playlists/__tests__/in-memory/in-memory-playlists-repository';
 import { FakeUserTrailsRepository } from '../fakes/FakeUserTrailsRepository';
 
 let fakeTrailsRepository: FakeTrailsRepository;
 let fakeUserTrailsRepository: FakeUserTrailsRepository;
 let fakeUsersRepository: FakeUsersRepository;
-let fakeUserPlaylistsRepository: FakeUserPlaylistsRepository;
-let fakePlaylistsRepository: FakePlaylistsRepository;
-let fakeBlocksRepository: FakeBlocksRepository;
-let fakeUserBlocksRepository: FakeUserBlocksRepository;
-let fakeClassesRepository: FakeClassesRepository;
-let fakeUserClassesRepository: FakeUserClassesRepository;
+let inMemoryUserPlaylistsRepository: InMemoryUserPlaylistsRepository;
+let inMemoryPlaylistsRepository: InMemoryPlaylistsRepository;
+let inMemoryBlocksRepository: InMemoryBlocksRepository;
+let inMemoryUserBlocksRepository: InMemoryUserBlocksRepository;
+let inMemoryClassesRepository: InMemoryClassesRepository;
+let inMemoryUserClassesRepository: InMemoryUserClassesRepository;
 
 let createUserTrail: CreateUserTrailService;
 let createUserPlaylistsService: CreateUserPlaylistsService;
@@ -28,24 +32,24 @@ describe('CreateUserTrail', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeUserTrailsRepository = new FakeUserTrailsRepository();
-    fakeUserPlaylistsRepository = new FakeUserPlaylistsRepository();
-    fakePlaylistsRepository = new FakePlaylistsRepository();
+    inMemoryUserPlaylistsRepository = new InMemoryUserPlaylistsRepository();
+    inMemoryPlaylistsRepository = new InMemoryPlaylistsRepository();
     fakeTrailsRepository = new FakeTrailsRepository();
-    fakeBlocksRepository = new FakeBlocksRepository();
-    fakeUserBlocksRepository = new FakeUserBlocksRepository();
-    fakeClassesRepository = new FakeClassesRepository();
-    fakeUserClassesRepository = new FakeUserClassesRepository();
+    inMemoryBlocksRepository = new InMemoryBlocksRepository();
+    inMemoryUserBlocksRepository = new InMemoryUserBlocksRepository();
+    inMemoryClassesRepository = new InMemoryClassesRepository();
+    inMemoryUserClassesRepository = new InMemoryUserClassesRepository();
 
     createUserPlaylistsService = new CreateUserPlaylistsService(
       fakeUsersRepository,
       fakeUserTrailsRepository,
-      fakeUserPlaylistsRepository,
-      fakePlaylistsRepository,
+      inMemoryUserPlaylistsRepository,
+      inMemoryPlaylistsRepository,
       fakeTrailsRepository,
-      fakeBlocksRepository,
-      fakeUserBlocksRepository,
-      fakeClassesRepository,
-      fakeUserClassesRepository,
+      inMemoryBlocksRepository,
+      inMemoryUserBlocksRepository,
+      inMemoryClassesRepository,
+      inMemoryUserClassesRepository,
     );
 
     createUserTrail = new CreateUserTrailService(

@@ -1,10 +1,10 @@
 import { ITrailsRepository } from '@modules/trails/domain/repositories/ITrailsRepository';
-import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
+import { IUsersRepository } from '@modules/users/domain/repositories/iusers-repository';
 import { AppError } from '@shared/errors/AppError';
 import { inject, injectable } from '@shared/container';
-import { IUserPlaylist } from '../domain/entities/IUserPlaylist';
-import { IUserPlaylistsRepository } from '../domain/repositories/IUserPlaylistsRepository';
-import { IListAllUserPlaylistsFromTrailRequestDTO } from '../dtos/IListAllUserPlaylistsFromTrailRequestDTO';
+import { IUserPlaylist } from '../domain/entities/iuser-playlist';
+import { IUserPlaylistsRepository } from '../domain/repositories/iuser-playlists-repository';
+import { ListAllUserPlaylistsFromTrailRequestDTO } from '../dtos/list-all-user-playlists-from-trail-request-dto';
 
 @injectable()
 class ListAllUserPlaylistsFromTrailService {
@@ -22,7 +22,7 @@ class ListAllUserPlaylistsFromTrailService {
   async execute({
     trail_id,
     user_id,
-  }: IListAllUserPlaylistsFromTrailRequestDTO): Promise<IUserPlaylist[]> {
+  }: ListAllUserPlaylistsFromTrailRequestDTO): Promise<IUserPlaylist[]> {
     const user = await this.usersRepository.findById(user_id);
     const trail = await this.trailsRepository.findById(trail_id);
 

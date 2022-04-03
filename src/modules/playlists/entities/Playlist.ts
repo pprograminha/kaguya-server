@@ -1,8 +1,8 @@
-import { IBlock } from '@modules/blocks/domain/entities/IBlock';
+import { IBlock } from '@modules/blocks/domain/entities/iblock';
 import { ITrail } from '@modules/trails/domain/entities/ITrail';
-import { v4 as uuid } from 'uuid';
-import { IPlaylist } from '../domain/entities/IPlaylist';
-import { IUserPlaylist } from '../domain/entities/IUserPlaylist';
+import crypto from 'crypto';
+import { IPlaylist } from '../domain/entities/iplaylist';
+import { IUserPlaylist } from '../domain/entities/iuser-playlist';
 
 class Playlist implements IPlaylist {
   id: string;
@@ -26,9 +26,7 @@ class Playlist implements IPlaylist {
   updated_at: Date;
 
   constructor() {
-    if (!this.id) {
-      this.id = uuid();
-    }
+    this.id = crypto.randomUUID();
   }
 }
 export { Playlist };

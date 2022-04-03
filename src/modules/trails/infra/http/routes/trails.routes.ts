@@ -18,6 +18,7 @@ trailsRouter.get(
       take: Joi.number(),
       order: Joi.string().regex(/(asc|desc)/),
       exclude_my_trails: Joi.boolean(),
+      get_user_trail: Joi.boolean(),
     },
   }),
   listAllTrailsController.handle,

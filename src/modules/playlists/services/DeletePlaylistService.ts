@@ -1,6 +1,6 @@
 import { AppError } from '@shared/errors/AppError';
 import { inject, injectable } from '@shared/container';
-import { IPlaylistsRepository } from '../domain/repositories/IPlaylistsRepository';
+import { IPlaylistsRepository } from '../domain/repositories/iplaylists-repository';
 
 @injectable()
 class DeletePlaylistService {

@@ -2,8 +2,8 @@ import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAut
 import ensureSubAdministrator from '@modules/users/infra/http/middlewares/ensureSubAdministrator';
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
-import { CreateBlockController } from '../controllers/CreateBlockController';
-import { DeleteBlockController } from '../controllers/DeleteBlockController';
+import { CreateBlockController } from '../controllers/create-block-controller';
+import { DeleteBlockController } from '../controllers/delete-block-controller';
 
 const _blocksRouter = Router();
 

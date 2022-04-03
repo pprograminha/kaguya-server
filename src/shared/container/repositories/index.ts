@@ -1,15 +1,22 @@
-import { IBlocksRepository } from '@modules/blocks/domain/repositories/IBlocksRepository';
-import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/IUserBlocksRepository';
-import { PrismaBlocksRepository } from '@modules/blocks/infra/prisma/PrismaBlocksRepository';
-import { PrismaUserBlocksRepository } from '@modules/blocks/infra/prisma/PrismaUserBlocksRepository';
-import { IClassesRepository } from '@modules/classes/domain/repositories/IClassesRepository';
-import { IUserClassesRepository } from '@modules/classes/domain/repositories/IUserClassesRepository';
-import { PrismaClassesRepository } from '@modules/classes/infra/prisma/PrismaClassesRepository';
-import { PrismaUserClassesRepository } from '@modules/classes/infra/prisma/PrismaUserClassesRepository';
-import { IPlaylistsRepository } from '@modules/playlists/domain/repositories/IPlaylistsRepository';
-import { IUserPlaylistsRepository } from '@modules/playlists/domain/repositories/IUserPlaylistsRepository';
-import { PrismaPlaylistsRepository } from '@modules/playlists/infra/prisma/PrismaPlaylistsRepository';
-import { PrismaUserPlaylistsRepository } from '@modules/playlists/infra/prisma/PrismaUserPlaylistsRepository';
+import { IBlocksRepository } from '@modules/blocks/domain/repositories/iblocks-repository';
+import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/iuser-blocks-repository';
+import { PrismaBlocksRepository } from '@modules/blocks/infra/prisma/prisma-blocks-repository';
+import { PrismaUserBlocksRepository } from '@modules/blocks/infra/prisma/prisma-user-blocks-repository';
+import { IClassesRepository } from '@modules/classes/domain/repositories/iclasses-repository';
+import { IUserClassesRepository } from '@modules/classes/domain/repositories/iuser-classes-repository';
+import { IViewsRepository } from '@modules/classes/domain/repositories/iviews-repository';
+import { PrismaClassesRepository } from '@modules/classes/infra/prisma/prisma-classes-repository';
+import { PrismaUserClassesRepository } from '@modules/classes/infra/prisma/prisma-user-classes-repository';
+import { IHistoriesRepository } from '@modules/histories/domain/repositories/ihistories-repository';
+import { PrismaHistoriesRepository } from '@modules/histories/infra/prisma/prisma-histories-repository';
+import { IDislikesRepository } from '@modules/likes/domain/repositories/idislikes-repository';
+import { ILikesRepository } from '@modules/likes/domain/repositories/ilikes-repository';
+import { PrismaDislikesRepository } from '@modules/likes/infra/prisma/prisma-dislikes-repository';
+import { PrismaLikesRepository } from '@modules/likes/infra/prisma/prisma-likes-repository';
+import { IPlaylistsRepository } from '@modules/playlists/domain/repositories/iplaylists-repository';
+import { IUserPlaylistsRepository } from '@modules/playlists/domain/repositories/iuser-playlists-repository';
+import { PrismaPlaylistsRepository } from '@modules/playlists/infra/prisma/prisma-playlists-repository';
+import { PrismaUserPlaylistsRepository } from '@modules/playlists/infra/prisma/prisma-user-playlists-repository';
 import { IRolesRepository } from '@modules/roles/domain/repositories/IRolesRepository';
 import { PrismaRolesRepository } from '@modules/roles/infra/prisma/repositories/PrismaRolesRepository';
 import { PrismaUserRolesRepository } from '@modules/roles/infra/prisma/repositories/PrismaUserRolesRepository';
@@ -17,10 +24,30 @@ import { ITrailsRepository } from '@modules/trails/domain/repositories/ITrailsRe
 import { IUserTrailsRepository } from '@modules/trails/domain/repositories/IUserTrailsRepository';
 import { PrismaTrailsRepository } from '@modules/trails/infra/prisma/PrismaTrailsRepository';
 import { PrismaUserTrailsRepository } from '@modules/trails/infra/prisma/PrismaUserTrailsRepository';
-import { IUserRolesRepository } from '@modules/users/domain/repositories/IUserRolesRepository';
-import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
-import { PrismaUsersRepository } from '@modules/users/infra/prisma/PrismaUsersRepository';
+import { IUserRolesRepository } from '@modules/users/domain/repositories/iuser-roles-repository';
+import { IUsersRepository } from '@modules/users/domain/repositories/iusers-repository';
+import { PrismaUsersRepository } from '@modules/users/infra/prisma/prisma-users-repository';
+import { PrismaViewsRepository } from '@modules/users/infra/prisma/prisma-views-repository';
 import { container } from 'tsyringe';
+
+container.registerSingleton<IHistoriesRepository>(
+  'HistoriesRepository',
+  PrismaHistoriesRepository,
+);
+container.registerSingleton<IViewsRepository>(
+  'ViewsRepository',
+  PrismaViewsRepository,
+);
+
+container.registerSingleton<ILikesRepository>(
+  'LikesRepository',
+  PrismaLikesRepository,
+);
+
+container.registerSingleton<IDislikesRepository>(
+  'DislikesRepository',
+  PrismaDislikesRepository,
+);
 
 container.registerSingleton<IPlaylistsRepository>(
   'PlaylistsRepository',

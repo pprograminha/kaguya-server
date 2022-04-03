@@ -1,7 +1,7 @@
 type ShowClassRequestDTO = {
   class_id?: string;
-  block_id?: string;
+  block_slug?: string;
   user_id: string;
-  name?: string;
+  class_slug?: string;
 };
 export { ShowClassRequestDTO };

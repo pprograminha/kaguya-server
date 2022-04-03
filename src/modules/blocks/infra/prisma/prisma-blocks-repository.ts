@@ -7,10 +7,11 @@ import {
 import { CreateBlockDTO } from '@modules/blocks/dtos/create-block-dto';
 import { prisma } from '@shared/infra/prisma/connection';
 import { AsyncMaybe } from '@shared/types/app';
+import { FindByNameDTO } from '@modules/blocks/dtos/find-by-name-dto';
 
 class PrismaBlocksRepository implements IBlocksRepository {
   async findByName(
-    name: string,
+    { name, playlist_name }: FindByNameDTO,
     relationship?: Relationship,
   ): AsyncMaybe<IBlock> {
     const block = await prisma.block.findFirst({
@@ -18,6 +19,12 @@ class PrismaBlocksRepository implements IBlocksRepository {
         name: {
           equals: name.replace(/-/g, ' '),
           mode: 'insensitive',
+        },
+        playlist: {
+          name: {
+            equals: playlist_name.replace(/-/g, ' '),
+            mode: 'insensitive',
+          },
         },
       },
       ...(relationship && relationship.classes

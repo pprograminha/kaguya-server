@@ -5,14 +5,14 @@ import { container } from 'tsyringe';
 
 export class ShowPlaylistController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { playlist_id, name, trail_id } = request.query;
+    const { playlist_id, playlist_slug, trail_slug } = request.query;
 
     const showPlaylist = container.resolve(ShowPlaylistService);
 
     const playlist = await showPlaylist.execute({
       playlist_id: playlist_id as string,
-      name: name as string,
-      trail_id: trail_id as string,
+      playlist_slug: playlist_slug as string,
+      trail_slug: trail_slug as string,
     });
 
     return response.status(200).json(instanceToInstance('playlist', playlist));

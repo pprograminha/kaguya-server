@@ -1,4 +1,5 @@
 import { CreateBlockDTO } from '@modules/blocks/dtos/create-block-dto';
+import { FindByNameDTO } from '@modules/blocks/dtos/find-by-name-dto';
 import { AsyncMaybe } from '@shared/types/app';
 import { IBlock } from '../entities/iblock';
 
@@ -8,7 +9,10 @@ type Relationship = {
 interface IBlocksRepository {
   create(data: CreateBlockDTO): Promise<IBlock>;
   save(block: IBlock): Promise<IBlock>;
-  findByName(name: string, relationship?: Relationship): AsyncMaybe<IBlock>;
+  findByName(
+    name: FindByNameDTO,
+    relationship?: Relationship,
+  ): AsyncMaybe<IBlock>;
   findById(block_id: string, relationship?: Relationship): AsyncMaybe<IBlock>;
   destroyById(block_id: string): Promise<void>;
   findAllBlocks(): Promise<IBlock[]>;

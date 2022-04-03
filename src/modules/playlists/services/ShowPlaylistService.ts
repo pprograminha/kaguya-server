@@ -14,20 +14,20 @@ class ShowPlaylistService {
 
   async execute({
     playlist_id,
-    name,
-    trail_id,
+    playlist_slug,
+    trail_slug,
   }: ShowPlaylistRequestDTO): Promise<IPlaylist> {
-    if (!playlist_id && (!name || !trail_id))
+    if (!playlist_id && (!playlist_slug || !trail_slug))
       throw new AppError('Missing parameters', 400);
 
     let playlist: Maybe<IPlaylist>;
 
     if (playlist_id) {
       playlist = await this.playlistsRepository.findById(playlist_id);
-    } else if (name && trail_id) {
+    } else if (playlist_slug && trail_slug) {
       playlist = await this.playlistsRepository.findByName({
-        name,
-        trail_id,
+        name: playlist_slug,
+        trail_name: trail_slug,
       });
     }
 

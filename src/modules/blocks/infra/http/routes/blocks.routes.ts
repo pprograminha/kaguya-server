@@ -26,7 +26,9 @@ blocksRouter.get(
   ensureAuthenticated,
   celebrate({
     [Segments.QUERY]: {
-      block_id: Joi.string().uuid().required(),
+      block_id: Joi.string().uuid(),
+      block_slug: Joi.string(),
+      playlist_slug: Joi.string(),
     },
   }),
   showBlockController.handle,

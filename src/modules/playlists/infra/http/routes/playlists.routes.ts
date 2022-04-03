@@ -27,8 +27,8 @@ playlistsRouter.get(
   celebrate({
     [Segments.QUERY]: {
       playlist_id: Joi.string().uuid(),
-      trail_id: Joi.string().uuid(),
-      name: Joi.string(),
+      trail_slug: Joi.string(),
+      playlist_slug: Joi.string(),
     },
   }),
   showPlaylistController.handle,

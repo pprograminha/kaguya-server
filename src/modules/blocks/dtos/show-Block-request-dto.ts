@@ -1,6 +1,6 @@
 type ShowBlockRequestDTO = {
-  name?: string;
+  block_slug?: string;
   block_id?: string;
-  playlist_id?: string;
+  playlist_slug?: string;
 };
 export { ShowBlockRequestDTO };

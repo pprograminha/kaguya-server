@@ -64,16 +64,21 @@ class PrismaClassesRepository implements IClassesRepository {
   }
 
   async findByName(
-    { name, block_id }: FindByNameDTO,
+    { name, block_name }: FindByNameDTO,
     relationship?: RelationshipDTO,
   ): AsyncMaybe<IClass> {
     const findedClass = await prisma.class.findFirst({
       where: {
         name: {
-          contains: name.replace(/-/g, ' '),
+          equals: name.replace(/-/g, ' '),
           mode: 'insensitive',
         },
-        block_id,
+        block: {
+          name: {
+            equals: block_name.replace(/-/g, ' '),
+            mode: 'insensitive',
+          },
+        },
       },
       ...(relationship && Object.keys(relationship > 0) && relationship._count
         ? {

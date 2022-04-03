@@ -1,5 +1,5 @@
 type FindByNameDTO = {
-  trail_id: string;
   name: string;
+  trail_name: string;
 };
 export { FindByNameDTO };

@@ -14,8 +14,8 @@ class ShowBlockService {
 
   async execute({
     block_id,
-    name,
-    playlist_id,
+    block_slug,
+    playlist_slug,
   }: ShowBlockRequestDTO): Promise<IBlock> {
     let block: Maybe<IBlock>;
 
@@ -23,8 +23,11 @@ class ShowBlockService {
       block = await this.blocksRepository.findById(block_id, {
         classes: true,
       });
-    } else if (name && playlist_id) {
-      block = await this.blocksRepository.findByName(name);
+    } else if (block_slug && playlist_slug) {
+      block = await this.blocksRepository.findByName({
+        name: block_slug,
+        playlist_name: playlist_slug,
+      });
     }
 
     if (!block) {

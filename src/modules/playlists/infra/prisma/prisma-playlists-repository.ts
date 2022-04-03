@@ -7,14 +7,19 @@ import { AsyncMaybe } from '@shared/types/app';
 import crypto from 'crypto';
 
 export class PrismaPlaylistsRepository implements IPlaylistsRepository {
-  async findByName({ trail_id, name }: FindByNameDTO): AsyncMaybe<IPlaylist> {
+  async findByName({ trail_name, name }: FindByNameDTO): AsyncMaybe<IPlaylist> {
     const playlist = await prisma.playlist.findFirst({
       where: {
         name: {
           equals: name.replace(/-/g, ' '),
           mode: 'insensitive',
         },
-        trail_id,
+        trail: {
+          name: {
+            equals: trail_name.replace(/-/g, ' '),
+            mode: 'insensitive',
+          },
+        },
       },
     });
     return playlist as IPlaylist;

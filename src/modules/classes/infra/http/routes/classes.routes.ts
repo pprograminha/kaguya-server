@@ -18,8 +18,8 @@ classesRouter.get(
   celebrate({
     [Segments.QUERY]: {
       class_id: Joi.string().uuid(),
-      block_id: Joi.string().uuid(),
-      name: Joi.string(),
+      block_slug: Joi.string(),
+      class_slug: Joi.string(),
     },
   }),
   showClassController.handle,

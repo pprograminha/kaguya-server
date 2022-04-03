@@ -29,8 +29,8 @@ class ShowClassService {
 
   async execute({
     class_id,
-    name,
-    block_id,
+    class_slug,
+    block_slug,
     user_id,
   }: ShowClassRequestDTO): Promise<IClass> {
     const user = await this.usersRepository.findById(user_id);
@@ -41,7 +41,7 @@ class ShowClassService {
 
     let findedClass: Maybe<IClass>;
 
-    if (!class_id && (!name || !block_id)) {
+    if (!class_id && (!class_slug || !block_slug)) {
       throw new AppError('Enter some search attribute', 403);
     }
 
@@ -53,11 +53,11 @@ class ShowClassService {
           views: true,
         },
       });
-    } else if (name && block_id) {
+    } else if (class_slug && block_slug) {
       findedClass = await this.classesRepository.findByName(
         {
-          block_id,
-          name,
+          block_name: block_slug,
+          name: class_slug,
         },
         {
           _count: {

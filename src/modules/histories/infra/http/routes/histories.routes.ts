@@ -1,4 +1,4 @@
-import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
+import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensure-authenticated';
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import { CreateHistoryController } from '../controllers/create-history-controller';
@@ -15,8 +15,13 @@ historiesRouter.get(
   '/list',
   ensureAuthenticated,
   celebrate({
-    [Segments.BODY]: {
+    [Segments.QUERY]: {
       user_id: Joi.string().uuid(),
+      skip: Joi.number(),
+      take: Joi.number(),
+      order: Joi.string()
+        .regex(/(asc|desc)/)
+        .trim(),
     },
   }),
   listHistoriesController.handle,

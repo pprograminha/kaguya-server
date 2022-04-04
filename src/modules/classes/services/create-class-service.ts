@@ -1,10 +1,10 @@
-import { IBlocksRepository } from '@modules/blocks/domain/repositories/iblocks-repository';
-import { IUsersRepository } from '@modules/users/domain/repositories/iusers-repository';
-import { AppError } from '@shared/errors/AppError';
+import { IBlocksRepository } from '@modules/blocks/domain/repositories/blocks-repository';
+import { IUsersRepository } from '@modules/users/domain/repositories/users-repository';
+import { AppError } from '@shared/errors/app-error';
 import { inject, injectable } from '@shared/container';
 import { IClass } from '../domain/entities/iclass';
-import { IClassesRepository } from '../domain/repositories/iclasses-repository';
-import { IUserClassesRepository } from '../domain/repositories/iuser-classes-repository';
+import { IClassesRepository } from '../domain/repositories/classes-repository';
+import { IUserClassesRepository } from '../domain/repositories/user-classes-repository';
 import { CreateClassRequestDTO } from '../dtos/create-class-request-dto';
 
 @injectable()

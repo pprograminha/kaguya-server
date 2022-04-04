@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import 'express-async-errors';
 import 'dotenv/config';
 import '@shared/container';
-import { AppError } from '@shared/errors/AppError';
+import { AppError } from '@shared/errors/app-error';
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import { errors } from 'celebrate';
@@ -13,7 +13,7 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import { GraphQLError } from 'graphql';
 import { router } from './routes';
 import { resolvers } from './graphql/resolvers';
-import { typeDefs } from './graphql/typeDefs';
+import { typeDefs } from './graphql/type-defs';
 
 const app = express();
 

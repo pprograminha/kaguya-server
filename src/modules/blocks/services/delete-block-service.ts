@@ -1,6 +1,6 @@
-import { AppError } from '@shared/errors/AppError';
+import { AppError } from '@shared/errors/app-error';
 import { inject, injectable } from '@shared/container';
-import { IBlocksRepository } from '../domain/repositories/iblocks-repository';
+import { IBlocksRepository } from '../domain/repositories/blocks-repository';
 
 @injectable()
 class DeleteBlockService {

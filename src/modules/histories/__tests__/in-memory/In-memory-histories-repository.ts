@@ -2,7 +2,7 @@ import { IHistory } from '@modules/histories/domain/entities/ihistory';
 import { IHistoriesRepository } from '@modules/histories/domain/repositories/ihistories-repository';
 import { CreateHistoryDTO } from '@modules/histories/dtos/create-history-dto';
 import { FindUserClassHistoryDTO } from '@modules/histories/dtos/find-user-class-history-dto';
-import { History } from '@modules/histories/entities/History';
+import { History } from '@modules/histories/entities/history';
 import { AsyncMaybe } from '@shared/types/app';
 
 class InMemoryHistoriesRepository implements IHistoriesRepository {

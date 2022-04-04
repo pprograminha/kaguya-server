@@ -1,10 +1,10 @@
-import { IPlaylistsRepository } from '@modules/playlists/domain/repositories/iplaylists-repository';
-import { IUsersRepository } from '@modules/users/domain/repositories/iusers-repository';
-import { AppError } from '@shared/errors/AppError';
+import { IPlaylistsRepository } from '@modules/playlists/domain/repositories/playlists-repository';
+import { IUsersRepository } from '@modules/users/domain/repositories/users-repository';
+import { AppError } from '@shared/errors/app-error';
 import { inject, injectable } from '@shared/container';
 import { IBlock } from '../domain/entities/iblock';
-import { IBlocksRepository } from '../domain/repositories/iblocks-repository';
-import { IUserBlocksRepository } from '../domain/repositories/iuser-blocks-repository';
+import { IBlocksRepository } from '../domain/repositories/blocks-repository';
+import { IUserBlocksRepository } from '../domain/repositories/user-blocks-repository';
 import { CreateBlockRequestDTO } from '../dtos/create-block-request-dto';
 
 @injectable()

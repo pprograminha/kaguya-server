@@ -1,5 +1,5 @@
 import { inject, injectable } from '@shared/container';
-import { ITokenProvider } from '../providers/TokenProvider/models/itoken-provider';
+import { ITokenProvider } from '../providers/token-provider/models/token-provider';
 
 @injectable()
 class ValidateTokenService {

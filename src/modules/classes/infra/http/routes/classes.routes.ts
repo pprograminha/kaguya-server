@@ -1,4 +1,4 @@
-import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
+import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensure-authenticated';
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import { ChangeCompleteUserClassController } from '../controllers/change-complete-user-class-controller';
@@ -24,11 +24,17 @@ classesRouter.get(
   }),
   showClassController.handle,
 );
+
 classesRouter.get(
   '/list',
   ensureAuthenticated,
   celebrate({
     [Segments.QUERY]: {
+      skip: Joi.number(),
+      take: Joi.number(),
+      order: Joi.string()
+        .regex(/(asc|desc)/)
+        .trim(),
       block_id: Joi.string().uuid(),
     },
   }),

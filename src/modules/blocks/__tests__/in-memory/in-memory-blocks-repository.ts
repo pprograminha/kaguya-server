@@ -1,16 +1,30 @@
 import { IBlock } from '@modules/blocks/domain/entities/iblock';
-import { IBlocksRepository } from '@modules/blocks/domain/repositories/iblocks-repository';
+import { IBlocksRepository } from '@modules/blocks/domain/repositories/blocks-repository';
 import { CreateBlockDTO } from '@modules/blocks/dtos/create-block-dto';
+import { FindAllBlocksFromPlaylistDTO } from '@modules/blocks/dtos/find-all-blocks-from-playlist-dto';
+import { FindByNameDTO } from '@modules/blocks/dtos/find-by-name-dto';
 import { Block } from '@modules/blocks/entities/block';
 import { AsyncMaybe } from '@shared/types/app';
 
 class InMemoryBlocksRepository implements IBlocksRepository {
   private blocks: IBlock[] = [];
 
-  async findByName(name: string): AsyncMaybe<IBlock> {
-    const findedBlock = this.blocks.find(block => block.name === name);
+  async findByName({ name }: FindByNameDTO): AsyncMaybe<IBlock> {
+    const findedBlock = this.blocks.find(
+      block => block.name === name.replace(/-/g, ' '),
+    );
 
     return findedBlock;
+  }
+
+  async findAllBlocksFromPlaylist({
+    playlist_id,
+  }: FindAllBlocksFromPlaylistDTO): Promise<IBlock[]> {
+    const blocks = this.blocks.filter(
+      block => block.playlist_id === playlist_id,
+    );
+
+    return blocks;
   }
 
   async save(block: IBlock): Promise<IBlock> {
@@ -37,10 +51,6 @@ class InMemoryBlocksRepository implements IBlocksRepository {
 
   async findAllBlocks(): Promise<IBlock[]> {
     return this.blocks;
-  }
-
-  async findAllBlocksFromPlaylist(playlist_id: string): Promise<IBlock[]> {
-    return this.blocks.filter(block => block.playlist_id === playlist_id);
   }
 
   async create(data: CreateBlockDTO): Promise<IBlock> {

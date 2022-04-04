@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 class ListAllBlocksFromPlaylistController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { playlist_id } = request.query;
+    const { playlist_id, skip, take, order } = request.query;
 
     const user_id = request.user.id;
 
@@ -15,6 +15,9 @@ class ListAllBlocksFromPlaylistController {
     const blocks = await listAllBlocksFromPlaylist.execute({
       user_id,
       playlist_id: playlist_id as string,
+      skip: skip as number | undefined,
+      take: take as number | undefined,
+      order: order as 'desc' | 'asc',
     });
 
     return response.status(200).json(blocks);

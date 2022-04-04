@@ -1,5 +1,5 @@
 import { ILike } from '@modules/likes/domain/entities/ilike';
-import { ILikesRepository } from '@modules/likes/domain/repositories/ilikes-repository';
+import { ILikesRepository } from '@modules/likes/domain/repositories/likes-repository';
 import { CreateLikeDTO } from '@modules/likes/dtos/create-like-dto';
 import { FindOneLikeFromUserClass } from '@modules/likes/dtos/find-one-like-from-user-class';
 import { Like } from '@modules/likes/entities/like';

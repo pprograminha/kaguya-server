@@ -1,7 +1,9 @@
 import { IHistory } from '@modules/histories/domain/entities/ihistory';
-import { IHistoriesRepository } from '@modules/histories/domain/repositories/ihistories-repository';
+import { IHistoriesRepository } from '@modules/histories/domain/repositories/histories-repository';
 import { CreateHistoryDTO } from '@modules/histories/dtos/create-history-dto';
+import { FindAllHistoriesFromUserDTO } from '@modules/histories/dtos/find-all-histories-from-user-dto';
 import { FindUserClassHistoryDTO } from '@modules/histories/dtos/find-user-class-history-dto';
+import { FiltersDTO } from '@modules/trails/domain/repositories/trails-repository';
 import { prisma } from '@shared/infra/prisma/connection';
 import { AsyncMaybe } from '@shared/types/app';
 import crypto from 'crypto';
@@ -55,24 +57,45 @@ class PrismaHistoriesRepository implements IHistoriesRepository {
     return history as IHistory;
   }
 
-  async findAllHistories(): Promise<IHistory[]> {
+  async findAllHistories(data?: FiltersDTO): Promise<IHistory[]> {
     const histories = await prisma.history.findMany({
       orderBy: {
-        recent_at: 'desc',
+        ...(data && data.order
+          ? {
+              created_at: data.order,
+            }
+          : {
+              recent_at: 'desc',
+            }),
       },
+      skip: data?.skip,
+      take: data?.take,
     });
 
     return histories as IHistory[];
   }
 
-  async findAllHistoriesFromUser(user_id: string): Promise<IHistory[]> {
+  async findAllHistoriesFromUser({
+    user_id,
+    order,
+    skip,
+    take,
+  }: FindAllHistoriesFromUserDTO): Promise<IHistory[]> {
     const histories = await prisma.history.findMany({
       where: {
         user_id,
       },
       orderBy: {
-        recent_at: 'desc',
+        ...(order
+          ? {
+              created_at: order,
+            }
+          : {
+              recent_at: 'desc',
+            }),
       },
+      skip,
+      take,
     });
 
     return histories as IHistory[];

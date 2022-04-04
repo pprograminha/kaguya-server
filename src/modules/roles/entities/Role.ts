@@ -1,4 +1,4 @@
-import { IRole } from '@modules/roles/domain/entities/IRole';
+import { IRole } from '@modules/roles/domain/entities/irole';
 import { IUserRole } from '@modules/users/domain/entities/iuser-role';
 import crypto from 'crypto';
 

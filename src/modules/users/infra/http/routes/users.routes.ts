@@ -1,12 +1,12 @@
 import { storageConfig } from '@config/storage';
-import { UpdateUserAvatarController } from '@modules/trails/infra/http/controllers/UpdateUserAvatarController';
+import { UpdateUserAvatarController } from '@modules/trails/infra/http/controllers/update-user-avatar-controller';
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import multer from 'multer';
 import { CreateUserController } from '../controllers/create-user-controller';
 import { ListTheUsersAssociatedWithTheTrailController } from '../controllers/list-the-users-associated-with-the-trail-controller';
 import { ValidateTokenController } from '../controllers/validate-token-controller';
-import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+import ensureAuthenticated from '../middlewares/ensure-authenticated';
 
 const usersRouter = Router();
 const upload = multer(storageConfig.multer);

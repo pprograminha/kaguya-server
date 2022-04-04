@@ -1,6 +1,7 @@
 import { IPlaylist } from '@modules/playlists/domain/entities/iplaylist';
-import { IPlaylistsRepository } from '@modules/playlists/domain/repositories/iplaylists-repository';
+import { IPlaylistsRepository } from '@modules/playlists/domain/repositories/playlists-repository';
 import { CreatePlaylistDTO } from '@modules/playlists/dtos/create-playlist-dto';
+import { FindAllPlaylistsFromTrailDTO } from '@modules/playlists/dtos/find-all-playlists-from-trail-dto';
 import { FindByNameDTO } from '@modules/playlists/dtos/find-by-name-dto';
 import { prisma } from '@shared/infra/prisma/connection';
 import { AsyncMaybe } from '@shared/types/app';
@@ -89,11 +90,28 @@ export class PrismaPlaylistsRepository implements IPlaylistsRepository {
     });
   }
 
-  async findAllPlaylistsFromTrail(trail_id: string): Promise<IPlaylist[]> {
+  async findAllPlaylistsFromTrail({
+    trail_id,
+    order,
+    skip,
+    take,
+  }: FindAllPlaylistsFromTrailDTO): Promise<IPlaylist[]> {
     const playlists = await prisma.playlist.findMany({
       where: {
         trail_id,
       },
+      include: {
+        user_playlists: true,
+      },
+      ...(order
+        ? {
+            orderBy: {
+              created_at: order,
+            },
+          }
+        : {}),
+      skip,
+      take,
     });
 
     return playlists as IPlaylist[];

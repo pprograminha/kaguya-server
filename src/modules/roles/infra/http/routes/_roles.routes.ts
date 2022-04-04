@@ -1,8 +1,8 @@
-import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
-import ensureSubAdministrator from '@modules/users/infra/http/middlewares/ensureSubAdministrator';
+import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensure-authenticated';
+import ensureSubAdministrator from '@modules/users/infra/http/middlewares/ensure-sub-administrator';
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
-import { CreateRoleController } from '../controllers/CreateRoleController';
+import { CreateRoleController } from '../controllers/create-role-controller';
 
 const _rolesRouter = Router();
 

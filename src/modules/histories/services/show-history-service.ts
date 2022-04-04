@@ -1,8 +1,8 @@
 import { inject, injectable } from '@shared/container';
-import { AppError } from '@shared/errors/AppError';
+import { AppError } from '@shared/errors/app-error';
 import { Maybe } from '@shared/types/app';
 import { IHistory } from '../domain/entities/ihistory';
-import { IHistoriesRepository } from '../domain/repositories/ihistories-repository';
+import { IHistoriesRepository } from '../domain/repositories/histories-repository';
 import { ShowHistoryRequestDTO } from '../dtos/show-history-request-dto';
 
 @injectable()

@@ -1,10 +1,10 @@
-import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
+import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensure-authenticated';
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import { ChangeUserTrailEnabledFieldController } from '../controllers/change-user-trail-enabled-field-controller';
-import { CreateUserTrailController } from '../controllers/CreateUserTrailController';
-import { ListAllUserTrailsFromUserController } from '../controllers/ListAllUserTrailsFromUserController';
-import { RemoveUserTrailController } from '../controllers/RemoveUserTrailController';
+import { CreateUserTrailController } from '../controllers/create-user-trail-controller';
+import { ListAllUserTrailsFromUserController } from '../controllers/list-all-user-trails-from-user-controller';
+import { RemoveUserTrailController } from '../controllers/remove-user-trail-controller';
 
 const userTrailsRouter = Router();
 
@@ -41,9 +41,11 @@ userTrailsRouter.patch(
 userTrailsRouter.get(
   '/list-all',
   celebrate({
-    [Segments.BODY]: {
+    [Segments.QUERY]: {
       user_id: Joi.string().uuid(),
-      user: Joi.boolean(),
+      order: Joi.string().regex(/^(asc|desc)$/),
+      skip: Joi.number(),
+      take: Joi.number(),
     },
   }),
   listAllUserTrailsFromUserController.handle,

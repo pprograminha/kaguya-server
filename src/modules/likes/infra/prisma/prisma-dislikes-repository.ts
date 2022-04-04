@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import { IDislike } from '@modules/likes/domain/entities/idislike';
-import { IDislikesRepository } from '@modules/likes/domain/repositories/idislikes-repository';
+import { IDislikesRepository } from '@modules/likes/domain/repositories/dislikes-repository';
 import { CreateDislikeDTO } from '@modules/likes/dtos/create-dislike-dto';
 import { FindOneDislikeFromUserClass } from '@modules/likes/dtos/find-one-dislike-from-user-class';
 import { prisma } from '@shared/infra/prisma/connection';

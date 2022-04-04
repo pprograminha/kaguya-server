@@ -1,15 +1,15 @@
 import { CreateBlockService } from '@modules/blocks/services/create-block-service';
-import { FakeTrailsRepository } from '@modules/trails/__tests__/fakes/FakeTrailsRepository';
-import { AppError } from '@shared/errors/AppError';
-import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
+import { AppError } from '@shared/errors/app-error';
+import { InMemoryUsersRepository } from '@modules/users/__tests__/in-memory/in-memory-users-repository';
 import { InMemoryPlaylistsRepository } from '@modules/playlists/__tests__/in-memory/in-memory-playlists-repository';
+import { InMemoryTrailsRepository } from '@modules/trails/__tests__/in-memory/in-memory-trails-repository';
 import { InMemoryBlocksRepository } from '../in-memory/in-memory-blocks-repository';
 import { InMemoryUserBlocksRepository } from '../in-memory/in-memory-user-blocks-repository';
 
 let inMemoryBlocksRepository: InMemoryBlocksRepository;
 let inMemoryPlaylistsRepository: InMemoryPlaylistsRepository;
-let fakeTrailsRepository: FakeTrailsRepository;
-let fakeUsersRepository: FakeUsersRepository;
+let inMemoryTrailsRepository: InMemoryTrailsRepository;
+let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemoryUserBlocksRepository: InMemoryUserBlocksRepository;
 let createBlock: CreateBlockService;
 
@@ -17,20 +17,20 @@ describe('CreateBlock', () => {
   beforeEach(() => {
     inMemoryBlocksRepository = new InMemoryBlocksRepository();
     inMemoryPlaylistsRepository = new InMemoryPlaylistsRepository();
-    fakeUsersRepository = new FakeUsersRepository();
+    inMemoryUsersRepository = new InMemoryUsersRepository();
     inMemoryUserBlocksRepository = new InMemoryUserBlocksRepository();
-    fakeTrailsRepository = new FakeTrailsRepository();
+    inMemoryTrailsRepository = new InMemoryTrailsRepository();
 
     createBlock = new CreateBlockService(
       inMemoryPlaylistsRepository,
       inMemoryBlocksRepository,
-      fakeUsersRepository,
+      inMemoryUsersRepository,
       inMemoryUserBlocksRepository,
     );
   });
 
   it('should be able to create a trail', async () => {
-    const trail = await fakeTrailsRepository.create({
+    const trail = await inMemoryTrailsRepository.create({
       description: 'Xxxxx xxxx',
       name: 'Xxxxx',
     });

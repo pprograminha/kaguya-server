@@ -1,7 +1,7 @@
-import { FiltersDTO } from '@modules/trails/domain/repositories/ITrailsRepository';
+import { FiltersDTO } from '@modules/trails/domain/repositories/trails-repository';
 import { inject, injectable } from '@shared/container';
 import { IUser } from '../domain/entities/iuser';
-import { IUsersRepository } from '../domain/repositories/iusers-repository';
+import { IUsersRepository } from '../domain/repositories/users-repository';
 
 @injectable()
 export class ListAllUsersService {

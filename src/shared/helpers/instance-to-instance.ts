@@ -1,6 +1,6 @@
 import { storageConfig } from '@config/storage';
 import { IPlaylist } from '@modules/playlists/domain/entities/iplaylist';
-import { ITrail } from '@modules/trails/domain/entities/ITrail';
+import { ITrail } from '@modules/trails/domain/entities/itrail';
 import { IUser } from '@modules/users/domain/entities/iuser';
 
 type User = Omit<IUser, 'password'> & {

@@ -1,9 +1,9 @@
 import crypto from 'crypto';
 import { prisma } from '@shared/infra/prisma/connection';
 import { IView } from '@modules/classes/domain/entities/iview';
-import { IViewsRepository } from '@modules/classes/domain/repositories/iviews-repository';
-import { CreateViewDTO } from '@modules/users/dtos/CreateViewDTO';
-import { FindOneViewFromUserClass } from '@modules/users/dtos/FindOneViewFromUserClass';
+import { IViewsRepository } from '@modules/classes/domain/repositories/views-repository';
+import { CreateViewDTO } from '@modules/users/dtos/create-view-dto';
+import { FindOneViewFromUserClassDTO } from '@modules/users/dtos/find-one-view-from-user-class-dto';
 import { AsyncMaybe } from '@shared/types/app';
 
 class PrismaViewsRepository implements IViewsRepository {
@@ -59,7 +59,7 @@ class PrismaViewsRepository implements IViewsRepository {
   }
 
   async findOneViewFromUserClass(
-    data: FindOneViewFromUserClass,
+    data: FindOneViewFromUserClassDTO,
   ): AsyncMaybe<IView> {
     const view = await prisma.view.findFirst({
       where: {

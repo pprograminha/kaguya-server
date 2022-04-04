@@ -1,5 +1,5 @@
 import { IBlock } from '@modules/blocks/domain/entities/iblock';
-import { ITrail } from '@modules/trails/domain/entities/ITrail';
+import { ITrail } from '@modules/trails/domain/entities/itrail';
 import { IUserPlaylist } from './iuser-playlist';
 
 interface IPlaylist {

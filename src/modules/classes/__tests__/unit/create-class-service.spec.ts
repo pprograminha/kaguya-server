@@ -1,13 +1,13 @@
 import { InMemoryBlocksRepository } from '@modules/blocks/__tests__/in-memory/in-memory-blocks-repository';
 import { CreateClassService } from '@modules/classes/services/create-class-service';
-import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
-import { AppError } from '@shared/errors/AppError';
+import { InMemoryUsersRepository } from '@modules/users/__tests__/in-memory/in-memory-users-repository';
+import { AppError } from '@shared/errors/app-error';
 import { InMemoryClassesRepository } from '../in-memory/in-memory-classes-repository';
 import { InMemoryUserClassesRepository } from '../in-memory/in-memory-user-classes-repository';
 
 let inMemoryClassesRepository: InMemoryClassesRepository;
 let inMemoryBlocksRepository: InMemoryBlocksRepository;
-let fakeUsersRepository: FakeUsersRepository;
+let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemoryUserClassesRepository: InMemoryUserClassesRepository;
 let createClass: CreateClassService;
 
@@ -15,13 +15,13 @@ describe('CreateClass', () => {
   beforeEach(() => {
     inMemoryClassesRepository = new InMemoryClassesRepository();
     inMemoryUserClassesRepository = new InMemoryUserClassesRepository();
-    fakeUsersRepository = new FakeUsersRepository();
+    inMemoryUsersRepository = new InMemoryUsersRepository();
     inMemoryBlocksRepository = new InMemoryBlocksRepository();
 
     createClass = new CreateClassService(
       inMemoryClassesRepository,
       inMemoryUserClassesRepository,
-      fakeUsersRepository,
+      inMemoryUsersRepository,
       inMemoryBlocksRepository,
     );
   });

@@ -1,4 +1,4 @@
-import { ITrail } from '@modules/trails/domain/entities/ITrail';
+import { ITrail } from '@modules/trails/domain/entities/itrail';
 import { IUser } from '@modules/users/domain/entities/iuser';
 import { IPlaylist } from './iplaylist';
 

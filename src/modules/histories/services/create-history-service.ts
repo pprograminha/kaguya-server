@@ -1,9 +1,9 @@
-import { IClassesRepository } from '@modules/classes/domain/repositories/iclasses-repository';
-import { IUsersRepository } from '@modules/users/domain/repositories/iusers-repository';
+import { IClassesRepository } from '@modules/classes/domain/repositories/classes-repository';
+import { IUsersRepository } from '@modules/users/domain/repositories/users-repository';
 import { inject, injectable } from '@shared/container';
-import { AppError } from '@shared/errors/AppError';
+import { AppError } from '@shared/errors/app-error';
 import { IHistory } from '../domain/entities/ihistory';
-import { IHistoriesRepository } from '../domain/repositories/ihistories-repository';
+import { IHistoriesRepository } from '../domain/repositories/histories-repository';
 import { CreateHistoryRequestDTO } from '../dtos/create-history-request-dto';
 
 @injectable()

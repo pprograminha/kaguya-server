@@ -1,6 +1,6 @@
-import { AppError } from '@shared/errors/AppError';
+import { AppError } from '@shared/errors/app-error';
 import { inject, injectable } from '@shared/container';
-import { IClassesRepository } from '../domain/repositories/iclasses-repository';
+import { IClassesRepository } from '../domain/repositories/classes-repository';
 
 @injectable()
 class DeleteClassService {

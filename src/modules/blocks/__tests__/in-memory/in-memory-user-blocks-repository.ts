@@ -1,5 +1,5 @@
 import { IUserBlock } from '@modules/blocks/domain/entities/iuser-block';
-import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/iuser-blocks-repository';
+import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/user-blocks-repository';
 import { CreateUserBlockDTO } from '@modules/blocks/dtos/create-user-block-dto';
 import { FindAllUserBlocksFromPlaylistDTO } from '@modules/blocks/dtos/find-all-user-blocks-from-playlist-dto';
 import { FindOneDTO } from '@modules/blocks/dtos/find-one-dto';

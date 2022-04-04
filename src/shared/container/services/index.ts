@@ -1,4 +1,4 @@
-import { CreateUserPlaylistsService } from '@modules/playlists/services/CreateUserPlaylistsService';
+import { CreateUserPlaylistsService } from '@modules/playlists/services/create-user-playlists-service';
 import { container, delay } from 'tsyringe';
 
 container.registerSingleton(

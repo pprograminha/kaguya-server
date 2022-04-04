@@ -2,9 +2,11 @@ import { IClass } from '@modules/classes/domain/entities/iclass';
 import {
   IClassesRepository,
   RelationshipDTO,
-} from '@modules/classes/domain/repositories/iclasses-repository';
+} from '@modules/classes/domain/repositories/classes-repository';
 import { CreateClassDTO } from '@modules/classes/dtos/create-class-dto';
+import { FindAllClassesFromBlockDTO } from '@modules/classes/dtos/find-all-classes-from-block-dto';
 import { FindByNameDTO } from '@modules/classes/dtos/find-by-name-dto';
+import { FiltersDTO } from '@modules/trails/domain/repositories/trails-repository';
 import { prisma } from '@shared/infra/prisma/connection';
 import { AsyncMaybe } from '@shared/types/app';
 import crypto from 'crypto';
@@ -106,7 +108,7 @@ class PrismaClassesRepository implements IClassesRepository {
     });
   }
 
-  async findAllClasses(): Promise<IClass[]> {
+  async findAllClasses(data?: FiltersDTO): Promise<IClass[]> {
     const classes = await prisma.class.findMany({
       include: {
         user_classes: {
@@ -117,12 +119,26 @@ class PrismaClassesRepository implements IClassesRepository {
           },
         },
       },
+      ...(data && data.order
+        ? {
+            orderBy: {
+              created_at: data.order,
+            },
+          }
+        : {}),
+      skip: data?.skip,
+      take: data?.take,
     });
 
     return classes as IClass[];
   }
 
-  async findAllClassesFromBlock(block_id: string): Promise<IClass[]> {
+  async findAllClassesFromBlock({
+    block_id,
+    order,
+    skip,
+    take,
+  }: FindAllClassesFromBlockDTO): Promise<IClass[]> {
     const classes = await prisma.class.findMany({
       where: {
         block_id,
@@ -136,6 +152,15 @@ class PrismaClassesRepository implements IClassesRepository {
           },
         },
       },
+      ...(order
+        ? {
+            orderBy: {
+              created_at: order,
+            },
+          }
+        : {}),
+      skip,
+      take,
     });
 
     return classes as IClass[];

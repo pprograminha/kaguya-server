@@ -1,15 +1,15 @@
 import { IUser } from '@modules/users/domain/entities/iuser';
-import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
+import { InMemoryUsersRepository } from '@modules/users/__tests__/in-memory/in-memory-users-repository';
 import { ListAllUsersService } from '@modules/users/services/list-all-users-service';
 
-let fakeUsersRepository: FakeUsersRepository;
+let inMemoryUsersRepository: InMemoryUsersRepository;
 
 let listAllUsers: ListAllUsersService;
 
 describe('ListAllUsers', () => {
   beforeEach(() => {
-    fakeUsersRepository = new FakeUsersRepository();
-    listAllUsers = new ListAllUsersService(fakeUsersRepository);
+    inMemoryUsersRepository = new InMemoryUsersRepository();
+    listAllUsers = new ListAllUsersService(inMemoryUsersRepository);
   });
 
   it('should be able to list all users', async () => {
@@ -23,7 +23,7 @@ describe('ListAllUsers', () => {
     let lastestUser: IUser = {} as IUser;
 
     const promises = arrayOfNumbers.map(async () => {
-      const user = await fakeUsersRepository.create({
+      const user = await inMemoryUsersRepository.create({
         name: 'xxxxx xxxxx',
         email: 'xxxxx@xxxxx.xxxxx',
         password: 'xxxxxxxx',

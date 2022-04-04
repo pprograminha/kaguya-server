@@ -1,6 +1,6 @@
-import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/iuser-blocks-repository';
-import { IUserClassesRepository } from '@modules/classes/domain/repositories/iuser-classes-repository';
-import { AppError } from '@shared/errors/AppError';
+import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/user-blocks-repository';
+import { IUserClassesRepository } from '@modules/classes/domain/repositories/user-classes-repository';
+import { AppError } from '@shared/errors/app-error';
 import { inject, injectable } from '@shared/container';
 import { IUserBlock } from '../domain/entities/iuser-block';
 import { IUpdateUserBlockProgressPorcentageRequestDTO } from '../dtos/update-user-block-progress-porcentage-request-dto';

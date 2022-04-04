@@ -1,5 +1,5 @@
 import { IUser } from '@modules/users/domain/entities/iuser';
-import { ITrail } from './ITrail';
+import { ITrail } from './itrail';
 
 interface IUserTrail {
   id: string;

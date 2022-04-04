@@ -1,16 +1,27 @@
 import { IPlaylist } from '@modules/playlists/domain/entities/iplaylist';
-import { IPlaylistsRepository } from '@modules/playlists/domain/repositories/iplaylists-repository';
+import { IPlaylistsRepository } from '@modules/playlists/domain/repositories/playlists-repository';
 import { CreatePlaylistDTO } from '@modules/playlists/dtos/create-playlist-dto';
+import { FindAllPlaylistsFromTrailDTO } from '@modules/playlists/dtos/find-all-playlists-from-trail-dto';
 import { FindByNameDTO } from '@modules/playlists/dtos/find-by-name-dto';
-import { Playlist } from '@modules/playlists/entities/Playlist';
+import { Playlist } from '@modules/playlists/entities/playlist';
 import { AsyncMaybe } from '@shared/types/app';
 
 class InMemoryPlaylistsRepository implements IPlaylistsRepository {
   private playlists: IPlaylist[] = [];
 
-  async findByName({ name, trail_id }: FindByNameDTO): AsyncMaybe<IPlaylist> {
+  async findAllPlaylistsFromTrail({
+    trail_id,
+  }: FindAllPlaylistsFromTrailDTO): Promise<IPlaylist[]> {
+    const playlists = this.playlists.filter(
+      playlist => playlist.trail_id === trail_id,
+    );
+
+    return playlists;
+  }
+
+  async findByName({ name }: FindByNameDTO): AsyncMaybe<IPlaylist> {
     const playlistFinded = this.playlists.find(
-      playlist => playlist.name === name && playlist.trail_id === trail_id,
+      playlist => playlist.name === name,
     );
 
     return playlistFinded;
@@ -44,10 +55,6 @@ class InMemoryPlaylistsRepository implements IPlaylistsRepository {
 
   async findAllPlaylists(): Promise<IPlaylist[]> {
     return this.playlists;
-  }
-
-  async findAllPlaylistsFromTrail(trail_id: string): Promise<IPlaylist[]> {
-    return this.playlists.filter(playlist => playlist.trail_id === trail_id);
   }
 
   async create(data: CreatePlaylistDTO): Promise<IPlaylist> {

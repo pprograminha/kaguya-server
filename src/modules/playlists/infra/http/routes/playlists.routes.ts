@@ -1,8 +1,8 @@
-import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
+import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensure-authenticated';
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
-import { ListAllPlaylistsFromTrailController } from '../controllers/ListAllPlaylistsFromTrailController';
-import { ShowPlaylistController } from '../controllers/ShowPlaylistController';
+import { ListAllPlaylistsFromTrailController } from '../controllers/list-all-playlists-from-trail-controller';
+import { ShowPlaylistController } from '../controllers/show-playlist-controller';
 
 const playlistsRouter = Router();
 
@@ -16,6 +16,11 @@ playlistsRouter.get(
   celebrate({
     [Segments.QUERY]: {
       trail_id: Joi.string().uuid().required(),
+      skip: Joi.number(),
+      take: Joi.number(),
+      order: Joi.string()
+        .regex(/(asc|desc)/)
+        .trim(),
     },
   }),
   listAllPlaylistsFromTrailController.handle,

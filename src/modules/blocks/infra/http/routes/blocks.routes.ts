@@ -1,4 +1,4 @@
-import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
+import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensure-authenticated';
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import { ListAllBlocksFromPlaylistController } from '../controllers/list-all-blocks-from-playlist-controller';
@@ -16,6 +16,11 @@ blocksRouter.get(
   celebrate({
     [Segments.QUERY]: {
       playlist_id: Joi.string().uuid().required(),
+      skip: Joi.number(),
+      take: Joi.number(),
+      order: Joi.string()
+        .regex(/(asc|desc)/)
+        .trim(),
     },
   }),
   listAllBlocksFromPlaylistController.handle,

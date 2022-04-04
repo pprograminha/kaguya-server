@@ -1,4 +1,4 @@
-import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
+import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensure-authenticated';
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import { MarkAsLikeOrDislikeController } from '../controllers/mark-as-like-or-dislike-controller';

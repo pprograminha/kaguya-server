@@ -1,10 +1,10 @@
-import { InMemoryHashProvider } from '@modules/users/providers/HashProvider/in-memory/in-memory-hash-provider';
-import { InMemoryTokenProvider } from '@modules/users/providers/TokenProvider/in-memory/in-memory-token-provider';
+import { InMemoryHashProvider } from '@modules/users/providers/hash-provider/in-memory/in-memory-hash-provider';
+import { InMemoryTokenProvider } from '@modules/users/providers/token-provider/in-memory/in-memory-token-provider';
 import { AuthenticateUserService } from '@modules/users/services/authenticate-user-service';
-import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
-import { AppError } from '@shared/errors/AppError';
+import { InMemoryUsersRepository } from '@modules/users/__tests__/in-memory/in-memory-users-repository';
+import { AppError } from '@shared/errors/app-error';
 
-let fakeUsersRepository: FakeUsersRepository;
+let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemoryHashProvider: InMemoryHashProvider;
 let inMemoryTokenProvider: InMemoryTokenProvider;
 
@@ -12,18 +12,18 @@ let authenticateUser: AuthenticateUserService;
 
 describe('AuthenticateUser', () => {
   beforeEach(() => {
-    fakeUsersRepository = new FakeUsersRepository();
+    inMemoryUsersRepository = new InMemoryUsersRepository();
     inMemoryHashProvider = new InMemoryHashProvider();
     inMemoryTokenProvider = new InMemoryTokenProvider();
     authenticateUser = new AuthenticateUserService(
-      fakeUsersRepository,
+      inMemoryUsersRepository,
       inMemoryHashProvider,
       inMemoryTokenProvider,
     );
   });
 
   it('should be able to authenticate a user', async () => {
-    const user = await fakeUsersRepository.create({
+    const user = await inMemoryUsersRepository.create({
       name: 'xxxxx xxxxx',
       email: 'xxxxx@xxxxx.xxxxx',
       password: 'xxxxxxxx',
@@ -49,7 +49,7 @@ describe('AuthenticateUser', () => {
   });
 
   it('should not be able to authenticate with an invalid user password', async () => {
-    await fakeUsersRepository.create({
+    await inMemoryUsersRepository.create({
       name: 'xxxxx xxxxx',
       email: 'xxxxx@xxxxx.xxxxx',
       password: 'xxxxxxxx',

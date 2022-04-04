@@ -1,25 +1,25 @@
-import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
 import { UpdateUserAvatarService } from '@modules/users/services/update-user-avatar-service';
-import { AppError } from '@shared/errors/AppError';
-import { FakeStorageProvider } from '@shared/providers/StorageProvider/fakes/FakeStorageProvider';
+import { AppError } from '@shared/errors/app-error';
+import { InMemoryStorageProvider } from '@shared/providers/storage-provider/in-memory/in-memory-storage-provider';
+import { InMemoryUsersRepository } from '../in-memory/in-memory-users-repository';
 
-let fakeUsersRepository: FakeUsersRepository;
-let fakeStorageProvider: FakeStorageProvider;
+let inMemoryUsersRepository: InMemoryUsersRepository;
+let inMemoryStorageProvider: InMemoryStorageProvider;
 let updateUserAvatar: UpdateUserAvatarService;
 
 describe('UpdateUserAvatar', () => {
   beforeEach(() => {
-    fakeUsersRepository = new FakeUsersRepository();
-    fakeStorageProvider = new FakeStorageProvider();
+    inMemoryUsersRepository = new InMemoryUsersRepository();
+    inMemoryStorageProvider = new InMemoryStorageProvider();
 
     updateUserAvatar = new UpdateUserAvatarService(
-      fakeUsersRepository,
-      fakeStorageProvider,
+      inMemoryUsersRepository,
+      inMemoryStorageProvider,
     );
   });
 
   it('should be able to update user avatar', async () => {
-    const user = await fakeUsersRepository.create({
+    const user = await inMemoryUsersRepository.create({
       email: 'xxxxx@xxxx.xxx',
       name: 'xxxxxx',
       username: 'xxxxxx',
@@ -40,7 +40,7 @@ describe('UpdateUserAvatar', () => {
   });
 
   it('should not be able to update user avatar if not entered', async () => {
-    const user = await fakeUsersRepository.create({
+    const user = await inMemoryUsersRepository.create({
       email: 'xxxxx@xxxx.xxx',
       name: 'xxxxxx',
       username: 'xxxxxx',

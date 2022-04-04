@@ -1,8 +1,8 @@
-import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
+import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensure-authenticated';
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
-import { ListAllTrailsController } from '../controllers/ListAllTrailsController';
-import { ShowTrailController } from '../controllers/ShowTrailController';
+import { ListAllTrailsController } from '../controllers/list-all-trails-controller';
+import { ShowTrailController } from '../controllers/show-trail-controller';
 
 const trailsRouter = Router();
 
@@ -18,7 +18,6 @@ trailsRouter.get(
       take: Joi.number(),
       order: Joi.string().regex(/(asc|desc)/),
       exclude_my_trails: Joi.boolean(),
-      get_user_trail: Joi.boolean(),
     },
   }),
   listAllTrailsController.handle,

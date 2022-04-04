@@ -1,12 +1,12 @@
 import { UpdateUserBlockProgressPorcentageService } from '@modules/blocks/services/update-user-block-progress-porcentage-service';
-import { UpdateUserPlaylistProgressPorcentageService } from '@modules/playlists/services/UpdateUserPlaylistProgressPorcentageService';
-import { UpdateUserTrailProgressPorcentageService } from '@modules/trails/services/UpdateUserTrailProgressPorcentageService';
-import { IUsersRepository } from '@modules/users/domain/repositories/iusers-repository';
-import { AppError } from '@shared/errors/AppError';
+import { UpdateUserPlaylistProgressPorcentageService } from '@modules/playlists/services/update-user-playlist-progress-porcentage-service';
+import { UpdateUserTrailProgressPorcentageService } from '@modules/trails/services/update-user-trail-progress-porcentage-service';
+import { IUsersRepository } from '@modules/users/domain/repositories/users-repository';
+import { AppError } from '@shared/errors/app-error';
 import { container, inject, injectable } from 'tsyringe';
 import { IUserClass } from '../domain/entities/iuser-class';
-import { IClassesRepository } from '../domain/repositories/iclasses-repository';
-import { IUserClassesRepository } from '../domain/repositories/iuser-classes-repository';
+import { IClassesRepository } from '../domain/repositories/classes-repository';
+import { IUserClassesRepository } from '../domain/repositories/user-classes-repository';
 import { ChangeCompleteUserClassRequestDTO } from '../dtos/change-complete-user-class-request-dto';
 
 @injectable()

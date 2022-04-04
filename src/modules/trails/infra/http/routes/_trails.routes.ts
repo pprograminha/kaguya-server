@@ -1,13 +1,13 @@
 import { storageConfig } from '@config/storage';
-import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
-import ensureSubAdministrator from '@modules/users/infra/http/middlewares/ensureSubAdministrator';
+import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensure-authenticated';
+import ensureSubAdministrator from '@modules/users/infra/http/middlewares/ensure-sub-administrator';
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import multer from 'multer';
 import { CreateTrailController } from '../controllers/create-trail-controller';
-import { DestroyTrailController } from '../controllers/DestroyTrailController';
-import { UpdateTrailAvatarController } from '../controllers/UpdateTrailAvatarController';
-import { UpdateTrailController } from '../controllers/UpdateTrailController';
+import { DestroyTrailController } from '../controllers/destroy-trail-controller';
+import { UpdateTrailAvatarController } from '../controllers/update-trail-avatar-controller';
+import { UpdateTrailController } from '../controllers/update-trail-controller';
 
 const _trailsRouter = Router();
 

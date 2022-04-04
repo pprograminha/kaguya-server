@@ -1,28 +1,38 @@
-import { FakeTrailsRepository } from '@modules/trails/__tests__/fakes/FakeTrailsRepository';
-import { ListAllPlaylistsFromTrailService } from '@modules/playlists/services/ListAllPlaylistsFromTrailService';
-import { AppError } from '@shared/errors/AppError';
+import { ListAllPlaylistsFromTrailService } from '@modules/playlists/services/list-all-playlists-from-trail-service';
+import { InMemoryTrailsRepository } from '@modules/trails/__tests__/in-memory/in-memory-trails-repository';
+import { InMemoryUsersRepository } from '@modules/users/__tests__/in-memory/in-memory-users-repository';
+import { AppError } from '@shared/errors/app-error';
 import { InMemoryPlaylistsRepository } from '../in-memory/in-memory-playlists-repository';
 
 let inMemoryPlaylistsRepository: InMemoryPlaylistsRepository;
-let fakeTrailsRepository: FakeTrailsRepository;
+let inMemoryTrailsRepository: InMemoryTrailsRepository;
+let inMemoryUsersRepository: InMemoryUsersRepository;
 
 let listAllPlaylistsFromTrail: ListAllPlaylistsFromTrailService;
 
 describe('ListAllPlaylistsFromTrail', () => {
   beforeEach(() => {
     inMemoryPlaylistsRepository = new InMemoryPlaylistsRepository();
-    fakeTrailsRepository = new FakeTrailsRepository();
+    inMemoryTrailsRepository = new InMemoryTrailsRepository();
+    inMemoryUsersRepository = new InMemoryUsersRepository();
 
     listAllPlaylistsFromTrail = new ListAllPlaylistsFromTrailService(
       inMemoryPlaylistsRepository,
-      fakeTrailsRepository,
+      inMemoryTrailsRepository,
+      inMemoryUsersRepository,
     );
   });
 
-  it('should be able to list all playlists from trail', async () => {
-    const trail = await fakeTrailsRepository.create({
+  it('should be able to list all trails from trail', async () => {
+    const trail = await inMemoryTrailsRepository.create({
       description: 'Xxxxx xxxx',
       name: 'Xxxxx',
+    });
+    const user = await inMemoryUsersRepository.create({
+      email: 'xxx@xxx.xxx',
+      name: 'Xxxxx',
+      password: '00000000',
+      username: 'xxxxx',
     });
 
     const playlistsAmount = Array.from(
@@ -48,13 +58,36 @@ describe('ListAllPlaylistsFromTrail', () => {
       trail_id: trail.id,
     });
 
-    const playlists = await listAllPlaylistsFromTrail.execute(trail.id);
+    jest
+      .spyOn(inMemoryPlaylistsRepository, 'findAllPlaylistsFromTrail')
+      .mockImplementationOnce(async () => [
+        ...playlistsCreated.map(playlist => ({
+          ...playlist,
+          user_playlists: [],
+        })),
+      ]);
 
-    expect(playlists).toEqual(expect.arrayContaining([...playlistsCreated]));
+    const playlists = await listAllPlaylistsFromTrail.execute({
+      trail_id: trail.id,
+      user_id: user.id,
+    });
+
+    expect(playlists.length).toEqual(playlistsCreated.length);
+    expect(playlists[0].id).toEqual(playlistsCreated[0].id);
   });
   it('should not be able to list all playlists from trail if non-existing trail', async () => {
+    const user = await inMemoryUsersRepository.create({
+      email: 'xxx@xxx.xxx',
+      name: 'Xxxxx',
+      password: '00000000',
+      username: 'xxxxx',
+    });
+
     await expect(
-      listAllPlaylistsFromTrail.execute('non-existing-trail'),
+      listAllPlaylistsFromTrail.execute({
+        trail_id: 'non-existing-trail-id',
+        user_id: user.id,
+      }),
     ).rejects.toBeInstanceOf(AppError);
   });
 });

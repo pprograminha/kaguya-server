@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import { prisma } from '@shared/infra/prisma/connection';
-import { ILikesRepository } from '@modules/likes/domain/repositories/ilikes-repository';
+import { ILikesRepository } from '@modules/likes/domain/repositories/likes-repository';
 import { ILike } from '@modules/likes/domain/entities/ilike';
 import { CreateLikeDTO } from '@modules/likes/dtos/create-like-dto';
 import { FindOneLikeFromUserClass } from '@modules/likes/dtos/find-one-like-from-user-class';

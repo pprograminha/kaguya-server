@@ -1,9 +1,9 @@
 import { inject, injectable } from '@shared/container';
-import { AppError } from '@shared/errors/AppError';
+import { AppError } from '@shared/errors/app-error';
 import { IUser } from '../domain/entities/iuser';
-import { IUsersRepository } from '../domain/repositories/iusers-repository';
-import { IHashProvider } from '../providers/HashProvider/models/ihash-provider';
-import { ITokenProvider } from '../providers/TokenProvider/models/itoken-provider';
+import { IUsersRepository } from '../domain/repositories/users-repository';
+import { IHashProvider } from '../providers/hash-provider/models/hash-provider';
+import { ITokenProvider } from '../providers/token-provider/models/token-provider';
 
 interface IRequest {
   email: string;

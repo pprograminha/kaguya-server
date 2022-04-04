@@ -1,6 +1,6 @@
 import { IUser } from '@modules/users/domain/entities/iuser';
 import crypto from 'crypto';
-import { ITrail } from '../domain/entities/ITrail';
+import { ITrail } from '../domain/entities/itrail';
 import { IUserTrail } from '../domain/entities/iuser-trail';
 
 class UserTrail implements IUserTrail {

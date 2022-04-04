@@ -3,11 +3,12 @@ import { IBlock } from '@modules/blocks/domain/entities/iblock';
 import {
   IBlocksRepository,
   Relationship,
-} from '@modules/blocks/domain/repositories/iblocks-repository';
+} from '@modules/blocks/domain/repositories/blocks-repository';
 import { CreateBlockDTO } from '@modules/blocks/dtos/create-block-dto';
 import { prisma } from '@shared/infra/prisma/connection';
 import { AsyncMaybe } from '@shared/types/app';
 import { FindByNameDTO } from '@modules/blocks/dtos/find-by-name-dto';
+import { FindAllBlocksFromPlaylistDTO } from '@modules/blocks/dtos/find-all-blocks-from-playlist-dto';
 
 class PrismaBlocksRepository implements IBlocksRepository {
   async findByName(
@@ -99,7 +100,12 @@ class PrismaBlocksRepository implements IBlocksRepository {
     });
   }
 
-  async findAllBlocksFromPlaylist(playlist_id: string): Promise<IBlock[]> {
+  async findAllBlocksFromPlaylist({
+    playlist_id,
+    order,
+    skip,
+    take,
+  }: FindAllBlocksFromPlaylistDTO): Promise<IBlock[]> {
     const blocks = await prisma.block.findMany({
       where: {
         playlist_id,
@@ -124,6 +130,15 @@ class PrismaBlocksRepository implements IBlocksRepository {
           },
         },
       },
+      ...(order
+        ? {
+            orderBy: {
+              created_at: order,
+            },
+          }
+        : {}),
+      skip,
+      take,
     });
     return blocks as IBlock[];
   }

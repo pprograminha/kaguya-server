@@ -1,9 +1,9 @@
 import { IUser } from '@modules/users/domain/entities/iuser';
-import { IUsersRepository } from '@modules/users/domain/repositories/iusers-repository';
-import { AppError } from '@shared/errors/AppError';
-import { IStorageProvider } from '@shared/providers/StorageProvider/models/IStorageProvider';
+import { IUsersRepository } from '@modules/users/domain/repositories/users-repository';
+import { AppError } from '@shared/errors/app-error';
+import { IStorageProvider } from '@shared/providers/storage-provider/models/storage-provider';
 import { inject, injectable } from '@shared/container';
-import { IUpdateUserAvatarRequestDTO } from '../../roles/dtos/IUpdateUserAvatarRequestDTO';
+import { UpdateUserAvatarRequestDTO } from '../../roles/dtos/update-user-avatar-request-dto';
 
 @injectable()
 export class UpdateUserAvatarService {
@@ -18,7 +18,7 @@ export class UpdateUserAvatarService {
   async execute({
     user_id,
     avatar,
-  }: IUpdateUserAvatarRequestDTO): Promise<IUser> {
+  }: UpdateUserAvatarRequestDTO): Promise<IUser> {
     if (!avatar) throw new AppError('Avatar field is required', 403);
 
     const user = await this.usersRepository.findById(user_id);

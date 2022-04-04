@@ -1,32 +1,33 @@
 import { ListAllBlocksFromPlaylistService } from '@modules/blocks/services/list-all-blocks-from-playlist-service';
-import { FakeTrailsRepository } from '@modules/trails/__tests__/fakes/FakeTrailsRepository';
-import { AppError } from '@shared/errors/AppError';
-import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
+import { AppError } from '@shared/errors/app-error';
+import { InMemoryUsersRepository } from '@modules/users/__tests__/in-memory/in-memory-users-repository';
 import { InMemoryPlaylistsRepository } from '@modules/playlists/__tests__/in-memory/in-memory-playlists-repository';
+import { InMemoryTrailsRepository } from '@modules/trails/__tests__/in-memory/in-memory-trails-repository';
 import { InMemoryBlocksRepository } from '../in-memory/in-memory-blocks-repository';
 
 let inMemoryPlaylistsRepository: InMemoryPlaylistsRepository;
 let inMemoryBlocksRepository: InMemoryBlocksRepository;
-let fakeTrailsRepository: FakeTrailsRepository;
-let fakeUsersRepository: FakeUsersRepository;
+let inMemoryTrailsRepository: InMemoryTrailsRepository;
+let inMemoryUsersRepository: InMemoryUsersRepository;
 
 let listAllBlocksFromPlaylist: ListAllBlocksFromPlaylistService;
 
 describe('ListAllBlocksFromPlaylist', () => {
   beforeEach(() => {
     inMemoryPlaylistsRepository = new InMemoryPlaylistsRepository();
-    fakeTrailsRepository = new FakeTrailsRepository();
+    inMemoryTrailsRepository = new InMemoryTrailsRepository();
     inMemoryBlocksRepository = new InMemoryBlocksRepository();
-    fakeUsersRepository = new FakeUsersRepository();
+    inMemoryUsersRepository = new InMemoryUsersRepository();
 
     listAllBlocksFromPlaylist = new ListAllBlocksFromPlaylistService(
       inMemoryPlaylistsRepository,
       inMemoryBlocksRepository,
+      inMemoryUsersRepository,
     );
   });
 
   it('should be able to list all playlists from trail', async () => {
-    const trail = await fakeTrailsRepository.create({
+    const trail = await inMemoryTrailsRepository.create({
       description: 'Xxxxx xxxx',
       name: 'Xxxxx',
     });
@@ -37,7 +38,7 @@ describe('ListAllBlocksFromPlaylist', () => {
       trail_id: trail.id,
     });
 
-    const user = await fakeUsersRepository.create({
+    const user = await inMemoryUsersRepository.create({
       email: 'xxxxx@xxxx.xxx',
       name: 'Xxxxx',
       password: '00000000',
@@ -85,7 +86,7 @@ describe('ListAllBlocksFromPlaylist', () => {
   });
 
   it('should not be able to list all blocks from playlist if non-existing playlist', async () => {
-    const user = await fakeUsersRepository.create({
+    const user = await inMemoryUsersRepository.create({
       email: 'xxxxxx@xxxx.xxx',
       name: 'Xxxxx',
       password: '00000000',

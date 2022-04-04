@@ -1,7 +1,7 @@
 import { IView } from '@modules/classes/domain/entities/iview';
-import { IViewsRepository } from '@modules/classes/domain/repositories/iviews-repository';
-import { CreateViewDTO } from '@modules/users/dtos/CreateViewDTO';
-import { FindOneViewFromUserClass } from '@modules/users/dtos/FindOneViewFromUserClass';
+import { IViewsRepository } from '@modules/classes/domain/repositories/views-repository';
+import { CreateViewDTO } from '@modules/users/dtos/create-view-dto';
+import { FindOneViewFromUserClassDTO } from '@modules/users/dtos/find-one-view-from-user-class-dto';
 import { View } from '@modules/users/entities/view';
 import { AsyncMaybe } from '@shared/types/app';
 
@@ -43,7 +43,7 @@ class InMemoryViewsRepository implements IViewsRepository {
   async findOneViewFromUserClass({
     user_id,
     class_id,
-  }: FindOneViewFromUserClass): AsyncMaybe<IView> {
+  }: FindOneViewFromUserClassDTO): AsyncMaybe<IView> {
     const findedView = this.views.find(
       view => view.user_id === user_id && view.class_id === class_id,
     );

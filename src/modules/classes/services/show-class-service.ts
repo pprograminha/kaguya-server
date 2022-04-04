@@ -1,11 +1,11 @@
-import { AppError } from '@shared/errors/AppError';
+import { AppError } from '@shared/errors/app-error';
 import { inject, injectable } from '@shared/container';
-import { IUsersRepository } from '@modules/users/domain/repositories/iusers-repository';
+import { IUsersRepository } from '@modules/users/domain/repositories/users-repository';
 import { Maybe } from '@shared/types/app';
 import { IClass } from '../domain/entities/iclass';
-import { IClassesRepository } from '../domain/repositories/iclasses-repository';
+import { IClassesRepository } from '../domain/repositories/classes-repository';
 import { ShowClassRequestDTO } from '../dtos/show-class-request-dto';
-import { IViewsRepository } from '../domain/repositories/iviews-repository';
+import { IViewsRepository } from '../domain/repositories/views-repository';
 
 type Count = {
   _count?: {

@@ -1,5 +1,5 @@
 import { IUserClass } from '@modules/classes/domain/entities/iuser-class';
-import { IUserClassesRepository } from '@modules/classes/domain/repositories/iuser-classes-repository';
+import { IUserClassesRepository } from '@modules/classes/domain/repositories/user-classes-repository';
 import { CreateUserClassDTO } from '@modules/classes/dtos/create-user-class-dto';
 import { FindAllUserClassesFromBlockDTO } from '@modules/classes/dtos/find-all-user-classes-from-block-dto';
 import { FindOneDTO } from '@modules/classes/dtos/find-one-dto';

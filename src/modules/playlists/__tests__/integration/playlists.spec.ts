@@ -1,7 +1,7 @@
 /**
  * @jest-environment ./prisma/prisma-environment-jest
  */
-import { ITrail } from '@modules/trails/domain/entities/ITrail';
+import { ITrail } from '@modules/trails/domain/entities/itrail';
 import { app } from '@shared/infra/http/app';
 import request from 'supertest';
 

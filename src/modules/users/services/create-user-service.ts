@@ -1,11 +1,11 @@
-import { IRolesRepository } from '@modules/roles/domain/repositories/IRolesRepository';
-import { AppError } from '@shared/errors/AppError';
+import { IRolesRepository } from '@modules/roles/domain/repositories/roles-repository';
+import { AppError } from '@shared/errors/app-error';
 import { inject, injectable } from '@shared/container';
 import { IUser } from '../domain/entities/iuser';
-import { IUserRolesRepository } from '../domain/repositories/iuser-roles-repository';
-import { IUsersRepository } from '../domain/repositories/iusers-repository';
-import { ICreateUserRequestDTO } from '../dtos/ICreateUserRequestDTO';
-import { IHashProvider } from '../providers/HashProvider/models/ihash-provider';
+import { IUserRolesRepository } from '../domain/repositories/user-roles-repository';
+import { IUsersRepository } from '../domain/repositories/users-repository';
+import { CreateUserRequestDTO } from '../dtos/create-user-request-dto';
+import { IHashProvider } from '../providers/hash-provider/models/hash-provider';
 
 @injectable()
 class CreateUserService {
@@ -30,7 +30,7 @@ class CreateUserService {
     role = 'default',
     password,
     creator_id,
-  }: ICreateUserRequestDTO): Promise<IUser> {
+  }: CreateUserRequestDTO): Promise<IUser> {
     const checkEmailAlreadyExists = await this.usersRepository.findByEmail(
       email,
     );

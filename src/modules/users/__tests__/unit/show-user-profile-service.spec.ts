@@ -1,37 +1,38 @@
-import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
 import { ShowUserProfileService } from '@modules/users/services/show-user-profile-service';
-import { AppError } from '@shared/errors/AppError';
-import { FakeRolesRepository } from '@modules/roles/__tests__/fakes/FakeRolesRepository';
-import { FakeUserRolesRepository } from '../fakes/FakeUserRolesRepository';
+import { AppError } from '@shared/errors/app-error';
 
-let fakeUsersRepository: FakeUsersRepository;
-let fakeUserRolesRepository: FakeUserRolesRepository;
-let fakeRolesRepository: FakeRolesRepository;
+import { InMemoryRolesRepository } from '@modules/roles/__tests__/in-memory/in-memory-roles-repository';
+import { InMemoryUsersRepository } from '../in-memory/in-memory-users-repository';
+import { InMemoryUserRolesRepository } from '../in-memory/in-memory-user-roles-repository';
+
+let inMemoryUsersRepository: InMemoryUsersRepository;
+let inMemoryUserRolesRepository: InMemoryUserRolesRepository;
+let inMemoryRolesRepository: InMemoryRolesRepository;
 let showUserProfile: ShowUserProfileService;
 
 describe('CreateUser', () => {
   beforeEach(() => {
-    fakeUsersRepository = new FakeUsersRepository();
-    fakeUserRolesRepository = new FakeUserRolesRepository();
-    fakeRolesRepository = new FakeRolesRepository();
+    inMemoryUsersRepository = new InMemoryUsersRepository();
+    inMemoryUserRolesRepository = new InMemoryUserRolesRepository();
+    inMemoryRolesRepository = new InMemoryRolesRepository();
 
-    showUserProfile = new ShowUserProfileService(fakeUsersRepository);
+    showUserProfile = new ShowUserProfileService(inMemoryUsersRepository);
   });
 
   it('show the user profile', async () => {
-    const userCreated = await fakeUsersRepository.create({
+    const userCreated = await inMemoryUsersRepository.create({
       email: 'xxxxxx@xxxx.xxx',
       name: 'Xxxx Xxxx',
       password: 'xxxxxxx',
       username: 'xxxxxxxxxxxxxx',
     });
 
-    const role = await fakeRolesRepository.create({
+    const role = await inMemoryRolesRepository.create({
       name: 'admin',
       permission: 0,
     });
 
-    const userRole = await fakeUserRolesRepository.addRoleToUser(
+    const userRole = await inMemoryUserRolesRepository.addRoleToUser(
       userCreated.id,
       role.id,
     );
@@ -40,17 +41,18 @@ describe('CreateUser', () => {
 
     userCreated.user_roles = [userRole];
 
-    const userWhoMadeRequest = await fakeUsersRepository.create({
+    const userWhoMadeRequest = await inMemoryUsersRepository.create({
       email: 'xxxxxx@xxxx.xxx',
       name: 'Xxxx Xxxx',
       password: 'xxxxxxx',
       username: 'xxxxxxxxxx',
     });
 
-    const userWhoMadeRequestRole = await fakeUserRolesRepository.addRoleToUser(
-      userWhoMadeRequest.id,
-      role.id,
-    );
+    const userWhoMadeRequestRole =
+      await inMemoryUserRolesRepository.addRoleToUser(
+        userWhoMadeRequest.id,
+        role.id,
+      );
 
     userWhoMadeRequestRole.role = role;
 
@@ -66,22 +68,23 @@ describe('CreateUser', () => {
   });
 
   it('show the user profile without username', async () => {
-    const role = await fakeRolesRepository.create({
+    const role = await inMemoryRolesRepository.create({
       name: 'admin',
       permission: 0,
     });
 
-    const userWhoMadeRequest = await fakeUsersRepository.create({
+    const userWhoMadeRequest = await inMemoryUsersRepository.create({
       email: 'xxxxxx@xxxx.xxx',
       name: 'Xxxx Xxxx',
       password: 'xxxxxxx',
       username: 'xxxxxxxxxx',
     });
 
-    const userWhoMadeRequestRole = await fakeUserRolesRepository.addRoleToUser(
-      userWhoMadeRequest.id,
-      role.id,
-    );
+    const userWhoMadeRequestRole =
+      await inMemoryUserRolesRepository.addRoleToUser(
+        userWhoMadeRequest.id,
+        role.id,
+      );
 
     userWhoMadeRequestRole.role = role;
 
@@ -96,19 +99,19 @@ describe('CreateUser', () => {
   });
 
   it('does not show user profile because the user does not exist', async () => {
-    const userWhoMadeRequest = await fakeUsersRepository.create({
+    const userWhoMadeRequest = await inMemoryUsersRepository.create({
       email: 'xxxxxx@xxxx.xxx',
       name: 'Xxxx Xxxx',
       password: 'xxxxxxx',
       username: 'xxxxxx',
     });
 
-    const role = await fakeRolesRepository.create({
+    const role = await inMemoryRolesRepository.create({
       name: 'admin',
       permission: 0,
     });
 
-    const userRole = await fakeUserRolesRepository.addRoleToUser(
+    const userRole = await inMemoryUserRolesRepository.addRoleToUser(
       userWhoMadeRequest.id,
       role.id,
     );
@@ -131,7 +134,7 @@ describe('CreateUser', () => {
   });
 
   it('does not show user profile because the user who made the request does not exist', async () => {
-    const user = await fakeUsersRepository.create({
+    const user = await inMemoryUsersRepository.create({
       email: 'xxxxxx@xxxx.xxx',
       name: 'Xxxx Xxxx',
       password: 'xxxxxxx',
@@ -149,19 +152,19 @@ describe('CreateUser', () => {
   });
 
   it('does not show the profile of the highest hierarchy user', async () => {
-    const userCreated = await fakeUsersRepository.create({
+    const userCreated = await inMemoryUsersRepository.create({
       email: 'xxxxxx@xxxx.xxx',
       name: 'Xxxx Xxxx',
       password: 'xxxxxxx',
       username: 'xxxxxxxxxxxxxx',
     });
 
-    const role = await fakeRolesRepository.create({
+    const role = await inMemoryRolesRepository.create({
       name: 'admin',
       permission: 0,
     });
 
-    const userRole = await fakeUserRolesRepository.addRoleToUser(
+    const userRole = await inMemoryUserRolesRepository.addRoleToUser(
       userCreated.id,
       role.id,
     );
@@ -170,21 +173,22 @@ describe('CreateUser', () => {
 
     userCreated.user_roles = [userRole];
 
-    const userWhoMadeRequest = await fakeUsersRepository.create({
+    const userWhoMadeRequest = await inMemoryUsersRepository.create({
       email: 'xxxxxx@xxxx.xxx',
       name: 'Xxxx Xxxx',
       password: 'xxxxxxx',
       username: 'xxxxxxxxxx',
     });
-    const userWhoMadeRequestRoleCreated = await fakeRolesRepository.create({
+    const userWhoMadeRequestRoleCreated = await inMemoryRolesRepository.create({
       name: 'sub-admin',
       permission: 1,
     });
 
-    const userWhoMadeRequestRole = await fakeUserRolesRepository.addRoleToUser(
-      userWhoMadeRequest.id,
-      userWhoMadeRequestRoleCreated.id,
-    );
+    const userWhoMadeRequestRole =
+      await inMemoryUserRolesRepository.addRoleToUser(
+        userWhoMadeRequest.id,
+        userWhoMadeRequestRoleCreated.id,
+      );
 
     userWhoMadeRequestRole.role = userWhoMadeRequestRoleCreated;
 

@@ -1,34 +1,34 @@
-import { FakeTrailsRepository } from '@modules/trails/__tests__/fakes/FakeTrailsRepository';
-import { CreatePlaylistFromTrailService } from '@modules/playlists/services/CreatePlaylistFromTrailService';
-import { AppError } from '@shared/errors/AppError';
-import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
+import { CreatePlaylistFromTrailService } from '@modules/playlists/services/create-playlist-from-trail-service';
+import { AppError } from '@shared/errors/app-error';
+import { InMemoryUsersRepository } from '@modules/users/__tests__/in-memory/in-memory-users-repository';
+import { InMemoryTrailsRepository } from '@modules/trails/__tests__/in-memory/in-memory-trails-repository';
 import { InMemoryPlaylistsRepository } from '../in-memory/in-memory-playlists-repository';
 import { InMemoryUserPlaylistsRepository } from '../in-memory/in-memory-user-playlists-repository';
 
-let fakeTrailsRepository: FakeTrailsRepository;
+let inMemoryTrailsRepository: InMemoryTrailsRepository;
 let inMemoryPlaylistsRepository: InMemoryPlaylistsRepository;
-let fakeUsersRepository: FakeUsersRepository;
+let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemoryUserPlaylistsRepository: InMemoryUserPlaylistsRepository;
 
 let createPlaylistFromTrail: CreatePlaylistFromTrailService;
 
 describe('CreatePlaylistFromTrail', () => {
   beforeEach(() => {
-    fakeTrailsRepository = new FakeTrailsRepository();
+    inMemoryTrailsRepository = new InMemoryTrailsRepository();
     inMemoryPlaylistsRepository = new InMemoryPlaylistsRepository();
-    fakeUsersRepository = new FakeUsersRepository();
+    inMemoryUsersRepository = new InMemoryUsersRepository();
     inMemoryUserPlaylistsRepository = new InMemoryUserPlaylistsRepository();
 
     createPlaylistFromTrail = new CreatePlaylistFromTrailService(
-      fakeTrailsRepository,
+      inMemoryTrailsRepository,
       inMemoryPlaylistsRepository,
-      fakeUsersRepository,
+      inMemoryUsersRepository,
       inMemoryUserPlaylistsRepository,
     );
   });
 
   it('should be able to create a playlist from a trail', async () => {
-    const trail = await fakeTrailsRepository.create({
+    const trail = await inMemoryTrailsRepository.create({
       name: 'Xxxxxx',
       description: 'Xxxxxx xxxxxx',
     });

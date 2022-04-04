@@ -1,9 +1,9 @@
-import { AppError } from '@shared/errors/AppError';
+import { AppError } from '@shared/errors/app-error';
 import { inject, injectable } from '@shared/container';
 import { Maybe } from '@shared/types/app';
 import { IUser } from '../domain/entities/iuser';
-import { IUsersRepository } from '../domain/repositories/iusers-repository';
-import { IShowUserProfileRequestDTO } from '../dtos/IShowUserProfileRequestDTO';
+import { IUsersRepository } from '../domain/repositories/users-repository';
+import { ShowUserProfileRequestDTO } from '../dtos/show-user-profile-request-dto';
 
 @injectable()
 class ShowUserProfileService {
@@ -15,7 +15,7 @@ class ShowUserProfileService {
   async execute({
     username,
     user_id,
-  }: IShowUserProfileRequestDTO): Promise<IUser> {
+  }: ShowUserProfileRequestDTO): Promise<IUser> {
     let user: Maybe<IUser>;
 
     if (username) {

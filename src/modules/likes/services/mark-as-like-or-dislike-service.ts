@@ -1,9 +1,9 @@
-import { IClassesRepository } from '@modules/classes/domain/repositories/iclasses-repository';
-import { IUsersRepository } from '@modules/users/domain/repositories/iusers-repository';
+import { IClassesRepository } from '@modules/classes/domain/repositories/classes-repository';
+import { IUsersRepository } from '@modules/users/domain/repositories/users-repository';
 import { injectable, inject } from '@shared/container';
-import { AppError } from '@shared/errors/AppError';
-import { IDislikesRepository } from '../domain/repositories/idislikes-repository';
-import { ILikesRepository } from '../domain/repositories/ilikes-repository';
+import { AppError } from '@shared/errors/app-error';
+import { IDislikesRepository } from '../domain/repositories/dislikes-repository';
+import { ILikesRepository } from '../domain/repositories/likes-repository';
 import { MarkAsLikeOrDislikeRequestDTO } from '../dtos/mark-as-like-or-dislike-request-dto';
 
 @injectable()

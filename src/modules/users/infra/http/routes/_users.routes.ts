@@ -2,8 +2,8 @@ import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import { CreateUserController } from '../controllers/create-user-controller';
 import { ListAllUsersController } from '../controllers/list-all-users-controller';
-import ensureAuthenticated from '../middlewares/ensureAuthenticated';
-import ensureSubAdministrator from '../middlewares/ensureSubAdministrator';
+import ensureAuthenticated from '../middlewares/ensure-authenticated';
+import ensureSubAdministrator from '../middlewares/ensure-sub-administrator';
 
 const _usersRouter = Router();
 

@@ -1,8 +1,8 @@
 import { inject, injectable } from '@shared/container';
-import { AppError } from '@shared/errors/AppError';
+import { AppError } from '@shared/errors/app-error';
 import { Maybe } from '@shared/types/app';
 import { IBlock } from '../domain/entities/iblock';
-import { IBlocksRepository } from '../domain/repositories/iblocks-repository';
+import { IBlocksRepository } from '../domain/repositories/blocks-repository';
 import { ShowBlockRequestDTO } from '../dtos/show-Block-request-dto';
 
 @injectable()

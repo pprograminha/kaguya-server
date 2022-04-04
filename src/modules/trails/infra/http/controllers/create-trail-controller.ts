@@ -1,4 +1,4 @@
-import { CreateTrailService } from '@modules/trails/services/CreateTrailService';
+import { CreateTrailService } from '@modules/trails/services/create-trail-service';
 import { instanceToInstance } from '@shared/helpers/instance-to-instance';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';

@@ -1,6 +1,7 @@
 import { IClass } from '@modules/classes/domain/entities/iclass';
-import { IClassesRepository } from '@modules/classes/domain/repositories/iclasses-repository';
+import { IClassesRepository } from '@modules/classes/domain/repositories/classes-repository';
 import { CreateClassDTO } from '@modules/classes/dtos/create-class-dto';
+import { FindAllClassesFromBlockDTO } from '@modules/classes/dtos/find-all-classes-from-block-dto';
 import { FindByNameDTO } from '@modules/classes/dtos/find-by-name-dto';
 import { Class } from '@modules/classes/entities/class';
 import { AsyncMaybe } from '@shared/types/app';
@@ -8,16 +9,18 @@ import { AsyncMaybe } from '@shared/types/app';
 class InMemoryClassesRepository implements IClassesRepository {
   private classes: IClass[] = [];
 
-  async findByName({ block_id, name }: FindByNameDTO): AsyncMaybe<IClass> {
-    const classFinded = this.classes.find(
-      _class => _class.name === name && _class.block_id === block_id,
-    );
+  async findAllClassesFromBlock({
+    block_id,
+  }: FindAllClassesFromBlockDTO): Promise<IClass[]> {
+    const classes = this.classes.filter(_class => _class.block_id === block_id);
 
-    return classFinded;
+    return classes;
   }
 
-  async findAllClassesFromBlock(block_id: string): Promise<IClass[]> {
-    return this.classes.filter(_class => _class.block_id === block_id);
+  async findByName({ name }: FindByNameDTO): AsyncMaybe<IClass> {
+    const classFinded = this.classes.find(_class => _class.name === name);
+
+    return classFinded;
   }
 
   async save(_class: IClass): Promise<IClass> {

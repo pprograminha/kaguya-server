@@ -1,40 +1,40 @@
-import { FakeTrailsRepository } from '@modules/trails/__tests__/fakes/FakeTrailsRepository';
-import { ListAllUserPlaylistsFromTrailService } from '@modules/playlists/services/ListAllUserPlaylistsFromTrailService';
-import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
-import { AppError } from '@shared/errors/AppError';
+import { ListAllUserPlaylistsFromTrailService } from '@modules/playlists/services/list-all-user-playlists-from-trail-service';
+import { InMemoryTrailsRepository } from '@modules/trails/__tests__/in-memory/in-memory-trails-repository';
+import { InMemoryUsersRepository } from '@modules/users/__tests__/in-memory/in-memory-users-repository';
+import { AppError } from '@shared/errors/app-error';
 import { InMemoryPlaylistsRepository } from '../in-memory/in-memory-playlists-repository';
 import { InMemoryUserPlaylistsRepository } from '../in-memory/in-memory-user-playlists-repository';
 
 let inMemoryPlaylistsRepository: InMemoryPlaylistsRepository;
-let fakeUsersRepository: FakeUsersRepository;
+let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemoryUserPlaylistsRepository: InMemoryUserPlaylistsRepository;
-let fakeTrailsRepository: FakeTrailsRepository;
+let inMemoryTrailsRepository: InMemoryTrailsRepository;
 
 let listAllUserPlaylistsFromTrail: ListAllUserPlaylistsFromTrailService;
 
 describe('ListAllUserPlaylistsFromTrail', () => {
   beforeEach(() => {
     inMemoryPlaylistsRepository = new InMemoryPlaylistsRepository();
-    fakeTrailsRepository = new FakeTrailsRepository();
-    fakeUsersRepository = new FakeUsersRepository();
+    inMemoryTrailsRepository = new InMemoryTrailsRepository();
+    inMemoryUsersRepository = new InMemoryUsersRepository();
     inMemoryUserPlaylistsRepository = new InMemoryUserPlaylistsRepository();
 
     listAllUserPlaylistsFromTrail = new ListAllUserPlaylistsFromTrailService(
-      fakeUsersRepository,
+      inMemoryUsersRepository,
       inMemoryUserPlaylistsRepository,
-      fakeTrailsRepository,
+      inMemoryTrailsRepository,
     );
   });
 
   it('should be able to list all user playlists from trail', async () => {
-    const user = await fakeUsersRepository.create({
+    const user = await inMemoryUsersRepository.create({
       name: 'Xxxx Xxx',
       email: 'xxxx@xxxx.xxx',
       password: '000000',
       username: 'xxx0xxxx0',
     });
 
-    const trail = await fakeTrailsRepository.create({
+    const trail = await inMemoryTrailsRepository.create({
       name: 'Xxxxx',
       description: 'Xxxxx xxxxx',
     });
@@ -61,7 +61,7 @@ describe('ListAllUserPlaylistsFromTrail', () => {
   });
 
   it('should not be able to list all user playlists with non-existent user', async () => {
-    const trail = await fakeTrailsRepository.create({
+    const trail = await inMemoryTrailsRepository.create({
       name: 'Xxxxx',
       description: 'Xxxxx xxxxx',
     });
@@ -75,7 +75,7 @@ describe('ListAllUserPlaylistsFromTrail', () => {
   });
 
   it('should not be able to list all user playlists with non-existent trail', async () => {
-    const user = await fakeUsersRepository.create({
+    const user = await inMemoryUsersRepository.create({
       name: 'Xxxx Xxx',
       email: 'xxxx@xxxx.xxx',
       password: '000000',

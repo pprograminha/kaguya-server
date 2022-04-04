@@ -1,34 +1,35 @@
-import { FakeRolesRepository } from '@modules/roles/__tests__/fakes/FakeRolesRepository';
+import { InMemoryRolesRepository } from '@modules/roles/__tests__/in-memory/in-memory-roles-repository';
 import { IUserRole } from '@modules/users/domain/entities/iuser-role';
-import { InMemoryHashProvider } from '@modules/users/providers/HashProvider/in-memory/in-memory-hash-provider';
+import { InMemoryHashProvider } from '@modules/users/providers/hash-provider/in-memory/in-memory-hash-provider';
 import { CreateUserService } from '@modules/users/services/create-user-service';
-import { FakeUserRolesRepository } from '@modules/users/__tests__/fakes/FakeUserRolesRepository';
-import { FakeUsersRepository } from '@modules/users/__tests__/fakes/FakeUsersRepository';
-import { AppError } from '@shared/errors/AppError';
 
-let fakeUsersRepository: FakeUsersRepository;
+import { AppError } from '@shared/errors/app-error';
+import { InMemoryUserRolesRepository } from '../in-memory/in-memory-user-roles-repository';
+import { InMemoryUsersRepository } from '../in-memory/in-memory-users-repository';
+
+let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemoryHashProvider: InMemoryHashProvider;
-let fakeRolesRepository: FakeRolesRepository;
-let fakeUserRolesRepository: FakeUserRolesRepository;
+let inMemoryRolesRepository: InMemoryRolesRepository;
+let inMemoryUserRolesRepository: InMemoryUserRolesRepository;
 let createUser: CreateUserService;
 
 describe('CreateUser', () => {
   beforeEach(() => {
-    fakeUsersRepository = new FakeUsersRepository();
+    inMemoryUsersRepository = new InMemoryUsersRepository();
     inMemoryHashProvider = new InMemoryHashProvider();
-    fakeRolesRepository = new FakeRolesRepository();
-    fakeUserRolesRepository = new FakeUserRolesRepository();
+    inMemoryRolesRepository = new InMemoryRolesRepository();
+    inMemoryUserRolesRepository = new InMemoryUserRolesRepository();
 
     createUser = new CreateUserService(
-      fakeUsersRepository,
+      inMemoryUsersRepository,
       inMemoryHashProvider,
-      fakeRolesRepository,
-      fakeUserRolesRepository,
+      inMemoryRolesRepository,
+      inMemoryUserRolesRepository,
     );
   });
 
   it('should be able to create an user', async () => {
-    await fakeRolesRepository.create({
+    await inMemoryRolesRepository.create({
       permission: 3,
       name: 'default',
     });
@@ -43,24 +44,24 @@ describe('CreateUser', () => {
   });
 
   it('should be able to create an user by admin', async () => {
-    const testUser = await fakeUsersRepository.create({
+    const testUser = await inMemoryUsersRepository.create({
       name: 'Xxxx Xxxx',
       email: 'xxxx@xxxx.xxx',
       password: 'xxxx',
       username: 'xxxxxxx',
     });
 
-    const role = await fakeRolesRepository.create({
+    const role = await inMemoryRolesRepository.create({
       permission: 0,
       name: 'admin',
     });
 
-    await fakeRolesRepository.create({
+    await inMemoryRolesRepository.create({
       permission: 2,
       name: 'default',
     });
 
-    const userRole = await fakeUserRolesRepository.addRoleToUser(
+    const userRole = await inMemoryUserRolesRepository.addRoleToUser(
       testUser.id,
       role.id,
     );
@@ -78,7 +79,7 @@ describe('CreateUser', () => {
     } as IUserRole;
 
     jest
-      .spyOn(fakeUsersRepository, 'findById')
+      .spyOn(inMemoryUsersRepository, 'findById')
       .mockImplementationOnce(async () => ({
         ...testUser,
         user_roles: [userRoleFormatted],
@@ -95,7 +96,7 @@ describe('CreateUser', () => {
     expect(user.email).toBe('xxxxx@xxxx.xxx');
   });
   it('should not be able to create an user with non-existent creator', async () => {
-    await fakeRolesRepository.create({
+    await inMemoryRolesRepository.create({
       permission: 3,
       name: 'default',
     });
@@ -111,7 +112,7 @@ describe('CreateUser', () => {
   });
 
   it('should not be able to create an user with the same role or higher as the administrator', async () => {
-    const adminrole = await fakeRolesRepository.create({
+    const adminrole = await inMemoryRolesRepository.create({
       permission: 0,
       name: 'admin',
     });
@@ -123,7 +124,7 @@ describe('CreateUser', () => {
       role: 'admin',
     });
 
-    const adminUserRole = await fakeUserRolesRepository.addRoleToUser(
+    const adminUserRole = await inMemoryUserRolesRepository.addRoleToUser(
       admin.id,
       adminrole.id,
     );
@@ -131,7 +132,7 @@ describe('CreateUser', () => {
     adminUserRole.role = adminrole;
 
     jest
-      .spyOn(fakeUsersRepository, 'findById')
+      .spyOn(inMemoryUsersRepository, 'findById')
       .mockImplementationOnce(async () => ({
         ...admin,
         user_roles: [adminUserRole],
@@ -165,7 +166,7 @@ describe('CreateUser', () => {
   });
 
   it(`should not be able to create an user with another's email`, async () => {
-    await fakeRolesRepository.create({
+    await inMemoryRolesRepository.create({
       permission: 3,
       name: 'default',
     });
@@ -188,7 +189,7 @@ describe('CreateUser', () => {
   });
 
   it(`should not be able to create an user with another's username`, async () => {
-    await fakeRolesRepository.create({
+    await inMemoryRolesRepository.create({
       permission: 3,
       name: 'default',
     });

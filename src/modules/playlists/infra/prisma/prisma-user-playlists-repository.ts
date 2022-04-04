@@ -1,5 +1,5 @@
 import { IUserPlaylist } from '@modules/playlists/domain/entities/iuser-playlist';
-import { IUserPlaylistsRepository } from '@modules/playlists/domain/repositories/iuser-playlists-repository';
+import { IUserPlaylistsRepository } from '@modules/playlists/domain/repositories/user-playlists-repository';
 import { CreateUserPlaylistDTO } from '@modules/playlists/dtos/create-user-playlist-dto';
 import { FindAllUserPlaylistsFromTrailDTO } from '@modules/playlists/dtos/find-all-user-playlists-from-trail-dto';
 import { FindOneDTO } from '@modules/playlists/dtos/find-one-dto';

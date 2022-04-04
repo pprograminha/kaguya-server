@@ -6,11 +6,11 @@ import {
   IRelationshipsDTO,
   IUsersRepository,
   FindAllUsersAssociatedWithThePlaylistDTO,
-} from '@modules/users/domain/repositories/iusers-repository';
-import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
+} from '@modules/users/domain/repositories/users-repository';
 import { prisma } from '@shared/infra/prisma/connection';
-import { FiltersDTO } from '@modules/trails/domain/repositories/ITrailsRepository';
+import { FiltersDTO } from '@modules/trails/domain/repositories/trails-repository';
 import { AsyncMaybe } from '@shared/types/app';
+import { CreateUserDTO } from '@modules/users/dtos/create-user-dto';
 
 class PrismaUsersRepository implements IUsersRepository {
   async findAllUsersAssociatedWithThePlaylist({
@@ -183,7 +183,7 @@ class PrismaUsersRepository implements IUsersRepository {
     name,
     password,
     username,
-  }: ICreateUserDTO): Promise<IUser> {
+  }: CreateUserDTO): Promise<IUser> {
     const user = await prisma.user.create({
       data: {
         id: crypto.randomUUID(),

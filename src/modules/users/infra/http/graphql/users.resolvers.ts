@@ -1,12 +1,12 @@
-import { FiltersDTO } from '@modules/trails/domain/repositories/ITrailsRepository';
+import { FiltersDTO } from '@modules/trails/domain/repositories/trails-repository';
 import { IUser } from '@modules/users/domain/entities/iuser';
-import { ICreateUserRequestDTO } from '@modules/users/dtos/ICreateUserRequestDTO';
+import { CreateUserRequestDTO } from '@modules/users/dtos/create-user-request-dto';
 import { CreateUserService } from '@modules/users/services/create-user-service';
 import { ListAllUsersService } from '@modules/users/services/list-all-users-service';
 import { container } from 'tsyringe';
 
 type GraphQLCreateUser = {
-  input: ICreateUserRequestDTO;
+  input: CreateUserRequestDTO;
 };
 const usersResolvers = {
   Query: {

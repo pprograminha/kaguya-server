@@ -1,8 +1,9 @@
-import { IUsersRepository } from '@modules/users/domain/repositories/iusers-repository';
+import { IUsersRepository } from '@modules/users/domain/repositories/users-repository';
 import { inject, injectable } from '@shared/container';
-import { AppError } from '@shared/errors/AppError';
+import { AppError } from '@shared/errors/app-error';
 import { IHistory } from '../domain/entities/ihistory';
-import { IHistoriesRepository } from '../domain/repositories/ihistories-repository';
+import { IHistoriesRepository } from '../domain/repositories/histories-repository';
+import { ListHistoriesRequestDTO } from '../dtos/list-histories-request-dto';
 
 @injectable()
 export class ListHistoriesService {
@@ -14,7 +15,12 @@ export class ListHistoriesService {
     private usersRepository: IUsersRepository,
   ) {}
 
-  async execute(user_id?: string): Promise<IHistory[]> {
+  async execute({
+    user_id,
+    order,
+    skip,
+    take,
+  }: ListHistoriesRequestDTO): Promise<IHistory[]> {
     let histories: IHistory[] = [];
 
     if (user_id) {
@@ -24,11 +30,18 @@ export class ListHistoriesService {
         throw new AppError('User does not exist', 401);
       }
 
-      histories = await this.historiesRepository.findAllHistoriesFromUser(
+      histories = await this.historiesRepository.findAllHistoriesFromUser({
         user_id,
-      );
+        order,
+        skip,
+        take,
+      });
     } else {
-      histories = await this.historiesRepository.findAllHistories();
+      histories = await this.historiesRepository.findAllHistories({
+        order,
+        skip,
+        take,
+      });
     }
 
     return histories;

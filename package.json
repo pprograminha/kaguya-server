@@ -6,7 +6,7 @@
   "author": "Marcos Proença, Tiago Gonçalves",
   "license": "MIT",
   "prisma": {
-    "seed": "ts-node src/shared/infra/prisma/seeders"
+    "seed": "node build/shared/infra/prisma/seeders"
   },
   "scripts": {
     "dev:server": "tsnd -r tsconfig-paths/register --transpile-only --inspect --ignore-watch node_modules src/shared/infra/http/server.ts",

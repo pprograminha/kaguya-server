@@ -19,7 +19,11 @@ export class UpdateTrailService {
     const trail = await this.trailsRepository.findById(trail_id);
 
     if (!trail)
-      throw new AppError('The trail you want to update does not exist');
+      throw new AppError(
+        'The trail you want to update does not exist',
+        12,
+        400,
+      );
 
     if (description) {
       trail.description = description;

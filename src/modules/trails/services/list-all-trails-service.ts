@@ -32,7 +32,7 @@ export class ListAllTrailsService {
   }: ListAllTrailsRequestDTO): Promise<ITrail[]> {
     const user = await this.usersRepository.findById(user_id);
 
-    if (!user) throw new AppError('User does not exist', 401);
+    if (!user) throw new AppError('User does not exist', 5, 401);
 
     let trails = await this.trailsRepository.findAllTrails({
       ...(exclude_my_trails

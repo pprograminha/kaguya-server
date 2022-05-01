@@ -31,7 +31,7 @@ class ShowBlockService {
     }
 
     if (!block) {
-      throw new AppError('Block does not exist', 403);
+      throw new AppError('Block does not exist', 12, 400);
     }
 
     return block;

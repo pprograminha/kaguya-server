@@ -40,7 +40,7 @@ class ShowTrailService {
     name,
   }: ShowTrailRequestDTO): Promise<Response> {
     if (!trail_id && !name)
-      throw new AppError('Trail id or name is required', 400);
+      throw new AppError('Trail id or name is required', 8, 400);
 
     let trail: Maybe<ITrail>;
 
@@ -48,7 +48,7 @@ class ShowTrailService {
     else trail = await this.trailsRepository.findByName(name as string);
 
     if (!trail) {
-      throw new AppError('Trail does not exist', 403);
+      throw new AppError('Trail does not exist', 12, 400);
     }
 
     const classesAmount = trail.playlists.reduce(

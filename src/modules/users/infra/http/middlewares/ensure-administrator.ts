@@ -22,13 +22,14 @@ export default async function ensureAdministrator(
     },
   });
 
-  if (!user) throw new AppError('User does not exist', 401);
+  if (!user) throw new AppError('User does not exist', 5, 401);
 
   const allowed = user.user_roles.find(
     userRole => userRole.role.permission === 0,
   );
 
-  if (!allowed) throw new AppError('Only administrator can access here', 401);
+  if (!allowed)
+    throw new AppError('Only administrator can access here', 116, 403);
 
   return next();
 }

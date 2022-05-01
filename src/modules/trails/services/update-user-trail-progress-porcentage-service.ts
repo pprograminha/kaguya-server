@@ -24,7 +24,7 @@ export class UpdateUserTrailProgressPorcentageService {
       user_id,
     });
 
-    if (!userTrail) throw new AppError('User trail not found', 400);
+    if (!userTrail) throw new AppError('User trail does not exist', 12, 400);
 
     const userPlaylists =
       await this.userPlaylistsRepository.findAllUserPlaylistsFromTrail({

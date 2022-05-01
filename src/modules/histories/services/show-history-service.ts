@@ -25,7 +25,7 @@ export class ShowHistoryService {
     }
 
     if (!history) {
-      throw new AppError('History does not exist', 403);
+      throw new AppError('History does not exist', 12, 400);
     }
 
     return history;

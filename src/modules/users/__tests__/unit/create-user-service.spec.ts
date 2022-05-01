@@ -108,7 +108,7 @@ describe('CreateUser', () => {
         password: 'xxxx',
         creator_id: 'non-existing-creator-id',
       }),
-    ).rejects.toEqual(new AppError('Creator does not exist', 401));
+    ).rejects.toEqual(new AppError('Creator does not exist', 5, 401));
   });
 
   it('should not be able to create an user with the same role or higher as the administrator', async () => {
@@ -149,6 +149,7 @@ describe('CreateUser', () => {
     ).rejects.toEqual(
       new AppError(
         'You cannot give one permission greater or equal to yours',
+        116,
         403,
       ),
     );
@@ -162,7 +163,7 @@ describe('CreateUser', () => {
         password: 'xxxx',
         role: 'non-existing-role',
       }),
-    ).rejects.toEqual(new AppError('Role does not exist', 403));
+    ).rejects.toEqual(new AppError('Role does not exist', 12, 400));
   });
 
   it(`should not be able to create an user with another's email`, async () => {
@@ -185,7 +186,7 @@ describe('CreateUser', () => {
         password: 'xxxx',
         role: 'default',
       }),
-    ).rejects.toEqual(new AppError('Unable to create user', 403));
+    ).rejects.toEqual(new AppError('Unable to create user', 23, 400));
   });
 
   it(`should not be able to create an user with another's username`, async () => {
@@ -208,6 +209,6 @@ describe('CreateUser', () => {
         password: 'xxxx',
         role: 'default',
       }),
-    ).rejects.toEqual(new AppError('Username entered already exists', 403));
+    ).rejects.toEqual(new AppError('Username entered already exists', 24, 400));
   });
 });

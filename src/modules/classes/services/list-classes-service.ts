@@ -24,7 +24,7 @@ class ListClassesService {
   }: ListClassesRequestDTO): Promise<IClass[]> {
     const user = await this.usersRepository.findById(user_id);
 
-    if (!user) throw new AppError('User does not exist', 401);
+    if (!user) throw new AppError('User does not exist', 15, 401);
 
     let classes: IClass[];
 

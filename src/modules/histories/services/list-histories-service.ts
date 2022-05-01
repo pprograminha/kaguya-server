@@ -27,7 +27,7 @@ export class ListHistoriesService {
       const user = await this.usersRepository.findById(user_id);
 
       if (!user) {
-        throw new AppError('User does not exist', 401);
+        throw new AppError('User does not exist', 5, 401);
       }
 
       histories = await this.historiesRepository.findAllHistoriesFromUser({

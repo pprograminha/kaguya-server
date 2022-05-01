@@ -19,11 +19,11 @@ export class UpdateTrailAvatarService {
     trail_id,
     avatar,
   }: UpdateTrailAvatarRequestDTO): Promise<ITrail> {
-    if (!avatar) throw new AppError('Avatar field is required', 403);
+    if (!avatar) throw new AppError('Avatar field is required', 8, 400);
 
     const trail = await this.trailsRepository.findById(trail_id);
 
-    if (!trail) throw new AppError('Trail does not exist', 400);
+    if (!trail) throw new AppError('Trail does not exist', 12, 400);
 
     if (trail.avatar) {
       await this.storageProvider.deleteFile(trail.avatar);

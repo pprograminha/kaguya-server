@@ -22,7 +22,7 @@ export default async function ensureSubAdministrator(
     },
   });
 
-  if (!user) throw new AppError('User does not exist', 401);
+  if (!user) throw new AppError('User does not exist', 5, 401);
 
   const allowed = user.user_roles.find(
     userRole => userRole.role.permission <= 1,
@@ -31,7 +31,8 @@ export default async function ensureSubAdministrator(
   if (!allowed)
     throw new AppError(
       'Only sub-administrator or superior can access here',
-      401,
+      116,
+      403,
     );
 
   return next();

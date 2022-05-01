@@ -29,11 +29,11 @@ export class CreateUserTrailService {
   }: CreateUserTrailRequestDTO): Promise<IUserTrail> {
     const trail = await this.trailsRepository.findById(trail_id);
 
-    if (!trail) throw new AppError('Trail does not exist', 400);
+    if (!trail) throw new AppError('Trail does not exist', 12, 400);
 
     const user = await this.usersRepository.findById(user_id);
 
-    if (!user) throw new AppError('User does not exist', 400);
+    if (!user) throw new AppError('User does not exist', 5, 400);
 
     const checkUserTrailAlreadyExists =
       await this.userTrailsRepository.findUserTrail({
@@ -42,7 +42,7 @@ export class CreateUserTrailService {
       });
 
     if (checkUserTrailAlreadyExists)
-      throw new AppError('User trail already exists', 403);
+      throw new AppError('User trail already exists', 23, 403);
 
     const userTrail = await this.userTrailsRepository.create({
       trail_id,
@@ -58,7 +58,8 @@ export class CreateUserTrailService {
       userTrail.id,
     );
 
-    if (!userTrailFinded) throw new AppError('User trail does not exist', 400);
+    if (!userTrailFinded)
+      throw new AppError('User trail does not exist', 12, 400);
 
     return userTrailFinded;
   }

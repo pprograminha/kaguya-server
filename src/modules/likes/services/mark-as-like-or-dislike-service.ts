@@ -30,13 +30,13 @@ export class MarkAsLikeOrDislikeService {
     const user = await this.usersRepository.findById(user_id);
 
     if (!user) {
-      throw new AppError('User does not exist', 401);
+      throw new AppError('User does not exist', 5, 401);
     }
 
     const class_ = await this.classesRepository.findById(class_id);
 
     if (!class_) {
-      throw new AppError('Class not found', 403);
+      throw new AppError('Class does not exist', 12, 400);
     }
 
     const dislike = await this.dislikesRepository.findOneDislikeFromUserClass({

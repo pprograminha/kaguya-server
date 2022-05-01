@@ -36,13 +36,13 @@ class ShowClassService {
     const user = await this.usersRepository.findById(user_id);
 
     if (!user) {
-      throw new AppError('User does not exist', 401);
+      throw new AppError('User does not exist', 5, 401);
     }
 
     let findedClass: Maybe<IClass>;
 
     if (!class_id && (!class_slug || !block_slug)) {
-      throw new AppError('Enter some search attribute', 403);
+      throw new AppError('Enter some search attribute', 8, 400);
     }
 
     if (class_id) {
@@ -70,7 +70,7 @@ class ShowClassService {
     }
 
     if (!findedClass) {
-      throw new AppError('Class does not exist', 403);
+      throw new AppError('Class does not exist', 12, 400);
     }
 
     const view = await this.viewsRepository.findOneViewFromUserClass({

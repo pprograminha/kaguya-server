@@ -27,11 +27,11 @@ class ListAllUserPlaylistsFromTrailService {
     const trail = await this.trailsRepository.findById(trail_id);
 
     if (!user) {
-      throw new AppError('User does not exist', 401);
+      throw new AppError('User does not exist', 5, 401);
     }
 
     if (!trail) {
-      throw new AppError('Trail does not exist', 400);
+      throw new AppError('Trail does not exist', 12, 400);
     }
 
     const userPlaylists =

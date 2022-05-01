@@ -128,7 +128,8 @@ describe('CreateUser', () => {
     ).rejects.toEqual(
       new AppError(
         "Can't possible to show user profile because this username does not exist in the database",
-        403,
+        12,
+        400,
       ),
     );
   });
@@ -147,7 +148,7 @@ describe('CreateUser', () => {
         username: user.username,
       }),
     ).rejects.toEqual(
-      new AppError('User who made the request does not exist', 401),
+      new AppError('User who made the request does not exist', 5, 401),
     );
   });
 
@@ -200,7 +201,7 @@ describe('CreateUser', () => {
         username: userCreated.username,
       }),
     ).rejects.toEqual(
-      new AppError('You do not have permission to access', 409),
+      new AppError('You do not have permission to access', 116, 403),
     );
   });
 });

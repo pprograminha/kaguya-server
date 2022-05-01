@@ -18,7 +18,7 @@ class ShowPlaylistService {
     trail_slug,
   }: ShowPlaylistRequestDTO): Promise<IPlaylist> {
     if (!playlist_id && (!playlist_slug || !trail_slug))
-      throw new AppError('Missing parameters', 400);
+      throw new AppError('Missing parameters', 8, 400);
 
     let playlist: Maybe<IPlaylist>;
 
@@ -32,7 +32,7 @@ class ShowPlaylistService {
     }
 
     if (!playlist) {
-      throw new AppError('Playlist does not exist', 403);
+      throw new AppError('Playlist does not exist', 12, 400);
     }
 
     return playlist;

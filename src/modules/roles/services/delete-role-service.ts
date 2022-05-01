@@ -13,7 +13,7 @@ class DeleteRoleService {
     const block = await this.rolesRepository.findById(block_id);
 
     if (!block) {
-      throw new AppError('Block does not exist', 403);
+      throw new AppError('Block does not exist', 12, 400);
     }
 
     await this.rolesRepository.destroyById(block.id);

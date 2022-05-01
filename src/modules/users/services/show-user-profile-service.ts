@@ -26,7 +26,8 @@ class ShowUserProfileService {
       if (!user) {
         throw new AppError(
           "Can't possible to show user profile because this username does not exist in the database",
-          403,
+          12,
+          400,
         );
       }
     }
@@ -35,7 +36,7 @@ class ShowUserProfileService {
     });
 
     if (!userWhoMadeRequest)
-      throw new AppError('User who made the request does not exist', 401);
+      throw new AppError('User who made the request does not exist', 5, 401);
 
     const hasGreaterPermission = !!user?.user_roles.some(
       user_role => user_role.role.permission === 0,
@@ -47,7 +48,7 @@ class ShowUserProfileService {
       );
 
     if (hasGreaterPermission && !userWhoMadeRequestHasHighestPermission)
-      throw new AppError('You do not have permission to access', 409);
+      throw new AppError('You do not have permission to access', 116, 403);
 
     return user || userWhoMadeRequest;
   }

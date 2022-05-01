@@ -31,7 +31,7 @@ class CreatePlaylistFromTrailService {
     const trail = await this.trailsRepository.findById(trail_id);
 
     if (!trail) {
-      throw new AppError('Trail does not exist', 400);
+      throw new AppError('Trail does not exist', 12, 400);
     }
 
     const playlist = await this.playlistsRepository.create({

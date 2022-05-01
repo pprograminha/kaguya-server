@@ -24,7 +24,8 @@ export class UpdateUserBlockProgressPorcentageService {
       user_id,
     });
 
-    if (!userBlock) throw new AppError('This user block does not exist', 403);
+    if (!userBlock)
+      throw new AppError('This user block does not exist', 12, 400);
 
     const userClasses =
       await this.userClassesRepository.findAllUserClassesFromBlock({

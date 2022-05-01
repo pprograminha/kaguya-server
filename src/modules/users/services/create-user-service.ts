@@ -41,15 +41,15 @@ class CreateUserService {
     const roleFinded = await this.rolesRepository.findByRoleName(role);
 
     if (checkEmailAlreadyExists) {
-      throw new AppError('Unable to create user', 403);
+      throw new AppError('Unable to create user', 23, 400);
     }
 
     if (checkUsernameAlreadyExists) {
-      throw new AppError('Username entered already exists', 403);
+      throw new AppError('Username entered already exists', 24, 400);
     }
 
     if (!roleFinded) {
-      throw new AppError('Role does not exist', 403);
+      throw new AppError('Role does not exist', 12, 400);
     }
 
     const hashedPassword = await this.hashProvider.generateHash(password);
@@ -59,7 +59,7 @@ class CreateUserService {
         user_roles: true,
       });
 
-      if (!creator) throw new AppError('Creator does not exist', 401);
+      if (!creator) throw new AppError('Creator does not exist', 5, 401);
 
       const permissions = creator.user_roles.map(
         userRole => userRole.role.permission,
@@ -70,6 +70,7 @@ class CreateUserService {
       if (roleFinded.permission <= greaterPermission) {
         throw new AppError(
           'You cannot give one permission greater or equal to yours',
+          116,
           403,
         );
       }

@@ -13,7 +13,7 @@ class DeletePlaylistService {
     const playlist = await this.playlistsRepository.findById(playlist_id);
 
     if (!playlist) {
-      throw new AppError('Playlist does not exist', 400);
+      throw new AppError('Playlist does not exist', 12, 400);
     }
 
     await this.playlistsRepository.destroyById(playlist.id);

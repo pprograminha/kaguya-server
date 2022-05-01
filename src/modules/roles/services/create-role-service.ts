@@ -20,10 +20,18 @@ export class CreateRoleService {
     role = 'default',
     permission = 2,
   }: CreateRoleRequestDTO): Promise<IRole> {
+    const findUserLogged = await this.usersRepository.findById(user_id_logged, {
+      user_roles: true,
+    });
+
+    if (!findUserLogged) {
+      throw new AppError('User not logged to create new role', 5, 401);
+    }
+
     const findRoleName = await this.rolesRepository.findByRoleName(role);
 
     if (findRoleName) {
-      throw new AppError('The position with this name already exists.');
+      throw new AppError('The position with this name already exists', 23, 400);
     }
 
     const findRolePermission = await this.rolesRepository.findByPermission(
@@ -32,16 +40,10 @@ export class CreateRoleService {
 
     if (findRolePermission) {
       throw new AppError(
-        `The position ${permission} with this permission already exists.`,
+        `The position ${permission} with this permission already exists`,
+        24,
+        400,
       );
-    }
-
-    const findUserLogged = await this.usersRepository.findById(user_id_logged, {
-      user_roles: true,
-    });
-
-    if (!findUserLogged) {
-      throw new AppError('User not logged to create new role');
     }
 
     const permissions = findUserLogged.user_roles.map(
@@ -53,6 +55,7 @@ export class CreateRoleService {
     if (permission <= greaterPermission) {
       throw new AppError(
         'You cannot to create a role with permissions greater or equal to yours',
+        116,
       );
     }
 

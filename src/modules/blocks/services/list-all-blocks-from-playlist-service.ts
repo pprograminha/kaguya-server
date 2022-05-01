@@ -29,12 +29,13 @@ class ListAllBlocksFromPlaylistService {
     const playlist = await this.playlistsRepository.findById(playlist_id);
 
     if (!playlist) {
-      throw new AppError('This playlist does not exist');
+      throw new AppError('This playlist does not exist', 12, 400);
     }
+
     const user = await this.usersRepository.findById(user_id);
 
     if (!user) {
-      throw new AppError('User does not exist', 401);
+      throw new AppError('User does not exist', 5, 401);
     }
 
     let blocks = await this.blocksRepository.findAllBlocksFromPlaylist({

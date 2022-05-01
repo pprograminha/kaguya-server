@@ -19,11 +19,11 @@ export class UpdateUserAvatarService {
     user_id,
     avatar,
   }: UpdateUserAvatarRequestDTO): Promise<IUser> {
-    if (!avatar) throw new AppError('Avatar field is required', 403);
+    if (!avatar) throw new AppError('Avatar field is required', 8, 400);
 
     const user = await this.usersRepository.findById(user_id);
 
-    if (!user) throw new AppError('User does not exist', 400);
+    if (!user) throw new AppError('User does not exist', 5, 401);
 
     if (user.avatar) {
       await this.storageProvider.deleteFile(user.avatar);

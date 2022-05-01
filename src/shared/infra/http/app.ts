@@ -57,6 +57,7 @@ app.use(
       return response.status(error.statusCode).json({
         status: 'error',
         message: error.message,
+        genericCode: error.genericCode,
         statusCode: error.statusCode,
       });
     }
@@ -65,6 +66,7 @@ app.use(
       return response.status(403).json({
         status: 'error',
         message: error.message,
+        genericCode: error.code.length,
         statusCode: 403,
       });
     }
@@ -74,6 +76,7 @@ app.use(
     return response.status(500).json({
       status: 'error',
       message: 'Internal Server Error',
+      genericCode: 50,
       statusCode: 500,
     });
   },

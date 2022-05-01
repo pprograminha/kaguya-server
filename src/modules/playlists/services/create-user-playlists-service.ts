@@ -61,11 +61,11 @@ class CreateUserPlaylistsService {
     });
 
     if (!user) {
-      throw new AppError('User does not exist', 401);
+      throw new AppError('User does not exist', 5, 401);
     }
 
     if (!trail) {
-      throw new AppError('Trail does not exist', 400);
+      throw new AppError('Trail does not exist', 12, 400);
     }
 
     const userTrail = await this.userTrailsRepository.findUserTrail({
@@ -74,7 +74,7 @@ class CreateUserPlaylistsService {
     });
 
     if (!userTrail) {
-      throw new AppError('User trail does not exist', 403);
+      throw new AppError('User trail does not exist', 13, 400);
     }
 
     const userPlaylistsCreate = playlists.map(playlist => ({

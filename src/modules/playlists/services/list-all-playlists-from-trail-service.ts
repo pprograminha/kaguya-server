@@ -43,16 +43,16 @@ class ListAllPlaylistsFromTrailService {
     skip,
     take,
   }: ListAllPlaylistsFromTrailRequestDTO): Promise<Response> {
-    const trail = await this.trailsRepository.findById(trail_id);
-
-    if (!trail) {
-      throw new AppError('Trail does not exist', 400);
-    }
-
     const user = await this.usersRepository.findById(user_id);
 
     if (!user) {
-      throw new AppError('User does not exist', 401);
+      throw new AppError('User does not exist', 5, 401);
+    }
+
+    const trail = await this.trailsRepository.findById(trail_id);
+
+    if (!trail) {
+      throw new AppError('Trail does not exist', 12, 400);
     }
 
     const playlists = await this.playlistsRepository.findAllPlaylistsFromTrail({

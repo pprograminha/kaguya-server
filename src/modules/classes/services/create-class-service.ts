@@ -31,7 +31,8 @@ class CreateClassService {
   }: CreateClassRequestDTO): Promise<IClass> {
     const block = await this.blocksRepository.findById(block_id);
 
-    if (!block) throw new AppError('This block entered does not exist', 403);
+    if (!block)
+      throw new AppError('This block entered does not exist', 12, 400);
 
     const classCreated = await this.classesRepository.create({
       block_id,

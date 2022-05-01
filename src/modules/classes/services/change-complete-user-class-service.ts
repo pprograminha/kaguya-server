@@ -29,15 +29,16 @@ class ChangeCompleteUserClassService {
     const user = await this.usersRepository.findById(user_id);
     const _class = await this.classesRepository.findById(class_id);
 
-    if (!user) throw new AppError('User not found', 401);
-    if (!_class) throw new AppError('Class entered does not exists', 403);
+    if (!user) throw new AppError('User does not exist', 12, 401);
+    if (!_class) throw new AppError('Class entered does not exists', 12, 403);
 
     const userClass = await this.userClassesRepository.findOne({
       class_id,
       user_id,
     });
 
-    if (!userClass) throw new AppError('This user class does not exist', 403);
+    if (!userClass)
+      throw new AppError('This user class does not exist', 13, 403);
 
     userClass.completed = !userClass.completed;
 

@@ -13,7 +13,7 @@ class DeleteClassService {
     const _class = await this.classesRepository.findById(class_id);
 
     if (!_class) {
-      throw new AppError('Class does not exist', 403);
+      throw new AppError('Class does not exist', 12, 400);
     }
 
     await this.classesRepository.destroyById(_class.id);

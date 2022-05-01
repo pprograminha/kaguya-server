@@ -26,13 +26,13 @@ export class CreateHistoryService {
     const user = await this.usersRepository.findById(user_id);
 
     if (!user) {
-      throw new AppError('User does not exist', 401);
+      throw new AppError('User does not exist', 5, 401);
     }
 
     const _class = await this.classesRepository.findById(class_id);
 
     if (!_class) {
-      throw new AppError('Class does not exist', 400);
+      throw new AppError('Class does not exist', 12, 400);
     }
 
     const findedHistory = await this.historiesRepository.findUserClassHistory({

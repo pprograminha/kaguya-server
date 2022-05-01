@@ -13,7 +13,7 @@ class DeleteBlockService {
     const block = await this.blocksRepository.findById(block_id);
 
     if (!block) {
-      throw new AppError('Block does not exist', 403);
+      throw new AppError('Block does not exist', 12, 400);
     }
 
     await this.blocksRepository.destroyById(block.id);

@@ -27,7 +27,7 @@ class CreateBlockService {
     const playlist = await this.playlistsRepository.findById(playlist_id);
 
     if (!playlist) {
-      throw new AppError('This playlist does not exist');
+      throw new AppError('This playlist does not exist', 12);
     }
 
     const block = await this.blocksRepository.create({

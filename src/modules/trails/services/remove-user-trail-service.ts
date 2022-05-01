@@ -36,18 +36,18 @@ export class RemoveUserTrailService {
   }: DestroyUserTrailRequestDTO): Promise<void> {
     const user = await this.usersRepository.findById(user_id);
 
-    if (!user) throw new AppError('User does not exist', 401);
+    if (!user) throw new AppError('User does not exist', 5, 401);
 
     const trail = await this.trailsRepository.findById(trail_id);
 
-    if (!trail) throw new AppError('Trail does not exist', 400);
+    if (!trail) throw new AppError('Trail does not exist', 12, 400);
 
     const userTrail = await this.userTrailsRepository.findUserTrail({
       trail_id,
       user_id,
     });
 
-    if (!userTrail) throw new AppError('User Trail does not exist', 429);
+    if (!userTrail) throw new AppError('User Trail does not exist', 13, 400);
 
     await this.userTrailsRepository.removeById(userTrail.id);
 

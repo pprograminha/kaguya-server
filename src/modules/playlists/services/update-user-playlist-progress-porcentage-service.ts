@@ -24,7 +24,8 @@ export class UpdateUserPlaylistProgressPorcentageService {
       user_id,
     });
 
-    if (!userPlaylist) throw new AppError('This playlist does not exist', 403);
+    if (!userPlaylist)
+      throw new AppError('This playlist does not exist', 12, 400);
 
     const userBlocks =
       await this.userBlocksRepository.findAllUserBlocksFromPlaylist({

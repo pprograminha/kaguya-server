@@ -24,7 +24,9 @@ export class DestroyTrailService {
 
     await this.trailsRepository.destroyById(trail_id);
 
-    await this.storageProvider.deleteFile(trail.avatar);
+    if (trail.avatar) {
+      await this.storageProvider.deleteFile(trail.avatar);
+    }
 
     return trail;
   }

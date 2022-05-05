@@ -78,7 +78,10 @@ export class PrismaTrailsRepository implements ITrailsRepository {
               NOT: {
                 user_trails: {
                   some: {
-                    user_id: data.except_user_id,
+                    AND: {
+                      user_id: data.except_user_id,
+                      enabled: true,
+                    },
                   },
                 },
               },

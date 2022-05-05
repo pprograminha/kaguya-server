@@ -1,5 +1,8 @@
 import { IUserTrail } from '@modules/trails/domain/entities/iuser-trail';
-import { IUserTrailsRepository } from '@modules/trails/domain/repositories/user-trails-repository';
+import {
+  IUserTrailsRepository,
+  UserTrailsRelationshipDTO,
+} from '@modules/trails/domain/repositories/user-trails-repository';
 import { FindAllUserTrailsDTO } from '@modules/trails/dtos/find-all-user-trails-dto';
 import { CreateUserTrailDTO } from '@modules/trails/dtos/create-user-trail-dto';
 import { FindUserTrailDTO } from '@modules/trails/dtos/find-user-trail-dto';
@@ -34,15 +37,43 @@ class PrismaUserTrailsRepository implements IUserTrailsRepository {
     return userTrailUpdated as IUserTrail;
   }
 
-  async findById(user_trail_id: string): AsyncMaybe<IUserTrail> {
+  async findById(
+    user_trail_id: string,
+    relationship: UserTrailsRelationshipDTO,
+  ): AsyncMaybe<IUserTrail> {
     const userTrail = await prisma.userTrail.findUnique({
       where: {
         id: user_trail_id,
       },
-      include: {
-        user: true,
-        trail: true,
-      },
+      ...(relationship && relationship.called_in_user_trail
+        ? {
+            include: {
+              trail: {
+                include: {
+                  playlists: {
+                    include: {
+                      blocks: {
+                        include: {
+                          _count: {
+                            select: {
+                              classes: true,
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                  _count: {
+                    select: {
+                      user_trails: true,
+                      playlists: true,
+                    },
+                  },
+                },
+              },
+            },
+          }
+        : {}),
     });
 
     return userTrail as IUserTrail | null;

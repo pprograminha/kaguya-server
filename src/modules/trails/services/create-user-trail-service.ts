@@ -1,11 +1,16 @@
+import { IBlock } from '@modules/blocks/domain/entities/iblock';
 import { CreateUserPlaylistsService } from '@modules/playlists/services/create-user-playlists-service';
 import { IUsersRepository } from '@modules/users/domain/repositories/users-repository';
-import { AppError } from '@shared/errors/app-error';
 import { inject, injectable } from '@shared/container';
-import { IUserTrail } from '../domain/entities/iuser-trail';
+import { AppError } from '@shared/errors/app-error';
+import { ITrail } from '../domain/entities/itrail';
 import { ITrailsRepository } from '../domain/repositories/trails-repository';
 import { IUserTrailsRepository } from '../domain/repositories/user-trails-repository';
 import { CreateUserTrailRequestDTO } from '../dtos/create-user-trail-request-dto';
+import {
+  Count,
+  CustomUserTrail,
+} from './list-all-user-trails-from-user-service';
 
 @injectable()
 export class CreateUserTrailService {
@@ -26,7 +31,7 @@ export class CreateUserTrailService {
   async execute({
     trail_id,
     user_id,
-  }: CreateUserTrailRequestDTO): Promise<IUserTrail> {
+  }: CreateUserTrailRequestDTO): Promise<CustomUserTrail> {
     const trail = await this.trailsRepository.findById(trail_id);
 
     if (!trail) throw new AppError('Trail does not exist', 12, 400);
@@ -54,13 +59,45 @@ export class CreateUserTrailService {
       trail_id,
     });
 
-    const userTrailFinded = await this.userTrailsRepository.findById(
+    const findedUserTrail = await this.userTrailsRepository.findById(
       userTrail.id,
+      {
+        called_in_user_trail: true,
+      },
     );
 
-    if (!userTrailFinded)
+    if (!findedUserTrail)
       throw new AppError('User trail does not exist', 12, 400);
 
-    return userTrailFinded;
+    const classesAmount = trail.playlists.reduce(
+      (_, playlist) =>
+        playlist.blocks.reduce(
+          (acc, block) => acc + (block as IBlock & Count)._count.classes,
+          0,
+        ),
+      0,
+    );
+
+    const customUserTrail: CustomUserTrail = {
+      id: findedUserTrail.id,
+      name: findedUserTrail.trail.name,
+      avatar: findedUserTrail.trail.avatar,
+      playlists: undefined,
+      user: findedUserTrail.user,
+      updated_at: findedUserTrail.updated_at,
+      created_at: findedUserTrail.created_at,
+      _count: {
+        playlists: (findedUserTrail.trail as ITrail & Count)._count.playlists,
+        user_trails: undefined,
+        users: (findedUserTrail.trail as ITrail & Count)._count.user_trails,
+        classes: classesAmount,
+      },
+      user_trail: {
+        enabled: findedUserTrail.enabled,
+        progress: findedUserTrail.progress,
+      },
+    };
+
+    return customUserTrail;
   }
 }

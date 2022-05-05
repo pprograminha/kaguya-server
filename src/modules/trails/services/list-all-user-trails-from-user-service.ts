@@ -5,7 +5,7 @@ import { ITrail } from '../domain/entities/itrail';
 import { IUserTrailsRepository } from '../domain/repositories/user-trails-repository';
 import { ListAllUserTrailsFromUserRequestDTO } from '../dtos/list-all-user-trails-from-user-request-dto';
 
-type Count = {
+export type Count = {
   _count: {
     classes: number;
     user_trails: number;
@@ -13,7 +13,7 @@ type Count = {
   };
 };
 
-type Response = {
+export type CustomUserTrail = {
   user: IUser;
   playlists: undefined;
   _count: {
@@ -28,8 +28,12 @@ type Response = {
   };
   id: string;
   name: string;
+  avatar: string | null;
   updated_at: Date;
-}[];
+  created_at: Date;
+};
+
+type Response = CustomUserTrail[];
 @injectable()
 export class ListAllUserTrailsFromUserService {
   constructor(
@@ -66,7 +70,7 @@ export class ListAllUserTrailsFromUserService {
           user: _user,
           playlists: undefined,
           _count: {
-            ...(trail as ITrail & Count)._count,
+            playlists: (trail as ITrail & Count)._count.playlists,
             user_trails: undefined,
             users: (trail as ITrail & Count)._count.user_trails,
             classes: classesAmount,

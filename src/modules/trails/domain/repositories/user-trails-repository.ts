@@ -4,10 +4,16 @@ import { FindUserTrailDTO } from '@modules/trails/dtos/find-user-trail-dto';
 import { AsyncMaybe } from '@shared/types/app';
 import { IUserTrail } from '../entities/iuser-trail';
 
+export type UserTrailsRelationshipDTO = {
+  called_in_user_trail?: boolean;
+};
 interface IUserTrailsRepository {
   create(data: CreateUserTrailDTO): Promise<IUserTrail>;
   save(userTrail: IUserTrail): Promise<IUserTrail>;
-  findById(user_trail_id: string): AsyncMaybe<IUserTrail>;
+  findById(
+    user_trail_id: string,
+    relationship?: UserTrailsRelationshipDTO,
+  ): AsyncMaybe<IUserTrail>;
   findUserTrail(data: FindUserTrailDTO): AsyncMaybe<IUserTrail>;
   removeById(user_trail_id: string): Promise<void>;
   findAllUserTrails(data: FindAllUserTrailsDTO): Promise<IUserTrail[]>;

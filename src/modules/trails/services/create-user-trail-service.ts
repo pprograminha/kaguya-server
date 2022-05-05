@@ -4,6 +4,7 @@ import { IUsersRepository } from '@modules/users/domain/repositories/users-repos
 import { inject, injectable } from '@shared/container';
 import { AppError } from '@shared/errors/app-error';
 import { ITrail } from '../domain/entities/itrail';
+import { IUserTrail } from '../domain/entities/iuser-trail';
 import { ITrailsRepository } from '../domain/repositories/trails-repository';
 import { IUserTrailsRepository } from '../domain/repositories/user-trails-repository';
 import { CreateUserTrailRequestDTO } from '../dtos/create-user-trail-request-dto';
@@ -46,13 +47,24 @@ export class CreateUserTrailService {
         user_id,
       });
 
-    if (checkUserTrailAlreadyExists)
-      throw new AppError('User trail already exists', 23, 403);
+    if (checkUserTrailAlreadyExists) {
+      if (checkUserTrailAlreadyExists.enabled) {
+        throw new AppError('User trail already exists', 23, 403);
+      }
 
-    const userTrail = await this.userTrailsRepository.create({
-      trail_id,
-      user_id,
-    });
+      checkUserTrailAlreadyExists.enabled = true;
+
+      await this.userTrailsRepository.save(checkUserTrailAlreadyExists);
+    }
+
+    let userTrail: IUserTrail | null = null;
+
+    if (!checkUserTrailAlreadyExists) {
+      userTrail = await this.userTrailsRepository.create({
+        trail_id,
+        user_id,
+      });
+    }
 
     await this.createUserPlaylistsService.execute({
       user_id,
@@ -60,7 +72,7 @@ export class CreateUserTrailService {
     });
 
     const findedUserTrail = await this.userTrailsRepository.findById(
-      userTrail.id,
+      userTrail?.id || (checkUserTrailAlreadyExists as IUserTrail).id,
       {
         called_in_user_trail: true,
       },

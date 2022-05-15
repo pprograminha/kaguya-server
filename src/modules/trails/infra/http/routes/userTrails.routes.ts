@@ -46,6 +46,7 @@ userTrailsRouter.get(
       order: Joi.string().regex(/^(asc|desc)$/),
       skip: Joi.number(),
       take: Joi.number(),
+      enabled: Joi.boolean().default(true),
     },
   }),
   listAllUserTrailsFromUserController.handle,

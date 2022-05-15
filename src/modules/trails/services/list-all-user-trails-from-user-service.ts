@@ -46,12 +46,14 @@ export class ListAllUserTrailsFromUserService {
     order,
     skip,
     take,
+    enabled: enabled_,
   }: ListAllUserTrailsFromUserRequestDTO): Promise<Response> {
     const userTrails = await this.userTrailsRepository.findAllUserTrails({
       user_id,
       order,
       skip,
       take,
+      enabled: enabled_,
     });
 
     const trails = userTrails.map(

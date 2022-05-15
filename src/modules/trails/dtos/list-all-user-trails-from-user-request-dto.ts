@@ -3,6 +3,7 @@ type ListAllUserTrailsFromUserRequestDTO = {
   skip?: number;
   take?: number;
   order?: 'asc' | 'desc';
+  enabled: boolean;
 };
 
 export { ListAllUserTrailsFromUserRequestDTO };

@@ -109,10 +109,12 @@ class PrismaUserTrailsRepository implements IUserTrailsRepository {
     order,
     skip,
     take,
+    enabled,
   }: FindAllUserTrailsDTO): Promise<IUserTrail[]> {
     const userTrails = await prisma.userTrail.findMany({
       where: {
         user_id,
+        enabled,
       },
       include: {
         trail: {

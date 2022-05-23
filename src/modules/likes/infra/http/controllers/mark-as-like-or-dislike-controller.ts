@@ -4,12 +4,12 @@ import { container } from 'tsyringe';
 
 export class MarkAsLikeOrDislikeController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { class_id, state } = request.body;
+    const { lesson_id, state } = request.body;
     const user_id = request.user.id;
     const markAsLikeOrDislike = container.resolve(MarkAsLikeOrDislikeService);
 
     await markAsLikeOrDislike.execute({
-      class_id,
+      lesson_id,
       state,
       user_id,
     });

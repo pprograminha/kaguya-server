@@ -1,4 +1,4 @@
-import { IClass } from '@modules/classes/domain/entities/iclass';
+import { ILesson } from '@modules/lessons/domain/entities/ilesson';
 import { IPlaylist } from '@modules/playlists/domain/entities/iplaylist';
 import { IUserBlock } from './iuser-block';
 
@@ -6,7 +6,7 @@ interface IBlock {
   id: string;
   name: string;
   playlist: IPlaylist;
-  classes: IClass[];
+  lessons: ILesson[];
   user_blocks: IUserBlock[];
   playlist_id: string;
   created_at: Date;

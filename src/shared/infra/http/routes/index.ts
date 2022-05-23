@@ -10,11 +10,11 @@ import { _playlistsRouter } from '@modules/playlists/infra/http/routes/_playlist
 import { userPlaylistsRouter } from '@modules/playlists/infra/http/routes/user-playlists.routes';
 import { _rolesRouter } from '@modules/roles/infra/http/routes/_roles.routes';
 import { _blocksRouter } from '@modules/blocks/infra/http/routes/_blocks.routes';
-import { _classesRouter } from '@modules/classes/infra/http/routes/_classes.routes';
+import { _lessonsRouter } from '@modules/lessons/infra/http/routes/_lessons.routes';
 import { playlistsRouter } from '@modules/playlists/infra/http/routes/playlists.routes';
 import { blocksRouter } from '@modules/blocks/infra/http/routes/blocks.routes';
 import { profileRouter } from '@modules/users/infra/http/routes/profile.routes';
-import { classesRouter } from '@modules/classes/infra/http/routes/classes.routes';
+import { lessonsRouter } from '@modules/lessons/infra/http/routes/lessons.routes';
 import { likesRouter } from '@modules/likes/infra/http/routes/likes.routes';
 import { historiesRouter } from '@modules/histories/infra/http/routes/histories.routes';
 
@@ -28,11 +28,11 @@ router.use('/sub-admins', [
   _playlistsRouter,
   _rolesRouter,
   _blocksRouter,
-  _classesRouter,
+  _lessonsRouter,
 ]);
 router.use('/sessions', sessionsRouter);
 router.use('/likes', likesRouter);
-router.use('/classes', classesRouter);
+router.use('/lessons', lessonsRouter);
 router.use('/trails', trailsRouter);
 router.use('/blocks', blocksRouter);
 router.use('/playlists', playlistsRouter);

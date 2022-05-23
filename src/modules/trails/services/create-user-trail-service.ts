@@ -81,28 +81,28 @@ export class CreateUserTrailService {
     if (!findedUserTrail)
       throw new AppError('User trail does not exist', 12, 400);
 
-    const classesAmount = trail.playlists.reduce(
+    const lessonsAmount = trail.playlists.reduce(
       (_, playlist) =>
         playlist.blocks.reduce(
-          (acc, block) => acc + (block as IBlock & Count)._count.classes,
+          (acc, block) => acc + (block as IBlock & Count)._count.lessons,
           0,
         ),
       0,
     );
 
     const customUserTrail: CustomUserTrail = {
-      id: findedUserTrail.trail.id,
-      name: findedUserTrail.trail.name,
-      avatar: findedUserTrail.trail.avatar,
+      id: trail.id,
+      name: trail.name,
+      avatar: trail.avatar,
       playlists: undefined,
       user: findedUserTrail.user,
       updated_at: findedUserTrail.updated_at,
       created_at: findedUserTrail.created_at,
       _count: {
-        playlists: (findedUserTrail.trail as ITrail & Count)._count.playlists,
+        playlists: (findedUserTrail.trail as ITrail & Count)?._count.playlists,
         user_trails: undefined,
-        users: (findedUserTrail.trail as ITrail & Count)._count.user_trails,
-        classes: classesAmount,
+        users: (findedUserTrail.trail as ITrail & Count)?._count.user_trails,
+        lessons: lessonsAmount,
       },
       user_trail: {
         enabled: findedUserTrail.enabled,

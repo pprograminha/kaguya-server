@@ -1,4 +1,4 @@
-import { IClass } from '@modules/classes/domain/entities/iclass';
+import { ILesson } from '@modules/lessons/domain/entities/ilesson';
 import { IUser } from '@modules/users/domain/entities/iuser';
 import { IDislike } from '../domain/entities/idislike';
 
@@ -9,9 +9,9 @@ class Dislike implements IDislike {
 
   user: IUser;
 
-  class_id: string;
+  lesson_id: string;
 
-  class: IClass;
+  lesson: ILesson;
 
   created_at: Date;
 

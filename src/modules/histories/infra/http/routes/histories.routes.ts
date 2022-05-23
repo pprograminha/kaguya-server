@@ -43,7 +43,7 @@ historiesRouter.post(
   ensureAuthenticated,
   celebrate({
     [Segments.BODY]: {
-      class_id: Joi.string().uuid().required(),
+      lesson_id: Joi.string().uuid().required(),
     },
   }),
   createHistoryController.handle,

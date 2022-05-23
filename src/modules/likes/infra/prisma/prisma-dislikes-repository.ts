@@ -2,16 +2,16 @@ import crypto from 'crypto';
 import { IDislike } from '@modules/likes/domain/entities/idislike';
 import { IDislikesRepository } from '@modules/likes/domain/repositories/dislikes-repository';
 import { CreateDislikeDTO } from '@modules/likes/dtos/create-dislike-dto';
-import { FindOneDislikeFromUserClass } from '@modules/likes/dtos/find-one-dislike-from-user-class';
+import { FindOneDislikeFromUserLesson } from '@modules/likes/dtos/find-one-dislike-from-user-lesson';
 import { prisma } from '@shared/infra/prisma/connection';
 import { AsyncMaybe } from '@shared/types/app';
 
 class PrismaDislikesRepository implements IDislikesRepository {
-  async create({ class_id, user_id }: CreateDislikeDTO): Promise<IDislike> {
+  async create({ lesson_id, user_id }: CreateDislikeDTO): Promise<IDislike> {
     const dislike = await prisma.disLike.create({
       data: {
         id: crypto.randomUUID(),
-        class_id,
+        lesson_id,
         user_id,
       },
     });
@@ -38,10 +38,10 @@ class PrismaDislikesRepository implements IDislikesRepository {
     return dislike as IDislike;
   }
 
-  async findAllDislikesFromClass(class_id: string): Promise<IDislike[]> {
+  async findAllDislikesFromLesson(lesson_id: string): Promise<IDislike[]> {
     const dislikes = await prisma.disLike.findMany({
       where: {
-        class_id,
+        lesson_id,
       },
     });
 
@@ -58,26 +58,26 @@ class PrismaDislikesRepository implements IDislikesRepository {
     return dislikes as IDislike[];
   }
 
-  async findOneDislikeFromUserClass(
-    data: FindOneDislikeFromUserClass,
+  async findOneDislikeFromUserLesson(
+    data: FindOneDislikeFromUserLesson,
   ): AsyncMaybe<IDislike> {
     const dislike = await prisma.disLike.findFirst({
       where: {
         user_id: data.user_id,
-        class_id: data.class_id,
+        lesson_id: data.lesson_id,
       },
     });
 
     return dislike as IDislike;
   }
 
-  async save({ id: dislike_id, class_id, user_id }: IDislike): Promise<void> {
+  async save({ id: dislike_id, lesson_id, user_id }: IDislike): Promise<void> {
     await prisma.disLike.update({
       where: {
         id: dislike_id,
       },
       data: {
-        class_id,
+        lesson_id,
         user_id,
       },
     });

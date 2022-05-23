@@ -7,7 +7,7 @@ import { ListAllUserTrailsFromUserRequestDTO } from '../dtos/list-all-user-trail
 
 export type Count = {
   _count: {
-    classes: number;
+    lessons: number;
     user_trails: number;
     playlists: number;
   };
@@ -19,7 +19,7 @@ export type CustomUserTrail = {
   _count: {
     user_trails: undefined;
     users: number;
-    classes: number;
+    lessons: number;
     playlists: number;
   };
   user_trail: {
@@ -58,10 +58,10 @@ export class ListAllUserTrailsFromUserService {
 
     const trails = userTrails.map(
       ({ enabled, trail, progress, user: _user }) => {
-        const classesAmount = trail.playlists.reduce(
+        const lessonsAmount = trail.playlists.reduce(
           (_, playlist) =>
             playlist.blocks.reduce(
-              (acc, block) => acc + (block as IBlock & Count)._count.classes,
+              (acc, block) => acc + (block as IBlock & Count)._count.lessons,
               0,
             ),
           0,
@@ -75,7 +75,7 @@ export class ListAllUserTrailsFromUserService {
             playlists: (trail as ITrail & Count)._count.playlists,
             user_trails: undefined,
             users: (trail as ITrail & Count)._count.user_trails,
-            classes: classesAmount,
+            lessons: lessonsAmount,
           },
           user_trail: {
             progress,

@@ -12,7 +12,7 @@ likesRouter.post(
   ensureAuthenticated,
   celebrate({
     [Segments.BODY]: {
-      class_id: Joi.string().uuid().required(),
+      lesson_id: Joi.string().uuid().required(),
       state: Joi.string()
         .regex(/^(like|dislike|none)$/)
         .required(),

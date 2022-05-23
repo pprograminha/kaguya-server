@@ -8,7 +8,7 @@ import { ListAllTrailsRequestDTO } from '../dtos/list-all-trails-dto';
 
 type Count = {
   _count: {
-    classes: number;
+    lessons: number;
     user_trails: number;
     playlists: number;
   };
@@ -46,10 +46,10 @@ export class ListAllTrailsService {
     });
 
     trails = trails.map(trail => {
-      const classesAmount = trail.playlists.reduce(
+      const lessonsAmount = trail.playlists.reduce(
         (_, playlist) =>
           playlist.blocks.reduce(
-            (acc, block) => acc + (block as IBlock & Count)._count.classes,
+            (acc, block) => acc + (block as IBlock & Count)._count.lessons,
             0,
           ),
         0,
@@ -63,7 +63,7 @@ export class ListAllTrailsService {
           ...(trail as ITrail & Count)._count,
           user_trails: undefined,
           users: (trail as ITrail & Count)._count.user_trails,
-          classes: classesAmount,
+          lessons: lessonsAmount,
         },
       };
     }) as unknown as ITrail[];

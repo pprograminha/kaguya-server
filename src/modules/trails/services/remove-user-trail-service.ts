@@ -1,5 +1,5 @@
 import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/user-blocks-repository';
-import { IUserClassesRepository } from '@modules/classes/domain/repositories/user-classes-repository';
+import { IUserLessonsRepository } from '@modules/lessons/domain/repositories/user-lessons-repository';
 import { IUsersRepository } from '@modules/users/domain/repositories/users-repository';
 import { AppError } from '@shared/errors/app-error';
 import { inject, injectable } from '@shared/container';
@@ -23,8 +23,8 @@ export class RemoveUserTrailService {
     @inject('UserBlocksRepository')
     private userBlocksRepository: IUserBlocksRepository,
 
-    @inject('UserClassesRepository')
-    private userClassesRepository: IUserClassesRepository,
+    @inject('UserLessonsRepository')
+    private userLessonsRepository: IUserLessonsRepository,
 
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
@@ -69,14 +69,14 @@ export class RemoveUserTrailService {
       userBlocks.map(async userBlock => {
         await this.userBlocksRepository.removeById(userBlock.id);
 
-        const userClasses =
-          await this.userClassesRepository.findAllUserClassesFromBlock({
+        const userLessons =
+          await this.userLessonsRepository.findAllUserLessonsFromBlock({
             block_id: userBlock.block_id,
             user_id,
           });
 
-        userClasses.map(async userClass => {
-          await this.userClassesRepository.removeById(userClass.id);
+        userLessons.map(async userLesson => {
+          await this.userLessonsRepository.removeById(userLesson.id);
         });
       });
     });

@@ -2,11 +2,11 @@ import { IBlocksRepository } from '@modules/blocks/domain/repositories/blocks-re
 import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/user-blocks-repository';
 import { PrismaBlocksRepository } from '@modules/blocks/infra/prisma/prisma-blocks-repository';
 import { PrismaUserBlocksRepository } from '@modules/blocks/infra/prisma/prisma-user-blocks-repository';
-import { IClassesRepository } from '@modules/classes/domain/repositories/classes-repository';
-import { IUserClassesRepository } from '@modules/classes/domain/repositories/user-classes-repository';
-import { IViewsRepository } from '@modules/classes/domain/repositories/views-repository';
-import { PrismaClassesRepository } from '@modules/classes/infra/prisma/prisma-classes-repository';
-import { PrismaUserClassesRepository } from '@modules/classes/infra/prisma/prisma-user-classes-repository';
+import { ILessonsRepository } from '@modules/lessons/domain/repositories/lessons-repository';
+import { IUserLessonsRepository } from '@modules/lessons/domain/repositories/user-lessons-repository';
+import { IViewsRepository } from '@modules/lessons/domain/repositories/views-repository';
+import { PrismaLessonsRepository } from '@modules/lessons/infra/prisma/prisma-lessons-repository';
+import { PrismaUserLessonsRepository } from '@modules/lessons/infra/prisma/prisma-user-lessons-repository';
 import { IHistoriesRepository } from '@modules/histories/domain/repositories/histories-repository';
 import { PrismaHistoriesRepository } from '@modules/histories/infra/prisma/prisma-histories-repository';
 import { IDislikesRepository } from '@modules/likes/domain/repositories/dislikes-repository';
@@ -94,12 +94,12 @@ container.registerSingleton<IUserPlaylistsRepository>(
   PrismaUserPlaylistsRepository,
 );
 
-container.registerSingleton<IUserClassesRepository>(
-  'UserClassesRepository',
-  PrismaUserClassesRepository,
+container.registerSingleton<IUserLessonsRepository>(
+  'UserLessonsRepository',
+  PrismaUserLessonsRepository,
 );
 
-container.registerSingleton<IClassesRepository>(
-  'ClassesRepository',
-  PrismaClassesRepository,
+container.registerSingleton<ILessonsRepository>(
+  'LessonsRepository',
+  PrismaLessonsRepository,
 );

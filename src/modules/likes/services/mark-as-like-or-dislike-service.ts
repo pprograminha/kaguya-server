@@ -1,4 +1,4 @@
-import { IClassesRepository } from '@modules/classes/domain/repositories/classes-repository';
+import { ILessonsRepository } from '@modules/lessons/domain/repositories/lessons-repository';
 import { IUsersRepository } from '@modules/users/domain/repositories/users-repository';
 import { injectable, inject } from '@shared/container';
 import { AppError } from '@shared/errors/app-error';
@@ -9,8 +9,8 @@ import { MarkAsLikeOrDislikeRequestDTO } from '../dtos/mark-as-like-or-dislike-r
 @injectable()
 export class MarkAsLikeOrDislikeService {
   constructor(
-    @inject('ClassesRepository')
-    private classesRepository: IClassesRepository,
+    @inject('LessonsRepository')
+    private lessonsRepository: ILessonsRepository,
 
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
@@ -23,7 +23,7 @@ export class MarkAsLikeOrDislikeService {
   ) {}
 
   async execute({
-    class_id,
+    lesson_id,
     state,
     user_id,
   }: MarkAsLikeOrDislikeRequestDTO): Promise<void> {
@@ -33,19 +33,19 @@ export class MarkAsLikeOrDislikeService {
       throw new AppError('User does not exist', 5, 401);
     }
 
-    const class_ = await this.classesRepository.findById(class_id);
+    const lesson_ = await this.lessonsRepository.findById(lesson_id);
 
-    if (!class_) {
-      throw new AppError('Class does not exist', 12, 400);
+    if (!lesson_) {
+      throw new AppError('Lesson does not exist', 12, 400);
     }
 
-    const dislike = await this.dislikesRepository.findOneDislikeFromUserClass({
-      class_id,
+    const dislike = await this.dislikesRepository.findOneDislikeFromUserLesson({
+      lesson_id,
       user_id,
     });
 
-    const like = await this.likesRepository.findOneLikeFromUserClass({
-      class_id,
+    const like = await this.likesRepository.findOneLikeFromUserLesson({
+      lesson_id,
       user_id,
     });
 
@@ -61,7 +61,7 @@ export class MarkAsLikeOrDislikeService {
       }
 
       await this.likesRepository.create({
-        class_id,
+        lesson_id,
         user_id,
       });
     } else if (state === 'dislike') {
@@ -76,7 +76,7 @@ export class MarkAsLikeOrDislikeService {
       }
 
       await this.dislikesRepository.create({
-        class_id,
+        lesson_id,
         user_id,
       });
     } else if (like) {

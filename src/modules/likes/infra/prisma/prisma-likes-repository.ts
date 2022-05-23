@@ -3,15 +3,15 @@ import { prisma } from '@shared/infra/prisma/connection';
 import { ILikesRepository } from '@modules/likes/domain/repositories/likes-repository';
 import { ILike } from '@modules/likes/domain/entities/ilike';
 import { CreateLikeDTO } from '@modules/likes/dtos/create-like-dto';
-import { FindOneLikeFromUserClass } from '@modules/likes/dtos/find-one-like-from-user-class';
+import { FindOneLikeFromUserLesson } from '@modules/likes/dtos/find-one-like-from-user-lesson';
 import { AsyncMaybe } from '@shared/types/app';
 
 class PrismaLikesRepository implements ILikesRepository {
-  async create({ class_id, user_id }: CreateLikeDTO): Promise<ILike> {
+  async create({ lesson_id, user_id }: CreateLikeDTO): Promise<ILike> {
     const like = await prisma.like.create({
       data: {
         id: crypto.randomUUID(),
-        class_id,
+        lesson_id,
         user_id,
       },
     });
@@ -38,10 +38,10 @@ class PrismaLikesRepository implements ILikesRepository {
     return like as ILike;
   }
 
-  async findAllLikesFromClass(class_id: string): Promise<ILike[]> {
+  async findAllLikesFromLesson(lesson_id: string): Promise<ILike[]> {
     const likes = await prisma.like.findMany({
       where: {
-        class_id,
+        lesson_id,
       },
     });
 
@@ -58,26 +58,26 @@ class PrismaLikesRepository implements ILikesRepository {
     return likes as ILike[];
   }
 
-  async findOneLikeFromUserClass(
-    data: FindOneLikeFromUserClass,
+  async findOneLikeFromUserLesson(
+    data: FindOneLikeFromUserLesson,
   ): AsyncMaybe<ILike> {
     const like = await prisma.like.findFirst({
       where: {
         user_id: data.user_id,
-        class_id: data.class_id,
+        lesson_id: data.lesson_id,
       },
     });
 
     return like as ILike;
   }
 
-  async save({ id: like_id, class_id, user_id }: ILike): Promise<void> {
+  async save({ id: like_id, lesson_id, user_id }: ILike): Promise<void> {
     await prisma.like.update({
       where: {
         id: like_id,
       },
       data: {
-        class_id,
+        lesson_id,
         user_id,
       },
     });

@@ -51,23 +51,23 @@ class ListAllBlocksFromPlaylistService {
           user_block.block_id === block.id && user_block.user_id === user_id,
       );
 
-      const classes = block.classes.map(_class => {
-        const completed = _class.user_classes.some(
-          user_class =>
-            user_class.user_id === user_id &&
-            user_class.class_id === _class.id &&
-            user_class.completed,
+      const lessons = block.lessons.map(_lesson => {
+        const completed = _lesson.user_lessons.some(
+          user_lesson =>
+            user_lesson.user_id === user_id &&
+            user_lesson.lesson_id === _lesson.id &&
+            user_lesson.completed,
         );
         return {
-          ..._class,
-          user_classes: undefined,
+          ..._lesson,
+          user_lessons: undefined,
           completed,
         };
       });
 
       return {
         ...block,
-        classes,
+        lessons,
         user_blocks: undefined,
         user_block: userBlock
           ? {

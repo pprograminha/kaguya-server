@@ -21,7 +21,7 @@ class ShowBlockService {
 
     if (block_id) {
       block = await this.blocksRepository.findById(block_id, {
-        classes: true,
+        lessons: true,
       });
     } else if (block_slug && playlist_slug) {
       block = await this.blocksRepository.findByName({

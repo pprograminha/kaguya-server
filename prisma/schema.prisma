@@ -1,6 +1,6 @@
 datasource db {
-  provider = "postgresql"
-  url = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 
 }
@@ -10,34 +10,34 @@ generator client {
 }
 
 model User {
-  id String @id
-  name String?
-  email String @unique
-  avatar String?
-  user_roles UserRole[]
+  id             String         @id
+  name           String?
+  email          String         @unique
+  avatar         String?
+  user_roles     UserRole[]
   user_playlists UserPlaylist[]
-  user_trails UserTrail[]
-  user_classes UserClass[]
-  user_blocks UserBlock[]
-  likes Like[]
-  dislikes DisLike[]
-  views View[]
-  histories History[]
-  username String @unique
-  enabled Boolean @default(true)
-  password String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  user_trails    UserTrail[]
+  user_lessons   UserLesson[]
+  user_blocks    UserBlock[]
+  likes          Like[]
+  dislikes       DisLike[]
+  views          View[]
+  histories      History[]
+  username       String         @unique
+  enabled        Boolean        @default(true)
+  password       String
+  created_at     DateTime       @default(now())
+  updated_at     DateTime       @updatedAt
 
   @@map("users")
 }
 
 model UserRole {
-  id String @id
-  user_id String
-  user    User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  role    Role    @relation(fields: [role_id], references: [id], onDelete: Cascade)
-  role_id String
+  id         String   @id
+  user_id    String
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  role       Role     @relation(fields: [role_id], references: [id], onDelete: Cascade)
+  role_id    String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -45,24 +45,24 @@ model UserRole {
 }
 
 model Role {
-  id String @id
-  name String @unique
-  user_roles  UserRole[]
-  permission Int  @unique
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id         String     @id
+  name       String     @unique
+  user_roles UserRole[]
+  permission Int        @unique
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
 
   @@map("roles")
 }
 
 model UserTrail {
-  id String @id
-  user_id String
-  trail_id String
-  trail Trail @relation(fields: [trail_id], references: [id], onDelete: Cascade)
-  progress Int @default(0)
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  enabled Boolean @default(true)
+  id         String   @id
+  user_id    String
+  trail_id   String
+  trail      Trail    @relation(fields: [trail_id], references: [id], onDelete: Cascade)
+  progress   Int      @default(0)
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  enabled    Boolean  @default(true)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -70,118 +70,119 @@ model UserTrail {
 }
 
 model Trail {
-  id String @id
-  name String
-  description String
-  playlists Playlist[]
-  user_trails UserTrail[]
+  id             String         @id
+  name           String
+  description    String
+  playlists      Playlist[]
+  user_trails    UserTrail[]
   user_playlists UserPlaylist[]
-  avatar String?
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  avatar         String?
+  created_at     DateTime       @default(now())
+  updated_at     DateTime       @updatedAt
 
   @@map("trails")
 }
 
 model Playlist {
-  id String @id
-  avatar String?
-  name String
-  description String
-  trail_id String
-  blocks Block[]
-  user_blocks UserBlock[]
-  trail Trail @relation(fields: [trail_id], references: [id], onDelete: Cascade)
+  id             String         @id
+  avatar         String?
+  name           String
+  description    String
+  trail_id       String
+  blocks         Block[]
+  user_blocks    UserBlock[]
+  trail          Trail          @relation(fields: [trail_id], references: [id], onDelete: Cascade)
   user_playlists UserPlaylist[]
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at     DateTime       @default(now())
+  updated_at     DateTime       @updatedAt
 
   @@map("playlists")
 }
 
 model UserPlaylist {
-  id String @id
-  progress Int @default(0)
-  user_id String
-  trail_id String
+  id          String   @id
+  progress    Int      @default(0)
+  user_id     String
+  trail_id    String
   playlist_id String
-  trail Trail @relation(fields: [trail_id], references: [id], onDelete: Cascade)
-  user User @relation(fields:[user_id], references: [id], onDelete: Cascade)
-  playlist Playlist @relation(fields:[playlist_id], references: [id], onDelete: Cascade)
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  trail       Trail    @relation(fields: [trail_id], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  playlist    Playlist @relation(fields: [playlist_id], references: [id], onDelete: Cascade)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
   @@map("user_playlists")
 }
 
-model Class {
-  id String @id
-  name String
-  description String
-  link String
-  block Block @relation(fields: [block_id], references: [id], onDelete: Cascade)
-  block_id String
-  articles Article[]
-  user_classes UserClass[]
-  dislikes DisLike[]
-  likes Like[]
-  views View[]
-  histories History[]
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+model Lesson {
+  id           String       @id
+  name         String
+  description  String
+  link         String
+  block        Block        @relation(fields: [block_id], references: [id], onDelete: Cascade)
+  block_id     String
+  articles     Article[]
+  user_lessons UserLesson[]
+  dislikes     DisLike[]
+  likes        Like[]
+  views        View[]
+  histories    History[]
+  created_at   DateTime     @default(now())
+  updated_at   DateTime     @updatedAt
 
-  @@map("classes")
+  @@map("lessons")
 }
 
-model UserClass {
-  id String @id
-  completed Boolean
-  user_id String
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  block Block @relation(fields: [block_id], references: [id], onDelete: Cascade)
-  block_id String
-  class_id String
-  class Class @relation(fields: [class_id], references: [id], onDelete: Cascade)
+model UserLesson {
+  id         String   @id
+  completed  Boolean
+  user_id    String
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  block      Block    @relation(fields: [block_id], references: [id], onDelete: Cascade)
+  block_id   String
+  lesson_id  String
+  lesson     Lesson   @relation(fields: [lesson_id], references: [id], onDelete: Cascade)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  @@map("user_classes")
+  @@map("user_lessons")
 }
 
 model Block {
-  id String @id
-  name String
-  classes Class[]
-  playlist Playlist @relation(fields: [playlist_id], references: [id], onDelete: Cascade)
-  playlist_id String
-  user_classes UserClass[]
-  user_blocks UserBlock[]
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id           String       @id
+  name         String
+  lessons      Lesson[]
+  playlist     Playlist     @relation(fields: [playlist_id], references: [id], onDelete: Cascade)
+  playlist_id  String
+  user_lessons UserLesson[]
+  user_blocks  UserBlock[]
+  created_at   DateTime     @default(now())
+  updated_at   DateTime     @updatedAt
 
   @@map("blocks")
 }
 
 model UserBlock {
-  id String @id
-  progress Int @default(0)
-  user_id String
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  playlist Playlist @relation(fields: [playlist_id], references: [id], onDelete: Cascade)
+  id          String   @id
+  progress    Int      @default(0)
+  user_id     String
+  user        User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  playlist    Playlist @relation(fields: [playlist_id], references: [id], onDelete: Cascade)
   playlist_id String
-  block_id String
-  block Block @relation(fields: [block_id], references: [id], onDelete: Cascade)
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  block_id    String
+  block       Block    @relation(fields: [block_id], references: [id], onDelete: Cascade)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
 
   @@map("user_blocks")
 }
 
 model Like {
-  id String @id
-  user_id String
-  user User @relation(fields: [user_id], references: [id], onDelete: SetNull)
-  class_id String
-  class Class @relation(fields: [class_id], references: [id], onDelete: Cascade)
+  id         String   @id
+  user_id    String
+  user       User     @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  lesson_id  String
+  lesson     Lesson   @relation(fields: [lesson_id], references: [id], onDelete: Cascade)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -189,11 +190,11 @@ model Like {
 }
 
 model View {
-  id String @id
-  user_id String
-  user User @relation(fields: [user_id], references: [id], onDelete: SetNull)
-  class_id String
-  class Class @relation(fields: [class_id], references: [id], onDelete: Cascade)
+  id         String   @id
+  user_id    String
+  user       User     @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  lesson_id  String
+  lesson     Lesson   @relation(fields: [lesson_id], references: [id], onDelete: Cascade)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -201,11 +202,11 @@ model View {
 }
 
 model DisLike {
-  id String @id
-  user_id String
-  user User @relation(fields: [user_id], references: [id], onDelete: SetNull)
-  class_id String
-  class Class @relation(fields: [class_id], references: [id], onDelete: Cascade)
+  id         String   @id
+  user_id    String
+  user       User     @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  lesson_id  String
+  lesson     Lesson   @relation(fields: [lesson_id], references: [id], onDelete: Cascade)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -213,25 +214,26 @@ model DisLike {
 }
 
 model History {
-  id String @id
-  user_id String
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  class Class @relation(fields: [class_id], references: [id], onDelete: Cascade)
-  class_id String
-  recent_at DateTime @default(now())
+  id         String   @id
+  user_id    String
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  lesson     Lesson   @relation(fields: [lesson_id], references: [id], onDelete: Cascade)
+  lesson_id  String
+  recent_at  DateTime @default(now())
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+
   @@map("histories")
 }
 
 model Article {
-  id String @id
+  id          String   @id
   description String
-  link String
-  class Class @relation(fields: [class_id], references: [id], onDelete: Cascade)
-  class_id String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  link        String
+  lesson      Lesson   @relation(fields: [lesson_id], references: [id], onDelete: Cascade)
+  lesson_id   String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
 
   @@map("articles")
 }

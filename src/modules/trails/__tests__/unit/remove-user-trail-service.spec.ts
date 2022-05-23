@@ -2,7 +2,7 @@ import { RemoveUserTrailService } from '@modules/trails/services/remove-user-tra
 import { AppError } from '@shared/errors/app-error';
 import { InMemoryUserPlaylistsRepository } from '@modules/playlists/__tests__/in-memory/in-memory-user-playlists-repository';
 
-import { InMemoryUserClassesRepository } from '@modules/classes/__tests__/in-memory/in-memory-user-classes-repository';
+import { InMemoryUserLessonsRepository } from '@modules/lessons/__tests__/in-memory/in-memory-user-lessons-repository';
 import { InMemoryUserBlocksRepository } from '@modules/blocks/__tests__/in-memory/in-memory-user-blocks-repository';
 import { InMemoryUsersRepository } from '@modules/users/__tests__/in-memory/in-memory-users-repository';
 import { InMemoryUserTrailsRepository } from '../in-memory/in-memory-user-trails-repository';
@@ -12,7 +12,7 @@ let inMemoryUserTrailsRepository: InMemoryUserTrailsRepository;
 let inMemoryUserPlaylistsRepository: InMemoryUserPlaylistsRepository;
 let inMemoryUserBlocksRepository: InMemoryUserBlocksRepository;
 let inMemoryUsersRepository: InMemoryUsersRepository;
-let inMemoryUserClassesRepository: InMemoryUserClassesRepository;
+let inMemoryUserLessonsRepository: InMemoryUserLessonsRepository;
 let inMemoryTrailsRepository: InMemoryTrailsRepository;
 
 let removeUserTrail: RemoveUserTrailService;
@@ -23,7 +23,7 @@ describe('RemoveUserTrail', () => {
     inMemoryUserPlaylistsRepository = new InMemoryUserPlaylistsRepository();
     inMemoryTrailsRepository = new InMemoryTrailsRepository();
     inMemoryUserBlocksRepository = new InMemoryUserBlocksRepository();
-    inMemoryUserClassesRepository = new InMemoryUserClassesRepository();
+    inMemoryUserLessonsRepository = new InMemoryUserLessonsRepository();
     inMemoryUsersRepository = new InMemoryUsersRepository();
 
     removeUserTrail = new RemoveUserTrailService(
@@ -31,7 +31,7 @@ describe('RemoveUserTrail', () => {
       inMemoryUserPlaylistsRepository,
       inMemoryTrailsRepository,
       inMemoryUserBlocksRepository,
-      inMemoryUserClassesRepository,
+      inMemoryUserLessonsRepository,
       inMemoryUsersRepository,
     );
   });

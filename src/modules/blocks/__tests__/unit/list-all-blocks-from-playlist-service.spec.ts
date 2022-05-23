@@ -72,7 +72,7 @@ describe('ListAllBlocksFromPlaylist', () => {
       .mockImplementationOnce(async () =>
         blocksCreated.map(block => ({
           ...block,
-          classes: [],
+          lessons: [],
           user_blocks: [],
         })),
       );

@@ -1,6 +1,6 @@
 type CreateViewDTO = {
   user_id: string;
-  class_id: string;
+  lesson_id: string;
 };
 
 export { CreateViewDTO };

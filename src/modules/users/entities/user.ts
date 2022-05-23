@@ -4,9 +4,9 @@ import { IUserTrail } from '@modules/trails/domain/entities/iuser-trail';
 import { IUserRole } from '@modules/users/domain/entities/iuser-role';
 import { IDislike } from '@modules/likes/domain/entities/idislike';
 import { ILike } from '@modules/likes/domain/entities/ilike';
-import { IView } from '@modules/classes/domain/entities/iview';
+import { IView } from '@modules/lessons/domain/entities/iview';
 import { IUserBlock } from '@modules/blocks/domain/entities/iuser-block';
-import { IUserClass } from '@modules/classes/domain/entities/iuser-class';
+import { IUserLesson } from '@modules/lessons/domain/entities/iuser-lesson';
 import { IUser } from '../domain/entities/iuser';
 
 class User implements IUser {
@@ -24,7 +24,7 @@ class User implements IUser {
 
   user_playlists: IUserPlaylist[];
 
-  user_classes: IUserClass[];
+  user_lessons: IUserLesson[];
 
   user_blocks: IUserBlock[];
 

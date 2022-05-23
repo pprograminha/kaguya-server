@@ -1,7 +1,7 @@
 import { ILike } from '@modules/likes/domain/entities/ilike';
 import { ILikesRepository } from '@modules/likes/domain/repositories/likes-repository';
 import { CreateLikeDTO } from '@modules/likes/dtos/create-like-dto';
-import { FindOneLikeFromUserClass } from '@modules/likes/dtos/find-one-like-from-user-class';
+import { FindOneLikeFromUserLesson } from '@modules/likes/dtos/find-one-like-from-user-lesson';
 import { Like } from '@modules/likes/entities/like';
 import { AsyncMaybe } from '@shared/types/app';
 
@@ -28,8 +28,8 @@ class InMemoryLikesRepository implements ILikesRepository {
     return findedLike;
   }
 
-  async findAllLikesFromClass(class_id: string): Promise<ILike[]> {
-    const likes = this.likes.filter(like => like.class_id === class_id);
+  async findAllLikesFromLesson(lesson_id: string): Promise<ILike[]> {
+    const likes = this.likes.filter(like => like.lesson_id === lesson_id);
 
     return likes;
   }
@@ -40,12 +40,12 @@ class InMemoryLikesRepository implements ILikesRepository {
     return likes;
   }
 
-  async findOneLikeFromUserClass({
+  async findOneLikeFromUserLesson({
     user_id,
-    class_id,
-  }: FindOneLikeFromUserClass): AsyncMaybe<ILike> {
+    lesson_id,
+  }: FindOneLikeFromUserLesson): AsyncMaybe<ILike> {
     const findedLike = this.likes.find(
-      like => like.user_id === user_id && like.class_id === class_id,
+      like => like.user_id === user_id && like.lesson_id === lesson_id,
     );
 
     return findedLike;

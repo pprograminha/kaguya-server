@@ -28,10 +28,10 @@ class PrismaBlocksRepository implements IBlocksRepository {
           },
         },
       },
-      ...(relationship && relationship.classes
+      ...(relationship && relationship.lessons
         ? {
             include: {
-              classes: true,
+              lessons: true,
             },
           }
         : {}),
@@ -80,10 +80,10 @@ class PrismaBlocksRepository implements IBlocksRepository {
       where: {
         id: block_id,
       },
-      ...(relationship && relationship.classes
+      ...(relationship && relationship.lessons
         ? {
             include: {
-              classes: true,
+              lessons: true,
             },
           }
         : {}),
@@ -118,12 +118,12 @@ class PrismaBlocksRepository implements IBlocksRepository {
             progress: true,
           },
         },
-        classes: {
+        lessons: {
           include: {
-            user_classes: {
+            user_lessons: {
               select: {
                 user_id: true,
-                class_id: true,
+                lesson_id: true,
                 completed: true,
               },
             },

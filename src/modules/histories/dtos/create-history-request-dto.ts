@@ -1,5 +1,5 @@
 type CreateHistoryRequestDTO = {
-  class_id: string;
+  lesson_id: string;
   user_id: string;
 };
 

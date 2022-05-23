@@ -56,7 +56,7 @@ class PrismaUserTrailsRepository implements IUserTrailsRepository {
                         include: {
                           _count: {
                             select: {
-                              classes: true,
+                              lessons: true,
                             },
                           },
                         },
@@ -125,7 +125,7 @@ class PrismaUserTrailsRepository implements IUserTrailsRepository {
                   include: {
                     _count: {
                       select: {
-                        classes: true,
+                        lessons: true,
                       },
                     },
                   },

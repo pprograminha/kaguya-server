@@ -56,6 +56,7 @@ describe('ListAllUserTrailsFromUser', () => {
 
     const trails = await listAllUserTrailsFromUser.execute({
       user_id: user.id,
+      enabled: true,
     });
 
     expect(trails[0].id).toEqual(trail.id);

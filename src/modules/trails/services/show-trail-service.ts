@@ -10,7 +10,7 @@ type Count = {
   _count: {
     playlists: number;
     users: number;
-    classes: number;
+    lessons: number;
   };
 };
 
@@ -51,10 +51,10 @@ class ShowTrailService {
       throw new AppError('Trail does not exist', 12, 400);
     }
 
-    const classesAmount = trail.playlists.reduce(
+    const lessonsAmount = trail.playlists.reduce(
       (_, playlist) =>
         playlist.blocks.reduce(
-          (acc, block) => acc + (block as IBlock & Count)._count.classes,
+          (acc, block) => acc + (block as IBlock & Count)._count.lessons,
           0,
         ),
       0,
@@ -84,7 +84,7 @@ class ShowTrailService {
       _count: {
         playlists: (trail as ITrail & Count)._count.playlists,
         users: (trail as any)._count.user_trails,
-        classes: classesAmount,
+        lessons: lessonsAmount,
       },
       created_at: trail.created_at,
       updated_at: trail.updated_at,

@@ -1,6 +1,6 @@
-import { IClass } from '@modules/classes/domain/entities/iclass';
+import { ILesson } from '@modules/lessons/domain/entities/ilesson';
 import { IUser } from '@modules/users/domain/entities/iuser';
-import { IView } from '../../classes/domain/entities/iview';
+import { IView } from '../../lessons/domain/entities/iview';
 
 class View implements IView {
   id: string;
@@ -9,9 +9,9 @@ class View implements IView {
 
   user: IUser;
 
-  class_id: string;
+  lesson_id: string;
 
-  class: IClass;
+  lesson: ILesson;
 
   created_at: Date;
 

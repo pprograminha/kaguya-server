@@ -1,19 +1,26 @@
 import { IHistory } from '@modules/histories/domain/entities/ihistory';
-import { IHistoriesRepository } from '@modules/histories/domain/repositories/ihistories-repository';
+import { IHistoriesRepository } from '@modules/histories/domain/repositories/histories-repository';
 import { CreateHistoryDTO } from '@modules/histories/dtos/create-history-dto';
-import { FindUserClassHistoryDTO } from '@modules/histories/dtos/find-user-class-history-dto';
+import { FindAllHistoriesFromUserDTO } from '@modules/histories/dtos/find-all-histories-from-user-dto';
+import { FindUserLessonHistoryDTO } from '@modules/histories/dtos/find-user-lesson-history-dto';
 import { History } from '@modules/histories/entities/history';
 import { AsyncMaybe } from '@shared/types/app';
 
 class InMemoryHistoriesRepository implements IHistoriesRepository {
   private histories: IHistory[] = [];
 
-  async findUserClassHistory({
-    class_id,
+  async findAllHistoriesFromUser({
     user_id,
-  }: FindUserClassHistoryDTO): AsyncMaybe<IHistory> {
+  }: FindAllHistoriesFromUserDTO): Promise<IHistory[]> {
+    return this.histories.filter(history => history.user_id === user_id);
+  }
+
+  async findUserLessonHistory({
+    lesson_id,
+    user_id,
+  }: FindUserLessonHistoryDTO): AsyncMaybe<IHistory> {
     const findedHistory = this.histories.find(
-      history => history.user_id === user_id && history.class_id === class_id,
+      history => history.user_id === user_id && history.lesson_id === lesson_id,
     );
 
     return findedHistory;
@@ -21,7 +28,7 @@ class InMemoryHistoriesRepository implements IHistoriesRepository {
 
   async create(data: CreateHistoryDTO): Promise<IHistory> {
     const history = new History({
-      class_id: data.class_id,
+      lesson_id: data.lesson_id,
       user_id: data.user_id,
       created_at: new Date(),
       updated_at: new Date(),
@@ -50,10 +57,6 @@ class InMemoryHistoriesRepository implements IHistoriesRepository {
 
   async findAllHistories(): Promise<IHistory[]> {
     return this.histories;
-  }
-
-  async findAllHistoriesFromUser(user_id: string): Promise<IHistory[]> {
-    return this.histories.filter(history => history.user_id === user_id);
   }
 
   async save(history: IHistory): Promise<void> {

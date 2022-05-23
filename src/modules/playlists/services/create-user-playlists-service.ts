@@ -1,12 +1,12 @@
 import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/user-blocks-repository';
-import { IUserClassesRepository } from '@modules/classes/domain/repositories/user-classes-repository';
+import { IUserLessonsRepository } from '@modules/lessons/domain/repositories/user-lessons-repository';
 import { ITrailsRepository } from '@modules/trails/domain/repositories/trails-repository';
 import { IUserTrailsRepository } from '@modules/trails/domain/repositories/user-trails-repository';
 import { IUsersRepository } from '@modules/users/domain/repositories/users-repository';
 import { AppError } from '@shared/errors/app-error';
 import { inject, injectable } from '@shared/container';
 import { IBlocksRepository } from '@modules/blocks/domain/repositories/blocks-repository';
-import { IClassesRepository } from '@modules/classes/domain/repositories/classes-repository';
+import { ILessonsRepository } from '@modules/lessons/domain/repositories/lessons-repository';
 import { IUserPlaylist } from '../domain/entities/iuser-playlist';
 import { IPlaylistsRepository } from '../domain/repositories/playlists-repository';
 import { IUserPlaylistsRepository } from '../domain/repositories/user-playlists-repository';
@@ -36,11 +36,11 @@ class CreateUserPlaylistsService {
     @inject('UserBlocksRepository')
     private userBlocksRepository: IUserBlocksRepository,
 
-    @inject('ClassesRepository')
-    private classesRepository: IClassesRepository,
+    @inject('LessonsRepository')
+    private lessonsRepository: ILessonsRepository,
 
-    @inject('UserClassesRepository')
-    private userClassesRepository: IUserClassesRepository,
+    @inject('UserLessonsRepository')
+    private userLessonsRepository: IUserLessonsRepository,
   ) {}
 
   async execute({
@@ -97,17 +97,17 @@ class CreateUserPlaylistsService {
               playlist_id: playlist.id,
             });
 
-            const classes =
-              await this.classesRepository.findAllClassesFromBlock({
+            const lessons =
+              await this.lessonsRepository.findAllLessonsFromBlock({
                 block_id: block.id,
               });
 
             await Promise.all(
-              classes.map(async _class => {
-                await this.userClassesRepository.create({
+              lessons.map(async _lesson => {
+                await this.userLessonsRepository.create({
                   block_id: block.id,
                   user_id: user.id,
-                  class_id: _class.id,
+                  lesson_id: _lesson.id,
                   completed: false,
                 });
               }),

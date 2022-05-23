@@ -4,8 +4,8 @@ import { CreateUserPlaylistsService } from '@modules/playlists/services/create-u
 
 import { InMemoryBlocksRepository } from '@modules/blocks/__tests__/in-memory/in-memory-blocks-repository';
 
-import { InMemoryClassesRepository } from '@modules/classes/__tests__/in-memory/in-memory-classes-repository';
-import { InMemoryUserClassesRepository } from '@modules/classes/__tests__/in-memory/in-memory-user-classes-repository';
+import { InMemoryLessonsRepository } from '@modules/lessons/__tests__/in-memory/in-memory-lessons-repository';
+import { InMemoryUserLessonsRepository } from '@modules/lessons/__tests__/in-memory/in-memory-user-lessons-repository';
 
 import { InMemoryUserBlocksRepository } from '@modules/blocks/__tests__/in-memory/in-memory-user-blocks-repository';
 
@@ -22,8 +22,8 @@ let inMemoryUserPlaylistsRepository: InMemoryUserPlaylistsRepository;
 let inMemoryPlaylistsRepository: InMemoryPlaylistsRepository;
 let inMemoryBlocksRepository: InMemoryBlocksRepository;
 let inMemoryUserBlocksRepository: InMemoryUserBlocksRepository;
-let inMemoryClassesRepository: InMemoryClassesRepository;
-let inMemoryUserClassesRepository: InMemoryUserClassesRepository;
+let inMemoryLessonsRepository: InMemoryLessonsRepository;
+let inMemoryUserLessonsRepository: InMemoryUserLessonsRepository;
 
 let createUserTrail: CreateUserTrailService;
 let createUserPlaylistsService: CreateUserPlaylistsService;
@@ -37,8 +37,8 @@ describe('CreateUserTrail', () => {
     inMemoryTrailsRepository = new InMemoryTrailsRepository();
     inMemoryBlocksRepository = new InMemoryBlocksRepository();
     inMemoryUserBlocksRepository = new InMemoryUserBlocksRepository();
-    inMemoryClassesRepository = new InMemoryClassesRepository();
-    inMemoryUserClassesRepository = new InMemoryUserClassesRepository();
+    inMemoryLessonsRepository = new InMemoryLessonsRepository();
+    inMemoryUserLessonsRepository = new InMemoryUserLessonsRepository();
 
     createUserPlaylistsService = new CreateUserPlaylistsService(
       inMemoryUsersRepository,
@@ -48,8 +48,8 @@ describe('CreateUserTrail', () => {
       inMemoryTrailsRepository,
       inMemoryBlocksRepository,
       inMemoryUserBlocksRepository,
-      inMemoryClassesRepository,
-      inMemoryUserClassesRepository,
+      inMemoryLessonsRepository,
+      inMemoryUserLessonsRepository,
     );
 
     createUserTrail = new CreateUserTrailService(
@@ -61,7 +61,7 @@ describe('CreateUserTrail', () => {
   });
 
   it('should be able to create a user trail', async () => {
-    const trail = await inMemoryTrailsRepository.create({
+    const createdTrail = await inMemoryTrailsRepository.create({
       description: 'Xxxx xxxx x',
       name: 'Xxxx',
     });
@@ -73,13 +73,20 @@ describe('CreateUserTrail', () => {
       password: 'xxxxxx',
     });
 
-    const userTrail = await createUserTrail.execute({
-      trail_id: trail.id,
+    jest
+      .spyOn(inMemoryTrailsRepository, 'findById')
+      .mockImplementationOnce(async () => ({
+        ...createdTrail,
+        playlists: [],
+      }));
+
+    const trail = await createUserTrail.execute({
+      trail_id: createdTrail.id,
       user_id: user.id,
     });
 
-    expect(userTrail.trail_id).toBe(trail.id);
-    expect(userTrail).toHaveProperty('user_id');
+    expect(trail.id).toBe(trail.id);
+    expect(trail).toHaveProperty('created_at');
   });
 
   it('should not be able to create a user trail if the trail does not exist', async () => {
@@ -125,6 +132,13 @@ describe('CreateUserTrail', () => {
       password: 'xxxxxx',
     });
 
+    jest
+      .spyOn(inMemoryTrailsRepository, 'findById')
+      .mockImplementationOnce(async () => ({
+        ...trail,
+        playlists: [],
+      }));
+
     await createUserTrail.execute({
       trail_id: trail.id,
       user_id: user.id,
@@ -150,6 +164,13 @@ describe('CreateUserTrail', () => {
       username: 'xxxxxx',
       password: 'xxxxxx',
     });
+
+    jest
+      .spyOn(inMemoryTrailsRepository, 'findById')
+      .mockImplementationOnce(async () => ({
+        ...trail,
+        playlists: [],
+      }));
 
     await createUserTrail.execute({
       trail_id: trail.id,

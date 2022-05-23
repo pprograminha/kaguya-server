@@ -1,17 +1,17 @@
 import crypto from 'crypto';
 import { prisma } from '@shared/infra/prisma/connection';
-import { IView } from '@modules/classes/domain/entities/iview';
-import { IViewsRepository } from '@modules/classes/domain/repositories/views-repository';
+import { IView } from '@modules/lessons/domain/entities/iview';
+import { IViewsRepository } from '@modules/lessons/domain/repositories/views-repository';
 import { CreateViewDTO } from '@modules/users/dtos/create-view-dto';
-import { FindOneViewFromUserClassDTO } from '@modules/users/dtos/find-one-view-from-user-class-dto';
+import { FindOneViewFromUserLessonDTO } from '@modules/users/dtos/find-one-view-from-user-lesson-dto';
 import { AsyncMaybe } from '@shared/types/app';
 
 class PrismaViewsRepository implements IViewsRepository {
-  async create({ class_id, user_id }: CreateViewDTO): Promise<IView> {
+  async create({ lesson_id, user_id }: CreateViewDTO): Promise<IView> {
     const view = await prisma.view.create({
       data: {
         id: crypto.randomUUID(),
-        class_id,
+        lesson_id,
         user_id,
       },
     });
@@ -38,10 +38,10 @@ class PrismaViewsRepository implements IViewsRepository {
     return view as IView;
   }
 
-  async findAllViewsFromClass(class_id: string): Promise<IView[]> {
+  async findAllViewsFromLesson(lesson_id: string): Promise<IView[]> {
     const views = await prisma.view.findMany({
       where: {
-        class_id,
+        lesson_id,
       },
     });
 
@@ -58,26 +58,26 @@ class PrismaViewsRepository implements IViewsRepository {
     return views as IView[];
   }
 
-  async findOneViewFromUserClass(
-    data: FindOneViewFromUserClassDTO,
+  async findOneViewFromUserLesson(
+    data: FindOneViewFromUserLessonDTO,
   ): AsyncMaybe<IView> {
     const view = await prisma.view.findFirst({
       where: {
         user_id: data.user_id,
-        class_id: data.class_id,
+        lesson_id: data.lesson_id,
       },
     });
 
     return view as IView;
   }
 
-  async save({ id: view_id, class_id, user_id }: IView): Promise<void> {
+  async save({ id: view_id, lesson_id, user_id }: IView): Promise<void> {
     await prisma.view.update({
       where: {
         id: view_id,
       },
       data: {
-        class_id,
+        lesson_id,
         user_id,
       },
     });

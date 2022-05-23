@@ -1,7 +1,7 @@
 import { IDislike } from '@modules/likes/domain/entities/idislike';
 import { IDislikesRepository } from '@modules/likes/domain/repositories/dislikes-repository';
 import { CreateDislikeDTO } from '@modules/likes/dtos/create-dislike-dto';
-import { FindOneDislikeFromUserClass } from '@modules/likes/dtos/find-one-dislike-from-user-class';
+import { FindOneDislikeFromUserLesson } from '@modules/likes/dtos/find-one-dislike-from-user-lesson';
 import { Dislike } from '@modules/likes/entities/dislike';
 import { AsyncMaybe } from '@shared/types/app';
 
@@ -30,9 +30,9 @@ class InMemoryDislikesRepository implements IDislikesRepository {
     return findedDislike;
   }
 
-  async findAllDislikesFromClass(class_id: string): Promise<IDislike[]> {
+  async findAllDislikesFromLesson(lesson_id: string): Promise<IDislike[]> {
     const dislikes = this.dislikes.filter(
-      dislike => dislike.class_id === class_id,
+      dislike => dislike.lesson_id === lesson_id,
     );
 
     return dislikes;
@@ -46,12 +46,12 @@ class InMemoryDislikesRepository implements IDislikesRepository {
     return dislikes;
   }
 
-  async findOneDislikeFromUserClass({
+  async findOneDislikeFromUserLesson({
     user_id,
-    class_id,
-  }: FindOneDislikeFromUserClass): AsyncMaybe<IDislike> {
+    lesson_id,
+  }: FindOneDislikeFromUserLesson): AsyncMaybe<IDislike> {
     const findedDislike = this.dislikes.find(
-      dislike => dislike.user_id === user_id && dislike.class_id === class_id,
+      dislike => dislike.user_id === user_id && dislike.lesson_id === lesson_id,
     );
 
     return findedDislike;

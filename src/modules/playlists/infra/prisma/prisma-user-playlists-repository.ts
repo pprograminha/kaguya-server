@@ -98,10 +98,10 @@ export class PrismaUserPlaylistsRepository implements IUserPlaylistsRepository {
               include: {
                 _count: {
                   select: {
-                    user_classes: true,
+                    user_lessons: true,
                   },
                 },
-                user_classes: {
+                user_lessons: {
                   select: {
                     completed: true,
                   },

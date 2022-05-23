@@ -1,6 +1,6 @@
 type CreateHistoryDTO = {
   user_id: string;
-  class_id: string;
+  lesson_id: string;
 };
 
 export { CreateHistoryDTO };

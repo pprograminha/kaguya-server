@@ -3,8 +3,8 @@ import { InMemoryUsersRepository } from '@modules/users/__tests__/in-memory/in-m
 import { AppError } from '@shared/errors/app-error';
 import { InMemoryBlocksRepository } from '@modules/blocks/__tests__/in-memory/in-memory-blocks-repository';
 
-import { InMemoryUserClassesRepository } from '@modules/classes/__tests__/in-memory/in-memory-user-classes-repository';
-import { InMemoryClassesRepository } from '@modules/classes/__tests__/in-memory/in-memory-classes-repository';
+import { InMemoryUserLessonsRepository } from '@modules/lessons/__tests__/in-memory/in-memory-user-lessons-repository';
+import { InMemoryLessonsRepository } from '@modules/lessons/__tests__/in-memory/in-memory-lessons-repository';
 
 import { InMemoryUserBlocksRepository } from '@modules/blocks/__tests__/in-memory/in-memory-user-blocks-repository';
 import { InMemoryUserTrailsRepository } from '@modules/trails/__tests__/in-memory/in-memory-user-trails-repository';
@@ -19,8 +19,8 @@ let inMemoryTrailsRepository: InMemoryTrailsRepository;
 let inMemoryUserTrailsRepository: InMemoryUserTrailsRepository;
 let inMemoryBlocksRepository: InMemoryBlocksRepository;
 let inMemoryUserBlocksRepository: InMemoryUserBlocksRepository;
-let inMemoryClassesRepository: InMemoryClassesRepository;
-let inMemoryUserClassesRepository: InMemoryUserClassesRepository;
+let inMemoryLessonsRepository: InMemoryLessonsRepository;
+let inMemoryUserLessonsRepository: InMemoryUserLessonsRepository;
 
 let createUserPlaylists: CreateUserPlaylistsService;
 
@@ -33,8 +33,8 @@ describe('CreatePlaylist', () => {
     inMemoryTrailsRepository = new InMemoryTrailsRepository();
     inMemoryBlocksRepository = new InMemoryBlocksRepository();
     inMemoryUserBlocksRepository = new InMemoryUserBlocksRepository();
-    inMemoryClassesRepository = new InMemoryClassesRepository();
-    inMemoryUserClassesRepository = new InMemoryUserClassesRepository();
+    inMemoryLessonsRepository = new InMemoryLessonsRepository();
+    inMemoryUserLessonsRepository = new InMemoryUserLessonsRepository();
 
     createUserPlaylists = new CreateUserPlaylistsService(
       inMemoryUsersRepository,
@@ -44,8 +44,8 @@ describe('CreatePlaylist', () => {
       inMemoryTrailsRepository,
       inMemoryBlocksRepository,
       inMemoryUserBlocksRepository,
-      inMemoryClassesRepository,
-      inMemoryUserClassesRepository,
+      inMemoryLessonsRepository,
+      inMemoryUserLessonsRepository,
     );
   });
 

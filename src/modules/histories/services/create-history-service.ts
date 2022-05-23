@@ -1,4 +1,4 @@
-import { IClassesRepository } from '@modules/classes/domain/repositories/classes-repository';
+import { ILessonsRepository } from '@modules/lessons/domain/repositories/lessons-repository';
 import { IUsersRepository } from '@modules/users/domain/repositories/users-repository';
 import { inject, injectable } from '@shared/container';
 import { AppError } from '@shared/errors/app-error';
@@ -15,12 +15,12 @@ export class CreateHistoryService {
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
 
-    @inject('ClassesRepository')
-    private classesRepository: IClassesRepository,
+    @inject('LessonsRepository')
+    private lessonsRepository: ILessonsRepository,
   ) {}
 
   async execute({
-    class_id,
+    lesson_id,
     user_id,
   }: CreateHistoryRequestDTO): Promise<IHistory> {
     const user = await this.usersRepository.findById(user_id);
@@ -29,21 +29,21 @@ export class CreateHistoryService {
       throw new AppError('User does not exist', 5, 401);
     }
 
-    const _class = await this.classesRepository.findById(class_id);
+    const _lesson = await this.lessonsRepository.findById(lesson_id);
 
-    if (!_class) {
-      throw new AppError('Class does not exist', 12, 400);
+    if (!_lesson) {
+      throw new AppError('Lesson does not exist', 12, 400);
     }
 
-    const findedHistory = await this.historiesRepository.findUserClassHistory({
+    const findedHistory = await this.historiesRepository.findUserLessonHistory({
       user_id,
-      class_id,
+      lesson_id,
     });
 
     if (!findedHistory) {
       const history = await this.historiesRepository.create({
         user_id,
-        class_id,
+        lesson_id,
       });
 
       return history;

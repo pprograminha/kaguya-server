@@ -27,10 +27,10 @@ export class PrismaTrailsRepository implements ITrailsRepository {
           include: {
             blocks: {
               include: {
-                classes: true,
+                lessons: true,
                 _count: {
                   select: {
-                    classes: true,
+                    lessons: true,
                   },
                 },
               },
@@ -102,7 +102,7 @@ export class PrismaTrailsRepository implements ITrailsRepository {
               include: {
                 _count: {
                   select: {
-                    classes: true,
+                    lessons: true,
                   },
                 },
               },
@@ -154,10 +154,10 @@ export class PrismaTrailsRepository implements ITrailsRepository {
           include: {
             blocks: {
               include: {
-                classes: true,
+                lessons: true,
                 _count: {
                   select: {
-                    classes: true,
+                    lessons: true,
                   },
                 },
               },

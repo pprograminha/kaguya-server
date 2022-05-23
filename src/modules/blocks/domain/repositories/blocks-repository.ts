@@ -5,7 +5,7 @@ import { AsyncMaybe } from '@shared/types/app';
 import { IBlock } from '../entities/iblock';
 
 type Relationship = {
-  classes?: boolean;
+  lessons?: boolean;
 };
 interface IBlocksRepository {
   create(data: CreateBlockDTO): Promise<IBlock>;

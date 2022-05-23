@@ -2,7 +2,7 @@ import crypto from 'crypto';
 
 type HistoryProps = {
   user_id: string;
-  class_id: string;
+  lesson_id: string;
   created_at: Date;
   updated_at: Date;
 };
@@ -16,8 +16,8 @@ class History {
     return this.props.user_id;
   }
 
-  get class_id(): string {
-    return this.props.class_id;
+  get lesson_id(): string {
+    return this.props.lesson_id;
   }
 
   get created_at(): Date {

@@ -4,13 +4,13 @@ import { container } from 'tsyringe';
 
 export class CreateHistoryController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { class_id } = request.body;
+    const { lesson_id } = request.body;
     const user_id = request.user.id;
 
     const createHistoryService = container.resolve(CreateHistoryService);
 
     const histories = await createHistoryService.execute({
-      class_id,
+      lesson_id,
       user_id,
     });
 

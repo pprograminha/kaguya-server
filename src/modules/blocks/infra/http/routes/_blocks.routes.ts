@@ -17,6 +17,10 @@ _blocksRouter.post(
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().max(100).required(),
+      slug: Joi.string()
+        .regex(/^[a-z](-?[a-z])*$/)
+        .max(100)
+        .required(),
       playlist_id: Joi.string().uuid().required(),
     },
   }),

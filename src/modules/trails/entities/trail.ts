@@ -9,6 +9,8 @@ class Trail implements ITrail {
 
   name: string;
 
+  slug: string;
+
   description: string;
 
   playlists: IPlaylist[];

@@ -8,6 +8,8 @@ class Lesson implements ILesson {
 
   name: string;
 
+  slug: string;
+
   description: string;
 
   link: string;

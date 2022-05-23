@@ -1,5 +1,6 @@
 type CreateLessonDTO = {
   name: string;
+  slug: string;
   description: string;
   link: string;
   block_id: string;

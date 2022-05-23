@@ -3,6 +3,7 @@ import crypto from 'crypto';
 type HistoryProps = {
   user_id: string;
   lesson_id: string;
+  recent_at: Date;
   created_at: Date;
   updated_at: Date;
 };
@@ -22,6 +23,10 @@ class History {
 
   get created_at(): Date {
     return this.props.created_at;
+  }
+
+  get recent_at(): Date {
+    return this.props.recent_at;
   }
 
   get updated_at(): Date {

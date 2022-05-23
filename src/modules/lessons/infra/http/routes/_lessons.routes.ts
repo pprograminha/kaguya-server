@@ -18,6 +18,10 @@ _lessonsRouter.post(
     [Segments.BODY]: {
       link: Joi.string().required(),
       name: Joi.string().max(100).required(),
+      slug: Joi.string()
+        .regex(/^[a-z](-?[a-z])*$/)
+        .max(100)
+        .required(),
       description: Joi.string().max(255).required(),
       block_id: Joi.string().uuid().required(),
     },

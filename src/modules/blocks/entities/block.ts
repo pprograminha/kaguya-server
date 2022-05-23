@@ -9,6 +9,8 @@ class Block implements IBlock {
 
   name: string;
 
+  slug: string;
+
   playlist: IPlaylist;
 
   user_blocks: IUserBlock[];

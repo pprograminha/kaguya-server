@@ -18,6 +18,10 @@ _playlistsRouter.post(
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().max(100).required(),
+      slug: Joi.string()
+        .regex(/^[a-z](-?[a-z])*$/)
+        .max(100)
+        .required(),
       description: Joi.string().max(255).required(),
       trail_id: Joi.string().uuid().required(),
     },

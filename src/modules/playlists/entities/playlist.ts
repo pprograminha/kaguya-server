@@ -11,6 +11,8 @@ class Playlist implements IPlaylist {
 
   name: string;
 
+  slug: string;
+
   description: string;
 
   trail_id: string;

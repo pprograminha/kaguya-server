@@ -13,6 +13,7 @@ interface ITrailsRepository {
   save(trail: ITrail): Promise<ITrail>;
   findById(trail_id: string, relationship?: boolean): AsyncMaybe<ITrail>;
   findByName(name: string): AsyncMaybe<ITrail>;
+  findBySlug(slug: string): AsyncMaybe<ITrail>;
   destroyById(trail_id: string): Promise<void>;
   findAllTrails(data?: FindAllTrailsDTO): Promise<ITrail[]>;
 }

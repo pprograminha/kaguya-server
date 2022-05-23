@@ -5,6 +5,7 @@ import { IUserTrail } from './iuser-trail';
 interface ITrail {
   id: string;
   name: string;
+  slug: string;
   description: string;
   playlists: IPlaylist[];
   user_trails: IUserTrail[];

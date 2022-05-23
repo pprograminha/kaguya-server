@@ -5,6 +5,7 @@ import { Maybe } from '@shared/types/app';
 import { ITrail } from '../domain/entities/itrail';
 import { ITrailsRepository } from '../domain/repositories/trails-repository';
 import { ShowTrailRequestDTO } from '../dtos/show-trail-request-dto';
+import { CustomUserTrail } from './list-all-user-trails-from-user-service';
 
 type Count = {
   _count: {
@@ -13,19 +14,6 @@ type Count = {
     lessons: number;
   };
 };
-
-type Response = {
-  id: string;
-  name: string;
-  description: string;
-  avatar: string;
-  user_trail: {
-    progress: number;
-    enabled: boolean;
-  } | null;
-  created_at: Date;
-  updated_at: Date;
-} & Count;
 
 @injectable()
 class ShowTrailService {
@@ -37,15 +25,15 @@ class ShowTrailService {
   async execute({
     trail_id,
     user_id,
-    name,
-  }: ShowTrailRequestDTO): Promise<Response> {
-    if (!trail_id && !name)
-      throw new AppError('Trail id or name is required', 8, 400);
+    slug,
+  }: ShowTrailRequestDTO): Promise<CustomUserTrail> {
+    if (!trail_id && !slug)
+      throw new AppError('Trail id or slug is required', 8, 400);
 
     let trail: Maybe<ITrail>;
 
     if (trail_id) trail = await this.trailsRepository.findById(trail_id);
-    else trail = await this.trailsRepository.findByName(name as string);
+    else trail = await this.trailsRepository.findBySlug(slug as string);
 
     if (!trail) {
       throw new AppError('Trail does not exist', 12, 400);
@@ -61,6 +49,7 @@ class ShowTrailService {
     );
 
     let progress = 0;
+
     const findedUserTrail = trail.user_trails.find(
       userTrail =>
         userTrail.user_id === user_id && userTrail.trail_id === trail?.id,
@@ -70,9 +59,12 @@ class ShowTrailService {
       progress = findedUserTrail.progress;
     }
 
-    return {
+    const customUserTrail: CustomUserTrail = {
       id: trail.id,
       name: trail.name,
+      slug: trail.slug,
+      playlists: undefined,
+      user: findedUserTrail?.user || null,
       description: trail.description,
       avatar: trail.avatar,
       user_trail: findedUserTrail
@@ -89,6 +81,8 @@ class ShowTrailService {
       created_at: trail.created_at,
       updated_at: trail.updated_at,
     };
+
+    return customUserTrail;
   }
 }
 

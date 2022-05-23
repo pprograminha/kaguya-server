@@ -58,10 +58,10 @@ class ShowLessonService {
         },
       });
     } else if (lesson_slug && block_slug) {
-      findedLesson = await this.lessonsRepository.findByName(
+      findedLesson = await this.lessonsRepository.findBySlug(
         {
-          block_name: block_slug,
-          name: lesson_slug,
+          block_slug,
+          slug: lesson_slug,
         },
         {
           _count: {

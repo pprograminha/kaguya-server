@@ -13,6 +13,7 @@ export class UpdateTrailService {
 
   async execute({
     trail_id,
+    slug,
     description,
     name,
   }: UpdateTrailRequestDTO): Promise<ITrail> {
@@ -27,6 +28,10 @@ export class UpdateTrailService {
 
     if (description) {
       trail.description = description;
+    }
+
+    if (slug) {
+      trail.slug = slug;
     }
 
     if (name) {

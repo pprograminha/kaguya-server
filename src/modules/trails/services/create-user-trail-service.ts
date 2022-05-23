@@ -93,6 +93,7 @@ export class CreateUserTrailService {
     const customUserTrail: CustomUserTrail = {
       id: trail.id,
       name: trail.name,
+      slug: trail.slug,
       avatar: trail.avatar,
       playlists: undefined,
       user: findedUserTrail.user,

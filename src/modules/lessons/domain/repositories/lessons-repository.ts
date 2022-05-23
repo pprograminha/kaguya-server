@@ -1,6 +1,7 @@
 import { CreateLessonDTO } from '@modules/lessons/dtos/create-lesson-dto';
 import { FindAllLessonsFromBlockDTO } from '@modules/lessons/dtos/find-all-lessons-from-block-dto';
 import { FindByNameDTO } from '@modules/lessons/dtos/find-by-name-dto';
+import { FindBySlugDTO } from '@modules/lessons/dtos/find-by-slug-dto';
 import { FiltersDTO } from '@modules/trails/domain/repositories/trails-repository';
 import { AsyncMaybe } from '@shared/types/app';
 import { ILesson } from '../entities/ilesson';
@@ -19,8 +20,13 @@ interface ILessonsRepository {
     lesson_id: string,
     relationship?: RelationshipDTO,
   ): AsyncMaybe<ILesson>;
+  findLessonWithMostViews(): AsyncMaybe<ILesson>;
   findByName(
     data: FindByNameDTO,
+    relationship?: RelationshipDTO,
+  ): AsyncMaybe<ILesson>;
+  findBySlug(
+    data: FindBySlugDTO,
     relationship?: RelationshipDTO,
   ): AsyncMaybe<ILesson>;
   destroyById(lesson_id: string): Promise<void>;

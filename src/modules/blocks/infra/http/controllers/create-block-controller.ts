@@ -4,12 +4,13 @@ import { container } from 'tsyringe';
 
 class CreateBlockController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { name, playlist_id } = request.body;
+    const { name, slug, playlist_id } = request.body;
 
     const createBlock = container.resolve(CreateBlockService);
 
     const blockCreated = await createBlock.execute({
       name,
+      slug,
       playlist_id,
     });
 

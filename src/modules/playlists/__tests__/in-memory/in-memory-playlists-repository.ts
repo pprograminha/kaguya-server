@@ -3,11 +3,20 @@ import { IPlaylistsRepository } from '@modules/playlists/domain/repositories/pla
 import { CreatePlaylistDTO } from '@modules/playlists/dtos/create-playlist-dto';
 import { FindAllPlaylistsFromTrailDTO } from '@modules/playlists/dtos/find-all-playlists-from-trail-dto';
 import { FindByNameDTO } from '@modules/playlists/dtos/find-by-name-dto';
+import { FindBySlugDTO } from '@modules/playlists/dtos/find-by-slug-dto';
 import { Playlist } from '@modules/playlists/entities/playlist';
 import { AsyncMaybe } from '@shared/types/app';
 
 class InMemoryPlaylistsRepository implements IPlaylistsRepository {
   private playlists: IPlaylist[] = [];
+
+  async findBySlug({ slug }: FindBySlugDTO): AsyncMaybe<IPlaylist> {
+    const playlistFinded = this.playlists.find(
+      playlist => playlist.slug === slug,
+    );
+
+    return playlistFinded;
+  }
 
   async findAllPlaylistsFromTrail({
     trail_id,

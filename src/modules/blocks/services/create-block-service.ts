@@ -23,15 +23,38 @@ class CreateBlockService {
     private userBlocksRepository: IUserBlocksRepository,
   ) {}
 
-  async execute({ playlist_id, name }: CreateBlockRequestDTO): Promise<IBlock> {
+  async execute({
+    playlist_id,
+    name,
+    slug,
+  }: CreateBlockRequestDTO): Promise<IBlock> {
     const playlist = await this.playlistsRepository.findById(playlist_id);
 
     if (!playlist) {
       throw new AppError('This playlist does not exist', 12);
     }
 
+    const checkNameAlreadyExists = await this.blocksRepository.findByName({
+      name,
+      playlist_name: playlist.name,
+    });
+
+    if (checkNameAlreadyExists) {
+      throw new AppError('This name already exists', 23);
+    }
+
+    const checkSlugAlreadyExists = await this.blocksRepository.findBySlug({
+      slug,
+      playlist_slug: playlist.slug,
+    });
+
+    if (checkSlugAlreadyExists) {
+      throw new AppError('This slug already exists', 24);
+    }
+
     const block = await this.blocksRepository.create({
       name,
+      slug,
       playlist_id,
     });
 

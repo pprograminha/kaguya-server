@@ -7,6 +7,12 @@ import { AsyncMaybe } from '@shared/types/app';
 export class InMemoryTrailsRepository implements ITrailsRepository {
   private trails: ITrail[] = [];
 
+  async findBySlug(slug: string): AsyncMaybe<ITrail> {
+    const trail = this.trails.find(trailFind => trailFind.slug === slug);
+
+    return trail;
+  }
+
   async findByName(name: string): AsyncMaybe<ITrail> {
     const trail = this.trails.find(trailFind => trailFind.name === name);
 

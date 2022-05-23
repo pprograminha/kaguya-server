@@ -6,6 +6,7 @@ interface IPlaylist {
   id: string;
   avatar: string;
   name: string;
+  slug: string;
   description: string;
   trail_id: string;
   trail: ITrail;

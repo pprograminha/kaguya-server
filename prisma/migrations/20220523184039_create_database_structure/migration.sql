@@ -52,6 +52,7 @@ CREATE TABLE "user_trails" (
 CREATE TABLE "trails" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "avatar" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -65,6 +66,7 @@ CREATE TABLE "playlists" (
     "id" TEXT NOT NULL,
     "avatar" TEXT,
     "name" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "trail_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -90,6 +92,7 @@ CREATE TABLE "user_playlists" (
 CREATE TABLE "lessons" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "link" TEXT NOT NULL,
     "block_id" TEXT NOT NULL,
@@ -116,6 +119,7 @@ CREATE TABLE "user_lessons" (
 CREATE TABLE "blocks" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
     "playlist_id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -204,6 +208,9 @@ CREATE UNIQUE INDEX "roles_name_key" ON "roles"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "roles_permission_key" ON "roles"("permission");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "trails_slug_key" ON "trails"("slug");
 
 -- AddForeignKey
 ALTER TABLE "user_roles" ADD CONSTRAINT "user_roles_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;

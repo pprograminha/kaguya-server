@@ -26,6 +26,7 @@ class CreatePlaylistFromTrailService {
   async execute({
     trail_id,
     description,
+    slug,
     name,
   }: CreatePlaylistFromTrailRequestDTO): Promise<IPlaylist> {
     const trail = await this.trailsRepository.findById(trail_id);
@@ -34,9 +35,28 @@ class CreatePlaylistFromTrailService {
       throw new AppError('Trail does not exist', 12, 400);
     }
 
+    const checkNameAlreadyExists = await this.playlistsRepository.findByName({
+      name,
+      trail_name: trail.name,
+    });
+
+    if (checkNameAlreadyExists) {
+      throw new AppError('Name already exists', 23, 400);
+    }
+
+    const checkSlugAlreadyExists = await this.playlistsRepository.findBySlug({
+      slug,
+      trail_slug: trail.slug,
+    });
+
+    if (checkSlugAlreadyExists) {
+      throw new AppError('Slug already exists', 23, 400);
+    }
+
     const playlist = await this.playlistsRepository.create({
       description,
       name,
+      slug,
       trail_id: trail.id,
     });
 

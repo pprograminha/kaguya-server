@@ -24,9 +24,9 @@ class ShowBlockService {
         lessons: true,
       });
     } else if (block_slug && playlist_slug) {
-      block = await this.blocksRepository.findByName({
-        name: block_slug,
-        playlist_name: playlist_slug,
+      block = await this.blocksRepository.findBySlug({
+        slug: block_slug,
+        playlist_slug,
       });
     }
 

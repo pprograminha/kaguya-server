@@ -25,6 +25,10 @@ _trailsRouter.post(
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().max(100).required(),
+      slug: Joi.string()
+        .regex(/^[a-z](-?[a-z])*$/)
+        .max(100)
+        .required(),
       description: Joi.string().max(255).required(),
     },
   }),
@@ -51,6 +55,9 @@ _trailsRouter.put(
     [Segments.BODY]: {
       trail_id: Joi.string().uuid().required(),
       name: Joi.string().max(100),
+      slug: Joi.string()
+        .regex(/^[a-z](-?[a-z])*$/)
+        .max(100),
       description: Joi.string().max(255),
     },
   }),

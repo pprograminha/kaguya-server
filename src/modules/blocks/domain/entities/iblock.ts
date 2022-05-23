@@ -5,6 +5,7 @@ import { IUserBlock } from './iuser-block';
 interface IBlock {
   id: string;
   name: string;
+  slug: string;
   playlist: IPlaylist;
   lessons: ILesson[];
   user_blocks: IUserBlock[];

@@ -5,7 +5,7 @@ import { container } from 'tsyringe';
 
 export class UpdateTrailController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { name, description, trail_id } = request.body;
+    const { name, slug, description, trail_id } = request.body;
 
     const updateTrail = container.resolve(UpdateTrailService);
 
@@ -13,6 +13,7 @@ export class UpdateTrailController {
       trail_id,
       description,
       name,
+      slug,
     });
 
     return response.status(200).json(instanceToInstance('trail', trailUpdated));

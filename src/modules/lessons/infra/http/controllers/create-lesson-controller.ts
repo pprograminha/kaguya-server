@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 
 export class CreateLessonController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { block_id, description, link, name } = request.body;
+    const { block_id, description, link, name, slug } = request.body;
 
     const createLesson = container.resolve(CreateLessonService);
 
@@ -12,6 +12,7 @@ export class CreateLessonController {
       block_id,
       description,
       link,
+      slug,
       name,
     });
 

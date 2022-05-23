@@ -25,9 +25,9 @@ class ShowPlaylistService {
     if (playlist_id) {
       playlist = await this.playlistsRepository.findById(playlist_id);
     } else if (playlist_slug && trail_slug) {
-      playlist = await this.playlistsRepository.findByName({
-        name: playlist_slug,
-        trail_name: trail_slug,
+      playlist = await this.playlistsRepository.findBySlug({
+        slug: playlist_slug,
+        trail_slug,
       });
     }
 

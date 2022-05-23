@@ -27,6 +27,7 @@ class CreateLessonService {
     block_id,
     description,
     link,
+    slug,
     name,
   }: CreateLessonRequestDTO): Promise<ILesson> {
     const block = await this.blocksRepository.findById(block_id);
@@ -34,10 +35,29 @@ class CreateLessonService {
     if (!block)
       throw new AppError('This block entered does not exist', 12, 400);
 
-    const lessonCreated = await this.lessonsRepository.create({
+    const checkNameAlreadyExists = await this.lessonsRepository.findByName({
+      name,
+      block_name: block.name,
+    });
+
+    if (checkNameAlreadyExists) {
+      throw new AppError('Name already exists', 23, 400);
+    }
+
+    const checkSlugAlreadyExists = await this.lessonsRepository.findBySlug({
+      slug,
+      block_slug: block.slug,
+    });
+
+    if (checkSlugAlreadyExists) {
+      throw new AppError('Slug already exists', 23, 400);
+    }
+
+    const createdLesson = await this.lessonsRepository.create({
       block_id,
       description,
       link,
+      slug,
       name,
     });
 
@@ -51,14 +71,14 @@ class CreateLessonService {
       await this.userLessonsRepository.create({
         user_id: user.id,
         block_id: block.id,
-        lesson_id: lessonCreated.id,
+        lesson_id: createdLesson.id,
         completed: false,
       });
     });
 
     await Promise.all(userLessonPromises);
 
-    return lessonCreated;
+    return createdLesson;
   }
 }
 

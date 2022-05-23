@@ -9,8 +9,32 @@ import { prisma } from '@shared/infra/prisma/connection';
 import { AsyncMaybe } from '@shared/types/app';
 import { FindByNameDTO } from '@modules/blocks/dtos/find-by-name-dto';
 import { FindAllBlocksFromPlaylistDTO } from '@modules/blocks/dtos/find-all-blocks-from-playlist-dto';
+import { FindBySlugDTO } from '@modules/blocks/dtos/find-by-slug-dto';
 
 class PrismaBlocksRepository implements IBlocksRepository {
+  async findBySlug(
+    { playlist_slug, slug }: FindBySlugDTO,
+    relationship?: Relationship,
+  ): AsyncMaybe<IBlock> {
+    const block = await prisma.block.findFirst({
+      where: {
+        slug,
+        playlist: {
+          slug: playlist_slug,
+        },
+      },
+      ...(relationship && relationship.lessons
+        ? {
+            include: {
+              lessons: true,
+            },
+          }
+        : {}),
+    });
+
+    return block as IBlock;
+  }
+
   async findByName(
     { name, playlist_name }: FindByNameDTO,
     relationship?: Relationship,
@@ -18,12 +42,12 @@ class PrismaBlocksRepository implements IBlocksRepository {
     const block = await prisma.block.findFirst({
       where: {
         name: {
-          equals: name.replace(/-/g, ' '),
+          equals: name,
           mode: 'insensitive',
         },
         playlist: {
           name: {
-            equals: playlist_name.replace(/-/g, ' '),
+            equals: playlist_name,
             mode: 'insensitive',
           },
         },
@@ -60,12 +84,11 @@ class PrismaBlocksRepository implements IBlocksRepository {
     return blocks as IBlock[];
   }
 
-  async create({ name, playlist_id }: CreateBlockDTO): Promise<IBlock> {
+  async create(data: CreateBlockDTO): Promise<IBlock> {
     const block = await prisma.block.create({
       data: {
         id: crypto.randomUUID(),
-        name,
-        playlist_id,
+        ...data,
       },
     });
 
@@ -140,7 +163,7 @@ class PrismaBlocksRepository implements IBlocksRepository {
       skip,
       take,
     });
-    return blocks as IBlock[];
+    return blocks as unknown as IBlock[];
   }
 }
 export { PrismaBlocksRepository };

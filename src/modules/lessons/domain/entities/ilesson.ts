@@ -4,6 +4,7 @@ import { IUserLesson } from './iuser-lesson';
 interface ILesson {
   id: string;
   name: string;
+  slug: string;
   description: string;
   link: string;
   block: IBlock;

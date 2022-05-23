@@ -7,11 +7,43 @@ import { AsyncMaybe } from '@shared/types/app';
 import crypto from 'crypto';
 
 export class PrismaTrailsRepository implements ITrailsRepository {
+  async findBySlug(slug: string): AsyncMaybe<ITrail> {
+    const trail = await prisma.trail.findFirst({
+      where: {
+        slug,
+      },
+      include: {
+        user_trails: true,
+        _count: {
+          select: {
+            playlists: true,
+            user_trails: true,
+          },
+        },
+        playlists: {
+          include: {
+            blocks: {
+              include: {
+                lessons: true,
+                _count: {
+                  select: {
+                    lessons: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+    return trail as unknown as ITrail;
+  }
+
   async findByName(name: string): AsyncMaybe<ITrail> {
     const trail = await prisma.trail.findFirst({
       where: {
         name: {
-          equals: name.replace(/-/g, ' '),
+          equals: name,
           mode: 'insensitive',
         },
       },

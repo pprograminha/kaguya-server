@@ -32,8 +32,12 @@ blocksRouter.get(
   celebrate({
     [Segments.QUERY]: {
       block_id: Joi.string().uuid(),
-      block_slug: Joi.string(),
-      playlist_slug: Joi.string(),
+      block_slug: Joi.string()
+        .regex(/^[a-z](-?[a-z])*$/)
+        .max(100),
+      playlist_slug: Joi.string()
+        .regex(/^[a-z](-?[a-z])*$/)
+        .max(100),
     },
   }),
   showBlockController.handle,

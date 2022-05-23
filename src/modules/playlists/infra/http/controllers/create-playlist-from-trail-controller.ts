@@ -5,7 +5,7 @@ import { container } from 'tsyringe';
 
 export class CreatePlaylistFromTrailController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { name, description, trail_id } = request.body;
+    const { name, description, trail_id, slug } = request.body;
 
     const createPlaylistFromTrail = container.resolve(
       CreatePlaylistFromTrailService,
@@ -14,6 +14,7 @@ export class CreatePlaylistFromTrailController {
     const playlistCreated = await createPlaylistFromTrail.execute({
       description,
       name,
+      slug,
       trail_id,
     });
 

@@ -3,16 +3,21 @@ import { IBlocksRepository } from '@modules/blocks/domain/repositories/blocks-re
 import { CreateBlockDTO } from '@modules/blocks/dtos/create-block-dto';
 import { FindAllBlocksFromPlaylistDTO } from '@modules/blocks/dtos/find-all-blocks-from-playlist-dto';
 import { FindByNameDTO } from '@modules/blocks/dtos/find-by-name-dto';
+import { FindBySlugDTO } from '@modules/blocks/dtos/find-by-slug-dto';
 import { Block } from '@modules/blocks/entities/block';
 import { AsyncMaybe } from '@shared/types/app';
 
 class InMemoryBlocksRepository implements IBlocksRepository {
   private blocks: IBlock[] = [];
 
+  async findBySlug({ slug }: FindBySlugDTO): AsyncMaybe<IBlock> {
+    const findedBlock = this.blocks.find(block => block.slug === slug);
+
+    return findedBlock;
+  }
+
   async findByName({ name }: FindByNameDTO): AsyncMaybe<IBlock> {
-    const findedBlock = this.blocks.find(
-      block => block.name === name.replace(/-/g, ' '),
-    );
+    const findedBlock = this.blocks.find(block => block.name === name);
 
     return findedBlock;
   }

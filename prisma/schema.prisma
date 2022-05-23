@@ -72,6 +72,7 @@ model UserTrail {
 model Trail {
   id             String         @id
   name           String
+  slug           String         @unique
   description    String
   playlists      Playlist[]
   user_trails    UserTrail[]
@@ -87,6 +88,7 @@ model Playlist {
   id             String         @id
   avatar         String?
   name           String
+  slug           String
   description    String
   trail_id       String
   blocks         Block[]
@@ -117,6 +119,7 @@ model UserPlaylist {
 model Lesson {
   id           String       @id
   name         String
+  slug         String
   description  String
   link         String
   block        Block        @relation(fields: [block_id], references: [id], onDelete: Cascade)
@@ -151,6 +154,7 @@ model UserLesson {
 model Block {
   id           String       @id
   name         String
+  slug         String
   lessons      Lesson[]
   playlist     Playlist     @relation(fields: [playlist_id], references: [id], onDelete: Cascade)
   playlist_id  String

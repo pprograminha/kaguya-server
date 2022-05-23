@@ -14,10 +14,9 @@ export type Count = {
 };
 
 export type CustomUserTrail = {
-  user: IUser;
+  user: IUser | null;
   playlists: undefined;
   _count: {
-    user_trails: undefined;
     users: number;
     lessons: number;
     playlists: number;
@@ -25,9 +24,11 @@ export type CustomUserTrail = {
   user_trail: {
     progress: number;
     enabled: boolean;
-  };
+  } | null;
   id: string;
   name: string;
+  description: string;
+  slug: string;
   avatar: string | null;
   updated_at: Date;
   created_at: Date;

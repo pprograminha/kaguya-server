@@ -3,36 +3,45 @@ import { ILessonsRepository } from '@modules/lessons/domain/repositories/lessons
 import { CreateLessonDTO } from '@modules/lessons/dtos/create-lesson-dto';
 import { FindAllLessonsFromBlockDTO } from '@modules/lessons/dtos/find-all-lessons-from-block-dto';
 import { FindByNameDTO } from '@modules/lessons/dtos/find-by-name-dto';
+import { FindBySlugDTO } from '@modules/lessons/dtos/find-by-slug-dto';
 import { Lesson } from '@modules/lessons/entities/lesson';
 import { AsyncMaybe } from '@shared/types/app';
 
 class InMemoryLessonsRepository implements ILessonsRepository {
   private lessons: ILesson[] = [];
 
+  async findLessonWithMostViews(): AsyncMaybe<ILesson> {
+    return this.lessons[0];
+  }
+
+  async findBySlug({ slug }: FindBySlugDTO): AsyncMaybe<ILesson> {
+    const lessonFinded = this.lessons.find(lesson => lesson.slug === slug);
+
+    return lessonFinded;
+  }
+
   async findAllLessonsFromBlock({
     block_id,
   }: FindAllLessonsFromBlockDTO): Promise<ILesson[]> {
-    const lessons = this.lessons.filter(
-      _lesson => _lesson.block_id === block_id,
-    );
+    const lessons = this.lessons.filter(lesson => lesson.block_id === block_id);
 
     return lessons;
   }
 
   async findByName({ name }: FindByNameDTO): AsyncMaybe<ILesson> {
-    const lessonFinded = this.lessons.find(_lesson => _lesson.name === name);
+    const lessonFinded = this.lessons.find(lesson => lesson.name === name);
 
     return lessonFinded;
   }
 
-  async save(_lesson: ILesson): Promise<ILesson> {
+  async save(lesson: ILesson): Promise<ILesson> {
     const index = this.lessons.findIndex(
-      findLesson => findLesson.id === _lesson.id,
+      findLesson => findLesson.id === lesson.id,
     );
 
-    this.lessons[index] = _lesson;
+    this.lessons[index] = lesson;
 
-    return _lesson;
+    return lesson;
   }
 
   async findAllLessons(): Promise<ILesson[]> {
@@ -40,23 +49,23 @@ class InMemoryLessonsRepository implements ILessonsRepository {
   }
 
   async create(data: CreateLessonDTO): Promise<ILesson> {
-    const _lesson = new Lesson();
+    const lesson = new Lesson();
 
-    Object.assign(_lesson, data);
+    Object.assign(lesson, data);
 
-    this.lessons.push(_lesson);
+    this.lessons.push(lesson);
 
-    return _lesson;
+    return lesson;
   }
 
   async findById(lesson_id: string): AsyncMaybe<ILesson> {
-    const lessonFinded = this.lessons.find(_lesson => _lesson.id === lesson_id);
+    const lessonFinded = this.lessons.find(lesson => lesson.id === lesson_id);
 
     return lessonFinded;
   }
 
   async destroyById(lesson_id: string): Promise<void> {
-    const index = this.lessons.findIndex(_lesson => _lesson.id === lesson_id);
+    const index = this.lessons.findIndex(lesson => lesson.id === lesson_id);
 
     this.lessons.splice(index, 1);
   }

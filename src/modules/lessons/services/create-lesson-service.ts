@@ -6,6 +6,7 @@ import { ILesson } from '../domain/entities/ilesson';
 import { ILessonsRepository } from '../domain/repositories/lessons-repository';
 import { IUserLessonsRepository } from '../domain/repositories/user-lessons-repository';
 import { CreateLessonRequestDTO } from '../dtos/create-lesson-request-dto';
+import { RefreshUserLessonProgressService } from './refresh-user-lesson-progress-service';
 
 @injectable()
 class CreateLessonService {
@@ -21,6 +22,9 @@ class CreateLessonService {
 
     @inject('BlocksRepository')
     private blocksRepository: IBlocksRepository,
+
+    @inject('RefreshUserLessonProgressService')
+    private refreshUserLessonProgressService: RefreshUserLessonProgressService,
   ) {}
 
   async execute({
@@ -70,9 +74,14 @@ class CreateLessonService {
     const userLessonPromises = users.map(async user => {
       await this.userLessonsRepository.create({
         user_id: user.id,
-        block_id: block.id,
+        block_id,
         lesson_id: createdLesson.id,
         completed: false,
+      });
+
+      await this.refreshUserLessonProgressService.execute({
+        block_id,
+        user_id: user.id,
       });
     });
 

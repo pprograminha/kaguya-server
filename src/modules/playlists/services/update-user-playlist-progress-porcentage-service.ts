@@ -40,7 +40,7 @@ export class UpdateUserPlaylistProgressPorcentageService {
 
     const userPlaylistProgressPercentage = progressTotal / userBlocks.length;
 
-    userPlaylist.progress = userPlaylistProgressPercentage;
+    userPlaylist.progress = Number(userPlaylistProgressPercentage.toFixed(0));
 
     await this.userPlaylistsRepository.save(userPlaylist);
 

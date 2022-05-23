@@ -40,7 +40,7 @@ export class UpdateUserBlockProgressPorcentageService {
     const userBlockProgressPercentage =
       (userLessonsCompleted.length / userLessons.length) * 100;
 
-    userBlock.progress = userBlockProgressPercentage;
+    userBlock.progress = Number(userBlockProgressPercentage.toFixed(0));
 
     await this.userBlocksRepository.save(userBlock);
 

@@ -39,7 +39,7 @@ export class UpdateUserTrailProgressPorcentageService {
 
     const userTrailProgressPercentage = progressTotal / userPlaylists.length;
 
-    userTrail.progress = userTrailProgressPercentage;
+    userTrail.progress = Number(userTrailProgressPercentage.toFixed(0));
 
     await this.userTrailsRepository.save(userTrail);
 

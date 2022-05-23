@@ -18,6 +18,21 @@ class PrismaHistoriesRepository implements IHistoriesRepository {
         user_id,
         lesson_id,
       },
+      include: {
+        lesson: {
+          include: {
+            user_lessons: {
+              include: {
+                block: {
+                  include: {
+                    playlist: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     });
 
     return history as IHistory;
@@ -48,6 +63,21 @@ class PrismaHistoriesRepository implements IHistoriesRepository {
     const history = await prisma.history.findFirst({
       where: {
         user_id,
+      },
+      include: {
+        lesson: {
+          include: {
+            user_lessons: {
+              include: {
+                block: {
+                  include: {
+                    playlist: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
       orderBy: {
         recent_at: 'desc',

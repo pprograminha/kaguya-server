@@ -197,7 +197,7 @@ export class ShowHistoryService {
         avatar: trail.avatar,
       },
       redirect: await this.getRedirect(history.lesson_id),
-      auto_generated: false,
+      auto_generated: true,
     };
   }
 }

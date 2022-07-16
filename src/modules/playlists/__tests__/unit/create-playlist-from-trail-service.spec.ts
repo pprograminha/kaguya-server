@@ -30,12 +30,14 @@ describe('CreatePlaylistFromTrail', () => {
   it('should be able to create a playlist from a trail', async () => {
     const trail = await inMemoryTrailsRepository.create({
       name: 'Xxxxxx',
+      slug: 'xxxxxx',
       description: 'Xxxxxx xxxxxx',
     });
 
     const playlist = await createPlaylistFromTrail.execute({
       trail_id: trail.id,
       name: 'Xxxxxx',
+      slug: 'xxxxxx',
       description: 'Xxxxxx xxxxxx',
     });
 
@@ -50,6 +52,7 @@ describe('CreatePlaylistFromTrail', () => {
       createPlaylistFromTrail.execute({
         trail_id: 'non-existing-trail-id',
         name: 'Xxxxxx',
+        slug: 'xxxxxx',
         description: 'Xxxxxx xxxxxx',
       }),
     ).rejects.toBeInstanceOf(AppError);

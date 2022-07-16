@@ -47,6 +47,7 @@ describe('RemoveUserTrail', () => {
     const trail = await inMemoryTrailsRepository.create({
       name: 'xxxxxxxxx',
       description: 'xxxxxx',
+      slug: 'xxxxxxxxx',
     });
 
     const userTrail = await inMemoryUserTrailsRepository.create({
@@ -68,6 +69,7 @@ describe('RemoveUserTrail', () => {
     const trail = await inMemoryTrailsRepository.create({
       description: 'Xxxx',
       name: 'Xxxx',
+      slug: 'xxxx',
     });
 
     await expect(
@@ -89,6 +91,7 @@ describe('RemoveUserTrail', () => {
     const trail = await inMemoryTrailsRepository.create({
       description: 'Xxxx',
       name: 'Xxxx',
+      slug: 'xxxx',
     });
 
     await expect(

@@ -29,11 +29,13 @@ describe('ListAllBlocksFromPlaylist', () => {
   it('should be able to list all playlists from trail', async () => {
     const trail = await inMemoryTrailsRepository.create({
       description: 'Xxxxx xxxx',
+      slug: 'xxxxx',
       name: 'Xxxxx',
     });
 
     const playlist = await inMemoryPlaylistsRepository.create({
       description: 'Xxxxx xxxx',
+      slug: 'xxxxx',
       name: 'Xxxxx',
       trail_id: trail.id,
     });
@@ -56,6 +58,7 @@ describe('ListAllBlocksFromPlaylist', () => {
       return inMemoryBlocksRepository.create({
         name: 'Xxxxx',
         playlist_id: playlist.id,
+        slug: 'xxxxx',
       });
     });
 
@@ -63,6 +66,7 @@ describe('ListAllBlocksFromPlaylist', () => {
 
     await inMemoryPlaylistsRepository.create({
       description: 'Xxxxx xxxx',
+      slug: 'xxxxx',
       name: 'Xxxxx',
       trail_id: trail.id,
     });

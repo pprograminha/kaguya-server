@@ -27,6 +27,7 @@ describe('lessons', () => {
       })
       .send({
         name: 'Xxxxx Xxxxxx',
+        slug: 'xxxxx-xxxxxx',
         description: 'xxxx xxxx xxx',
       })
       .expect(201);
@@ -38,6 +39,7 @@ describe('lessons', () => {
       })
       .send({
         name: 'Xxxxx Xxxxxx',
+        slug: 'xxxxx-xxxxxx',
         description: 'xxxx xxxx xxx',
         trail_id: trail.id,
       })
@@ -50,6 +52,7 @@ describe('lessons', () => {
       })
       .send({
         name: 'Xxxxx xxxx',
+        slug: 'xxxxx-xxxx',
         playlist_id: playlist.id,
       })
       .expect(201);
@@ -65,6 +68,7 @@ describe('lessons', () => {
       })
       .send({
         name: 'Xxxxx xxxx',
+        slug: 'xxxxx-xxxx',
         link: 'https://www.youtube.com',
         description: 'xxxxxx xxx xx x',
         block_id: block.id,
@@ -80,7 +84,8 @@ describe('lessons', () => {
         Authorization: `Bearer ${token}`,
       })
       .send({
-        name: 'Xxxxx xxxx',
+        name: 'Xxxxx xxxxx',
+        slug: 'xxxxx-xxxxx',
         link: 'https://www.youtube.com',
         description: 'xxxxxx xxx xx x',
         block_id: block.id,

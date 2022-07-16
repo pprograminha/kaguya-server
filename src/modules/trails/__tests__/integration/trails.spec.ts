@@ -27,6 +27,7 @@ describe('Trails', () => {
       })
       .send({
         name: 'Xxxxxx',
+        slug: 'xxxxxx',
         description: 'xxxxx xxxxx xxx xx xxxxx xxxxx xxxxx xxx xx xxxxx',
       })
       .expect(201);
@@ -51,7 +52,8 @@ describe('Trails', () => {
         Authorization: `Bearer ${token}`,
       })
       .send({
-        name: 'Xxxxxx',
+        name: 'Xxxxxxx',
+        slug: 'xxxxxxx',
         description: 'xxxxx xxxxx xxx xx xxxxx xxxxx xxxxx xxx xx xxxxx',
       });
 
@@ -66,12 +68,13 @@ describe('Trails', () => {
       })
       .send({
         trail_id: trail.id,
-        name: 'Xxxxxxx',
+        name: 'Xxxxxxxxxxx',
+        slug: 'xxxxxxxxxxx',
         description: 'xxxxxxx xxxxxx',
       });
 
     expect(response.status).toBe(200);
-    expect(response.body.name).toBe('Xxxxxxx');
+    expect(response.body.name).toBe('Xxxxxxxxxxx');
   });
 
   it('should be able to show the trail', async () => {

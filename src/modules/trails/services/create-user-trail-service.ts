@@ -96,12 +96,12 @@ export class CreateUserTrailService {
       slug: trail.slug,
       avatar: trail.avatar,
       playlists: undefined,
+      description: trail.description,
       user: findedUserTrail.user,
       updated_at: findedUserTrail.updated_at,
       created_at: findedUserTrail.created_at,
       _count: {
         playlists: (findedUserTrail.trail as ITrail & Count)?._count.playlists,
-        user_trails: undefined,
         users: (findedUserTrail.trail as ITrail & Count)?._count.user_trails,
         lessons: lessonsAmount,
       },

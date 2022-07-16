@@ -26,6 +26,7 @@ describe('ListAllPlaylistsFromTrail', () => {
   it('should be able to list all trails from trail', async () => {
     const trail = await inMemoryTrailsRepository.create({
       description: 'Xxxxx xxxx',
+      slug: 'xxxxx',
       name: 'Xxxxx',
     });
     const user = await inMemoryUsersRepository.create({
@@ -47,6 +48,7 @@ describe('ListAllPlaylistsFromTrail', () => {
         description: 'Xxxxx xxxx',
         name: 'Xxxxx',
         trail_id: trail.id,
+        slug: 'xxxxx',
       });
     });
 
@@ -55,6 +57,7 @@ describe('ListAllPlaylistsFromTrail', () => {
     await inMemoryPlaylistsRepository.create({
       description: 'Xxxxx xxxx',
       name: 'Xxxxx',
+      slug: 'xxxxx',
       trail_id: trail.id,
     });
 

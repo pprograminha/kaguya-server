@@ -26,7 +26,8 @@ describe('Sessions', () => {
         Authorization: `Bearer ${token}`,
       })
       .send({
-        name: 'Xxxxxxx',
+        name: 'Xxxxxxxxxxxxxxx',
+        slug: 'xxxxxxxxxxxxxxx',
         description: 'xxxxxxx xxxxxx',
       })
       .expect(201);

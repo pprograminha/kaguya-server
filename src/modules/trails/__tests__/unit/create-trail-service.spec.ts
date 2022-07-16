@@ -15,6 +15,7 @@ describe('CreateTrail', () => {
     const trail = await createTrailService.execute({
       description: 'XX xxx xxx X XX xxx',
       name: 'Xxxxx',
+      slug: 'xxxxx',
     });
 
     expect(trail.name).toBe('Xxxxx');

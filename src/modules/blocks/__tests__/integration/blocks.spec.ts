@@ -26,7 +26,8 @@ describe('Blocks', () => {
         Authorization: `Bearer ${token}`,
       })
       .send({
-        name: 'Xxxxxx',
+        name: 'Xxxxxx Xxxx Xxxx Xxxx Xxxxx',
+        slug: 'xxxxxx-xxxx-xxxx-xxxx-xxxxx',
         description: 'xxxxx xxxxx xxx xx xxxxx xxxxx xxxxx xxx xx xxxxx',
       })
       .expect(201);
@@ -38,7 +39,8 @@ describe('Blocks', () => {
       })
       .send({
         trail_id: trail.id,
-        name: 'Xxxxxx',
+        name: 'Xxxxxx Xxxx Xxxx Xxxx Xxxx',
+        slug: 'xxxxxx-xxxx-xxxx-xxxx-xxxx',
         description: 'xxxxx xxxxx xxx xx xxxxx xxxxx xxxxx xxx xx xxxxx',
       })
       .expect(201);
@@ -50,11 +52,12 @@ describe('Blocks', () => {
       })
       .send({
         playlist_id: playlist.id,
-        name: 'Xxxxxxx',
+        name: 'Xxxxxxx Xxx X',
+        slug: 'xxxxxxx-xxx-x',
       });
 
     expect(response.status).toBe(201);
-    expect(response.body.name).toBe('Xxxxxxx');
+    expect(response.body.name).toBe('Xxxxxxx Xxx X');
   });
 
   it('should be able to list blocks', async () => {
@@ -64,7 +67,8 @@ describe('Blocks', () => {
         Authorization: `Bearer ${token}`,
       })
       .send({
-        name: 'Xxxxxx',
+        name: 'Xxxxxx X',
+        slug: 'xxxxxx-x',
         description: 'xxxxx xxxxx xxx xx xxxxx xxxxx xxxxx xxx xx xxxxx',
       })
       .expect(201);
@@ -76,7 +80,8 @@ describe('Blocks', () => {
       })
       .send({
         trail_id: trail.id,
-        name: 'Xxxxxx',
+        name: 'Xxxxxx Xxxx Xx Xx',
+        slug: 'xxxxxx-xxxx-xx-xx',
         description: 'xxxxx xxxxx xxx xx xxxxx xxxxx xxxxx xxx xx xxxxx',
       })
       .expect(201);
@@ -88,7 +93,8 @@ describe('Blocks', () => {
       })
       .send({
         playlist_id: playlist.id,
-        name: 'Xxx Xxxx',
+        name: 'Xxx Xxxx Xxxxx Xxxxx',
+        slug: 'xxx-xxxx-xxxxx-xxxxx',
       })
       .expect(201);
 
@@ -99,7 +105,8 @@ describe('Blocks', () => {
       })
       .send({
         playlist_id: playlist.id,
-        name: 'Xxxxxxx',
+        name: 'Xx Xx Xxx',
+        slug: 'xx-xx-xxx',
       })
       .expect(201);
 
@@ -122,7 +129,8 @@ describe('Blocks', () => {
         Authorization: `Bearer ${token}`,
       })
       .send({
-        name: 'Xxxxxx',
+        name: 'Xxxx Xxxxx Xxxxx',
+        slug: 'xxxx-xxxxx-xxxxx',
         description: 'xxxxx xxxxx xxx xx xxxxx xxxxx xxxxx xxx xx xxxxx',
       })
       .expect(201);
@@ -134,7 +142,8 @@ describe('Blocks', () => {
       })
       .send({
         trail_id: trail.id,
-        name: 'Xxxxxx',
+        name: 'Xxxxxxxxxxxxxxxxxxxxxx',
+        slug: 'xxxxxxxxxxxxxxxxxxxxxx',
         description: 'xxxxx xxxxx xxx xx xxxxx xxxxx xxxxx xxx xx xxxxx',
       })
       .expect(201);
@@ -146,7 +155,8 @@ describe('Blocks', () => {
       })
       .send({
         playlist_id: playlist.id,
-        name: 'Xxx Xxxx',
+        slug: 'xxx-xxxxxxx',
+        name: 'Xxx Xxxxxxx',
       })
       .expect(201);
 
@@ -170,6 +180,7 @@ describe('Blocks', () => {
       })
       .send({
         name: 'Xxxxxx',
+        slug: 'xxxxxx',
         description: 'xxxxx xxxxx xxx xx xxxxx xxxxx xxxxx xxx xx xxxxx',
       })
       .expect(201);
@@ -181,7 +192,8 @@ describe('Blocks', () => {
       })
       .send({
         trail_id: trail.id,
-        name: 'Xxxxxx',
+        name: 'Xxxxxxxxx',
+        slug: 'xxxxxxxxx',
         description: 'xxxxx xxxxx xxx xx xxxxx xxxxx xxxxx xxx xx xxxxx',
       })
       .expect(201);
@@ -193,6 +205,7 @@ describe('Blocks', () => {
       })
       .send({
         playlist_id: playlist.id,
+        slug: 'xxx-xxxx',
         name: 'Xxx Xxxx',
       })
       .expect(201);

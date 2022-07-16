@@ -26,7 +26,8 @@ describe('UserTrails', () => {
         Authorization: `Bearer ${token}`,
       })
       .send({
-        name: 'Xxxxxx',
+        name: 'Xxx Xxxx Xxxxxxxxxx Xxxxxx Xxxx',
+        slug: 'xxx-xxxx-xxxxxxxxxx-xxxxxx-xxxx',
         description: 'xxxxx xxxxx xxx xx xxxxx xxxxx xxxxx xxx xx xxxxx',
       });
 
@@ -59,7 +60,8 @@ describe('UserTrails', () => {
         Authorization: `Bearer ${token}`,
       })
       .send({
-        name: 'Xxxxxx',
+        name: 'Xxx Xxxx Xxxxxxxxxx Xxxxxx Xxxxx',
+        slug: 'xxx-xxxx-xxxxxxxxxx-xxxxxx-xxxxx',
         description: 'xxxxx xxxxx xxx xx xxxxx xxxxx xxxxx xxx xx xxxxx',
       })
       .expect(201);
@@ -80,7 +82,7 @@ describe('UserTrails', () => {
         Authorization: `Bearer ${token}`,
       })
       .query({
-        trail_id: userTrail.trail_id,
+        trail_id: userTrail.id,
       });
 
     expect(response.status).toBe(200);

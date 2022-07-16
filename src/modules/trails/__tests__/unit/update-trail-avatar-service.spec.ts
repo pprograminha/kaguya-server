@@ -22,6 +22,7 @@ describe('UpdateTrailAvatar', () => {
     const trail = await inMemoryTrailsRepository.create({
       description: 'Xxxxx Xxxx',
       name: 'Xxxx',
+      slug: 'xxxx',
     });
 
     await updateTrailAvatar.execute({
@@ -41,6 +42,7 @@ describe('UpdateTrailAvatar', () => {
     const trail = await inMemoryTrailsRepository.create({
       description: 'Xxxxx Xxxx',
       name: 'Xxxx',
+      slug: 'xxxx',
     });
 
     expect(

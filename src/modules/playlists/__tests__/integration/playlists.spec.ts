@@ -26,7 +26,8 @@ describe('Sessions', () => {
         Authorization: `Bearer ${token}`,
       })
       .send({
-        name: 'Xxxxxxx',
+        name: 'Xxxxxxxxx Xxxxxx Xxxxx',
+        slug: 'xxxxxxxxx-xxxxxx-xxxxx',
         description: 'xxxxxxx xxxxxx',
       })
       .expect(201);
@@ -42,12 +43,13 @@ describe('Sessions', () => {
       })
       .send({
         trail_id: trail.id,
-        name: 'Xxxxxxx',
+        name: 'Xxxxxxxxxxxxxxxxxxxxxxxxxxxxx X',
+        slug: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxx-x',
         description: 'xxxxxxx xxxxxx',
       });
 
     expect(response.status).toBe(201);
-    expect(response.body.name).toBe('Xxxxxxx');
+    expect(response.body.name).toBe('Xxxxxxxxxxxxxxxxxxxxxxxxxxxxx X');
   });
 
   it('should be able to list playlists from trail', async () => {
@@ -59,6 +61,7 @@ describe('Sessions', () => {
       .send({
         trail_id: trail.id,
         name: 'Xxxx Xxxx',
+        slug: 'xxxx-xxxx',
         description: 'xxx xx xxx xxxxx xxxx',
       });
 
@@ -81,7 +84,8 @@ describe('Sessions', () => {
       })
       .send({
         trail_id: trail.id,
-        name: 'Xxxx Xxxx',
+        name: 'Xxxx Xxxxxx Xxx',
+        slug: 'xxxx-xxxxxx-xxx',
         description: 'xxx xx xxx xxxxx xxxx',
       })
       .expect(201);
@@ -106,7 +110,8 @@ describe('Sessions', () => {
       })
       .send({
         trail_id: trail.id,
-        name: 'Xxxx Xxxx',
+        name: 'Xxxx Xxxxxx Xxxx',
+        slug: 'xxxx-xxxxxx-xxxx',
         description: 'xxx xx xxx xxxxx xxxx',
       })
       .expect(201);

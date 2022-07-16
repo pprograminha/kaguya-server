@@ -31,6 +31,7 @@ describe('ListAllUserTrailsFromUser', () => {
     const trail = await inMemoryTrailsRepository.create({
       description: 'xxxxxx',
       name: 'xxxxxx',
+      slug: 'xxxxxx',
     });
 
     const userTrail = await inMemoryUserTrailsRepository.create({

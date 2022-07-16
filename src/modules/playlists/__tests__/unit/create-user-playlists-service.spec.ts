@@ -59,6 +59,7 @@ describe('CreatePlaylist', () => {
 
     const trail = await inMemoryTrailsRepository.create({
       name: 'Xxxx Xxx',
+      slug: 'xxxx-xxx',
       description: 'Xxxx Xxx',
     });
 
@@ -79,6 +80,7 @@ describe('CreatePlaylist', () => {
         name: 'Xxxx Xxx',
         description: 'Xxxx Xxx',
         trail_id: trail.id,
+        slug: 'xxxx-xxx',
       });
     });
 
@@ -95,6 +97,7 @@ describe('CreatePlaylist', () => {
   it('should not be able to create user playlists with non-existent user', async () => {
     const trail = await inMemoryTrailsRepository.create({
       name: 'Xxxx Xxx',
+      slug: 'xxxx-xxx',
       description: 'Xxxx Xxx',
     });
 

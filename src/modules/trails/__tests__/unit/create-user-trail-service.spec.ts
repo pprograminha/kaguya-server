@@ -64,6 +64,7 @@ describe('CreateUserTrail', () => {
     const createdTrail = await inMemoryTrailsRepository.create({
       description: 'Xxxx xxxx x',
       name: 'Xxxx',
+      slug: 'xxxx',
     });
 
     const user = await inMemoryUsersRepository.create({
@@ -109,6 +110,7 @@ describe('CreateUserTrail', () => {
     const trail = await inMemoryTrailsRepository.create({
       description: 'Xxxx xxxx x',
       name: 'Xxxx',
+      slug: 'xxxx',
     });
 
     await expect(
@@ -123,6 +125,7 @@ describe('CreateUserTrail', () => {
     const trail = await inMemoryTrailsRepository.create({
       description: 'Xxxx xxxx x',
       name: 'Xxxx',
+      slug: 'xxxx',
     });
 
     const user = await inMemoryUsersRepository.create({
@@ -156,6 +159,7 @@ describe('CreateUserTrail', () => {
     const trail = await inMemoryTrailsRepository.create({
       description: 'Xxxx xxxx x',
       name: 'Xxxx',
+      slug: 'xxxx',
     });
 
     const user = await inMemoryUsersRepository.create({
@@ -189,6 +193,7 @@ describe('CreateUserTrail', () => {
     const trail = await inMemoryTrailsRepository.create({
       description: 'Xxxx xxxx x',
       name: 'Xxxx',
+      slug: 'xxxx',
     });
 
     const user = await inMemoryUsersRepository.create({

@@ -16,6 +16,7 @@ describe('UpdateTrail', () => {
     const trail = await inMemoryTrailsRepository.create({
       description: 'Zzzzz Zzzz',
       name: 'Zzzz',
+      slug: 'zzzz',
     });
 
     const trailUpdated = await updateTrail.execute({

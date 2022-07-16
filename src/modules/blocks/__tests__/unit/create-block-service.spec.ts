@@ -33,16 +33,19 @@ describe('CreateBlock', () => {
     const trail = await inMemoryTrailsRepository.create({
       description: 'Xxxxx xxxx',
       name: 'Xxxxx',
+      slug: 'xxxxx',
     });
 
     const playlist = await inMemoryPlaylistsRepository.create({
       description: 'Xxxxx xxxx',
+      slug: 'xxxxx',
       name: 'Xxxxx',
       trail_id: trail.id,
     });
 
     const block = await createBlock.execute({
       name: 'Xxxxx',
+      slug: 'xxxxx',
       playlist_id: playlist.id,
     });
 
@@ -55,6 +58,7 @@ describe('CreateBlock', () => {
       createBlock.execute({
         name: 'Xxxxx',
         playlist_id: 'non-existing-playlist',
+        slug: 'xxxxx',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

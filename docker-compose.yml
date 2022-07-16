@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  database:
+    container_name: kaguya_postgres
+    image: 'postgres:alpine'
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'postgresql_data:/var/lib/postgresql'
+    environment:
+      - POSTGRES_USER=kaguya
+      - POSTGRES_PASSWORD=kaguya
+      - POSTGRES_DATABASE=kaguya
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge
+
+volumes:
+  postgresql_data:
+    driver: local

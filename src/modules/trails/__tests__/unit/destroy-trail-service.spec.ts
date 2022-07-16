@@ -24,6 +24,7 @@ describe('DestroyTrail', () => {
     const trail = await inMemoryTrailsRepository.create({
       name: 'Xxxx',
       description: 'Xxxx',
+      slug: 'xxxx',
     });
 
     const destroyById = jest.spyOn(inMemoryTrailsRepository, 'destroyById');

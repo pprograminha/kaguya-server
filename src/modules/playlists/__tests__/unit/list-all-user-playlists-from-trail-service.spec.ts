@@ -37,10 +37,12 @@ describe('ListAllUserPlaylistsFromTrail', () => {
     const trail = await inMemoryTrailsRepository.create({
       name: 'Xxxxx',
       description: 'Xxxxx xxxxx',
+      slug: 'xxxxx',
     });
 
     const playlist = await inMemoryPlaylistsRepository.create({
       name: 'Xxxxx',
+      slug: 'xxxxx',
       description: 'Xxxxx xxxxx',
       trail_id: trail.id,
     });
@@ -64,6 +66,7 @@ describe('ListAllUserPlaylistsFromTrail', () => {
     const trail = await inMemoryTrailsRepository.create({
       name: 'Xxxxx',
       description: 'Xxxxx xxxxx',
+      slug: 'xxxxx',
     });
 
     await expect(

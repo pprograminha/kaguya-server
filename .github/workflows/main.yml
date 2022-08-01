@@ -46,11 +46,9 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }} 
           script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
             cd ./app
-            yarn
-            yarn build
-            yarn prisma migrate deploy
-            yarn prisma generate
-            pm2 restart kaguya
+            sh ./scripts/deploy.sh
 
  

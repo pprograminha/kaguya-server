@@ -12,19 +12,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      
+
       - name: Install Dependencies
         run: yarn
-   
+
       - name: Build
         run: yarn build
-      
-      - uses: appleboy/scp-action@master
+
+			- name: Tests
+        run: yarn test
+
+			- name: SSH Connection
+	      uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
@@ -32,3 +36,14 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           source: "., !node_modules"
           target: "app"
+
+			- name: Run multiple commands
+			  uses: appleboy/ssh-action@master
+			  with:
+			    host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+			    script: |
+			      cd ./app
+			      sh ./scripts/deploy.sh

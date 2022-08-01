@@ -38,11 +38,12 @@ jobs:
           target: "app"
 
       - name: Run multiple commands
-  	uses: appleboy/ssh-action@master
-  	with:
+		  	uses: appleboy/ssh-action@master
+		  	with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
-script: | 
-cd ./app | sh ./scripts/deploy.sh
+				  script: | 
+            cd ./app
+            sh ./scripts/deploy.sh

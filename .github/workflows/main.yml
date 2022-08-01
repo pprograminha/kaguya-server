@@ -44,5 +44,5 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
-	  script: | 
-	cd ./app | sh ./scripts/deploy.sh
+script: | 
+cd ./app | sh ./scripts/deploy.sh

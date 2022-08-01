@@ -6,4 +6,4 @@ yarn build
 yarn prisma migrate deploy
 wait
 yarn prisma generate
-pm2 restart kaguya
+pm2 restart Kaguya

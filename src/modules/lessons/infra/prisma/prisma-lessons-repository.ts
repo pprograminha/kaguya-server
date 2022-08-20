@@ -7,6 +7,8 @@ import { CreateLessonDTO } from '@modules/lessons/dtos/create-lesson-dto';
 import { FindAllLessonsFromBlockDTO } from '@modules/lessons/dtos/find-all-lessons-from-block-dto';
 import { FindByNameDTO } from '@modules/lessons/dtos/find-by-name-dto';
 import { FindBySlugDTO } from '@modules/lessons/dtos/find-by-slug-dto';
+import { IDislike } from '@modules/likes/domain/entities/idislike';
+import { ILike } from '@modules/likes/domain/entities/ilike';
 import { FiltersDTO } from '@modules/trails/domain/repositories/trails-repository';
 import { prisma } from '@shared/infra/prisma/connection';
 import { AsyncMaybe } from '@shared/types/app';
@@ -28,7 +30,12 @@ class PrismaLessonsRepository implements ILessonsRepository {
   async findBySlug(
     { block_slug, slug }: FindBySlugDTO,
     relationship?: RelationshipDTO,
-  ): AsyncMaybe<ILesson> {
+  ): AsyncMaybe<
+    ILesson & {
+      likes: ILike[];
+      dislikes: IDislike[];
+    }
+  > {
     const findedLesson = await prisma.lesson.findFirst({
       where: {
         slug,
@@ -40,6 +47,7 @@ class PrismaLessonsRepository implements ILessonsRepository {
         ? {
             include: {
               likes: true,
+              dislikes: true,
               _count: {
                 select: {
                   dislikes: !!relationship._count.dislikes,
@@ -52,7 +60,7 @@ class PrismaLessonsRepository implements ILessonsRepository {
         : {}),
     });
 
-    return findedLesson as ILesson;
+    return findedLesson as any;
   }
 
   async create(data: CreateLessonDTO): Promise<ILesson> {
@@ -85,7 +93,12 @@ class PrismaLessonsRepository implements ILessonsRepository {
   async findById(
     lesson_id: string,
     relationship: RelationshipDTO,
-  ): AsyncMaybe<ILesson> {
+  ): AsyncMaybe<
+    ILesson & {
+      likes: ILike[];
+      dislikes: IDislike[];
+    }
+  > {
     const findedLesson = await prisma.lesson.findUnique({
       where: {
         id: lesson_id,
@@ -94,6 +107,7 @@ class PrismaLessonsRepository implements ILessonsRepository {
         ? {
             include: {
               likes: true,
+              dislikes: true,
               _count: {
                 select: {
                   dislikes: !!relationship._count.dislikes,
@@ -106,7 +120,7 @@ class PrismaLessonsRepository implements ILessonsRepository {
         : {}),
     });
 
-    return findedLesson as ILesson;
+    return findedLesson as any;
   }
 
   async findByName(

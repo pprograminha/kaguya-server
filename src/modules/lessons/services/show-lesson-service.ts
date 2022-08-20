@@ -1,4 +1,5 @@
 import { CreateHistoryService } from '@modules/histories/services/create-history-service';
+import { IDislike } from '@modules/likes/domain/entities/idislike';
 import { ILike } from '@modules/likes/domain/entities/ilike';
 import { IUsersRepository } from '@modules/users/domain/repositories/users-repository';
 import { inject, injectable } from '@shared/container';
@@ -18,7 +19,7 @@ type Count = {
 };
 
 type ShowLessonRequestResponse = ILesson & {
-  user_liked_lesson: boolean;
+  state: 'liked' | 'disliked' | 'none';
 };
 
 @injectable()
@@ -52,6 +53,7 @@ class ShowLessonService {
     let findedLesson: Maybe<
       ILesson & {
         likes: ILike[];
+        dislikes: IDislike[];
       }
     >;
 
@@ -110,11 +112,16 @@ class ShowLessonService {
       user_id,
     });
 
+    const liked =
+      findedLesson.likes.some(like => like.user_id === user_id) && 'liked';
+
+    const disliked =
+      findedLesson.dislikes.some(dislike => dislike.user_id === user_id) &&
+      'disliked';
+
     return {
       ...findedLesson,
-      user_liked_lesson: findedLesson.likes.some(
-        like => like.user_id === user_id,
-      ),
+      state: disliked || liked || 'none',
     };
   }
 }

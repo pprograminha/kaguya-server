@@ -119,8 +119,10 @@ class ShowLessonService {
       findedLesson.dislikes.some(dislike => dislike.user_id === user_id) &&
       'disliked';
 
+    const { likes: _, dislikes: __, ...refactoredLesson } = findedLesson;
+
     return {
-      ...findedLesson,
+      ...refactoredLesson,
       state: disliked || liked || 'none',
     };
   }

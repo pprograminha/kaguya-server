@@ -1,12 +1,13 @@
-import { AppError } from '@shared/errors/app-error';
-import { inject, injectable } from '@shared/container';
-import { IUsersRepository } from '@modules/users/domain/repositories/users-repository';
-import { Maybe } from '@shared/types/app';
 import { CreateHistoryService } from '@modules/histories/services/create-history-service';
+import { ILike } from '@modules/likes/domain/entities/ilike';
+import { IUsersRepository } from '@modules/users/domain/repositories/users-repository';
+import { inject, injectable } from '@shared/container';
+import { AppError } from '@shared/errors/app-error';
+import { Maybe } from '@shared/types/app';
 import { ILesson } from '../domain/entities/ilesson';
 import { ILessonsRepository } from '../domain/repositories/lessons-repository';
-import { ShowLessonRequestDTO } from '../dtos/show-lesson-request-dto';
 import { IViewsRepository } from '../domain/repositories/views-repository';
+import { ShowLessonRequestDTO } from '../dtos/show-lesson-request-dto';
 
 type Count = {
   _count?: {
@@ -15,6 +16,11 @@ type Count = {
     views?: number;
   };
 };
+
+type ShowLessonRequestResponse = ILesson & {
+  user_liked_lesson: boolean;
+};
+
 @injectable()
 class ShowLessonService {
   constructor(
@@ -36,14 +42,18 @@ class ShowLessonService {
     lesson_slug,
     block_slug,
     user_id,
-  }: ShowLessonRequestDTO): Promise<ILesson> {
+  }: ShowLessonRequestDTO): Promise<ShowLessonRequestResponse> {
     const user = await this.usersRepository.findById(user_id);
 
     if (!user) {
       throw new AppError('User does not exist', 5, 401);
     }
 
-    let findedLesson: Maybe<ILesson>;
+    let findedLesson: Maybe<
+      ILesson & {
+        likes: ILike[];
+      }
+    >;
 
     if (!lesson_id && (!lesson_slug || !block_slug)) {
       throw new AppError('Enter some search attribute', 8, 400);
@@ -100,7 +110,12 @@ class ShowLessonService {
       user_id,
     });
 
-    return findedLesson;
+    return {
+      ...findedLesson,
+      user_liked_lesson: findedLesson.likes.some(
+        like => like.user_id === user_id,
+      ),
+    };
   }
 }
 

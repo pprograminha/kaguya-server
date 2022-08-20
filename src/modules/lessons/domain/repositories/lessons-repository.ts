@@ -2,6 +2,7 @@ import { CreateLessonDTO } from '@modules/lessons/dtos/create-lesson-dto';
 import { FindAllLessonsFromBlockDTO } from '@modules/lessons/dtos/find-all-lessons-from-block-dto';
 import { FindByNameDTO } from '@modules/lessons/dtos/find-by-name-dto';
 import { FindBySlugDTO } from '@modules/lessons/dtos/find-by-slug-dto';
+import { ILike } from '@modules/likes/domain/entities/ilike';
 import { FiltersDTO } from '@modules/trails/domain/repositories/trails-repository';
 import { AsyncMaybe } from '@shared/types/app';
 import { ILesson } from '../entities/ilesson';
@@ -19,7 +20,11 @@ interface ILessonsRepository {
   findById(
     lesson_id: string,
     relationship?: RelationshipDTO,
-  ): AsyncMaybe<ILesson>;
+  ): AsyncMaybe<
+    ILesson & {
+      likes: ILike[];
+    }
+  >;
   findLessonWithMostViews(): AsyncMaybe<ILesson>;
   findByName(
     data: FindByNameDTO,
@@ -28,7 +33,11 @@ interface ILessonsRepository {
   findBySlug(
     data: FindBySlugDTO,
     relationship?: RelationshipDTO,
-  ): AsyncMaybe<ILesson>;
+  ): AsyncMaybe<
+    ILesson & {
+      likes: ILike[];
+    }
+  >;
   destroyById(lesson_id: string): Promise<void>;
   findAllLessons(data?: FiltersDTO): Promise<ILesson[]>;
   findAllLessonsFromBlock(data: FindAllLessonsFromBlockDTO): Promise<ILesson[]>;

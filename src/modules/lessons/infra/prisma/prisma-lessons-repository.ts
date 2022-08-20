@@ -1,7 +1,7 @@
 import { ILesson } from '@modules/lessons/domain/entities/ilesson';
 import {
   ILessonsRepository,
-  RelationshipDTO,
+  RelationshipDTO
 } from '@modules/lessons/domain/repositories/lessons-repository';
 import { CreateLessonDTO } from '@modules/lessons/dtos/create-lesson-dto';
 import { FindAllLessonsFromBlockDTO } from '@modules/lessons/dtos/find-all-lessons-from-block-dto';
@@ -39,6 +39,7 @@ class PrismaLessonsRepository implements ILessonsRepository {
       ...(relationship && Object.keys(relationship > 0) && relationship._count
         ? {
             include: {
+              likes: true,
               _count: {
                 select: {
                   dislikes: !!relationship._count.dislikes,
@@ -92,6 +93,7 @@ class PrismaLessonsRepository implements ILessonsRepository {
       ...(relationship && Object.keys(relationship > 0) && relationship._count
         ? {
             include: {
+              likes: true,
               _count: {
                 select: {
                   dislikes: !!relationship._count.dislikes,

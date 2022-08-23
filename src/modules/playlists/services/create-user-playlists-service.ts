@@ -1,12 +1,12 @@
+import { IBlocksRepository } from '@modules/blocks/domain/repositories/blocks-repository';
 import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/user-blocks-repository';
+import { ILessonsRepository } from '@modules/lessons/domain/repositories/lessons-repository';
 import { IUserLessonsRepository } from '@modules/lessons/domain/repositories/user-lessons-repository';
 import { ITrailsRepository } from '@modules/trails/domain/repositories/trails-repository';
 import { IUserTrailsRepository } from '@modules/trails/domain/repositories/user-trails-repository';
 import { IUsersRepository } from '@modules/users/domain/repositories/users-repository';
-import { AppError } from '@shared/errors/app-error';
 import { inject, injectable } from '@shared/container';
-import { IBlocksRepository } from '@modules/blocks/domain/repositories/blocks-repository';
-import { ILessonsRepository } from '@modules/lessons/domain/repositories/lessons-repository';
+import { AppError } from '@shared/errors/app-error';
 import { IUserPlaylist } from '../domain/entities/iuser-playlist';
 import { IPlaylistsRepository } from '../domain/repositories/playlists-repository';
 import { IUserPlaylistsRepository } from '../domain/repositories/user-playlists-repository';
@@ -91,11 +91,18 @@ class CreateUserPlaylistsService {
 
         await Promise.all(
           blocks.map(async block => {
-            await this.userBlocksRepository.create({
+            const userBlock = await this.userBlocksRepository.findOne({
               block_id: block.id,
               user_id: user.id,
-              playlist_id: playlist.id,
             });
+
+            if (!userBlock) {
+              await this.userBlocksRepository.create({
+                block_id: block.id,
+                user_id: user.id,
+                playlist_id: playlist.id,
+              });
+            }
 
             const lessons =
               await this.lessonsRepository.findAllLessonsFromBlock({
@@ -104,12 +111,18 @@ class CreateUserPlaylistsService {
 
             await Promise.all(
               lessons.map(async _lesson => {
-                await this.userLessonsRepository.create({
-                  block_id: block.id,
+                const userLesson = await this.userLessonsRepository.findOne({
                   user_id: user.id,
                   lesson_id: _lesson.id,
-                  completed: false,
                 });
+
+                if (!userLesson)
+                  await this.userLessonsRepository.create({
+                    block_id: block.id,
+                    user_id: user.id,
+                    lesson_id: _lesson.id,
+                    completed: false,
+                  });
               }),
             );
           }),

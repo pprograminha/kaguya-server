@@ -1,8 +1,6 @@
 #!/bin/bash
 echo "Running startup commands"
 
-git pull
-
 yarn
 docker kill $(docker ps -q)
 docker-compose up -d

@@ -1,5 +1,8 @@
 import { IUserBlock } from '@modules/blocks/domain/entities/iuser-block';
-import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/user-blocks-repository';
+import {
+  FindUserBlockDTO,
+  IUserBlocksRepository
+} from '@modules/blocks/domain/repositories/user-blocks-repository';
 import { CreateUserBlockDTO } from '@modules/blocks/dtos/create-user-block-dto';
 import { FindAllUserBlocksFromPlaylistDTO } from '@modules/blocks/dtos/find-all-user-blocks-from-playlist-dto';
 import { FindOneDTO } from '@modules/blocks/dtos/find-one-dto';
@@ -8,6 +11,22 @@ import { AsyncMaybe } from '@shared/types/app';
 import crypto from 'crypto';
 
 class PrismaUserBlocksRepository implements IUserBlocksRepository {
+  async findUserBlock({
+    block_id,
+    playlist_id,
+    user_id,
+  }: FindUserBlockDTO): AsyncMaybe<IUserBlock> {
+    const userBlock = await prisma.userBlock.findFirst({
+      where: {
+        block_id,
+        playlist_id,
+        user_id,
+      },
+    });
+
+    return userBlock as IUserBlock;
+  }
+
   async save({ id, progress }: IUserBlock): Promise<void> {
     await prisma.userBlock.update({
       data: {

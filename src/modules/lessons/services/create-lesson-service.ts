@@ -1,7 +1,7 @@
 import { IBlocksRepository } from '@modules/blocks/domain/repositories/blocks-repository';
 import { IUsersRepository } from '@modules/users/domain/repositories/users-repository';
-import { AppError } from '@shared/errors/app-error';
 import { inject, injectable } from '@shared/container';
+import { AppError } from '@shared/errors/app-error';
 import { ILesson } from '../domain/entities/ilesson';
 import { ILessonsRepository } from '../domain/repositories/lessons-repository';
 import { IUserLessonsRepository } from '../domain/repositories/user-lessons-repository';
@@ -72,12 +72,19 @@ class CreateLessonService {
     );
 
     const userLessonPromises = users.map(async user => {
-      await this.userLessonsRepository.create({
+      const userLesson = await this.userLessonsRepository.findUserLesson({
         user_id: user.id,
         block_id,
         lesson_id: createdLesson.id,
-        completed: false,
       });
+
+      if (!userLesson)
+        await this.userLessonsRepository.create({
+          user_id: user.id,
+          block_id,
+          lesson_id: createdLesson.id,
+          completed: false,
+        });
 
       await this.refreshUserLessonProgressService.execute({
         block_id,

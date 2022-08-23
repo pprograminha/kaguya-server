@@ -1,5 +1,8 @@
 import { IUserPlaylist } from '@modules/playlists/domain/entities/iuser-playlist';
-import { IUserPlaylistsRepository } from '@modules/playlists/domain/repositories/user-playlists-repository';
+import {
+  FindUserPlaylistDTO,
+  IUserPlaylistsRepository
+} from '@modules/playlists/domain/repositories/user-playlists-repository';
 import { CreateUserPlaylistDTO } from '@modules/playlists/dtos/create-user-playlist-dto';
 import { FindAllUserPlaylistsFromTrailDTO } from '@modules/playlists/dtos/find-all-user-playlists-from-trail-dto';
 import { FindOneDTO } from '@modules/playlists/dtos/find-one-dto';
@@ -8,6 +11,21 @@ import { AsyncMaybe } from '@shared/types/app';
 import crypto from 'crypto';
 
 export class PrismaUserPlaylistsRepository implements IUserPlaylistsRepository {
+  async findUserPlaylist({
+    playlist_id,
+    trail_id,
+    user_id,
+  }: FindUserPlaylistDTO): AsyncMaybe<IUserPlaylist> {
+    const userPlaylist = await prisma.userPlaylist.findFirst({
+      where: {
+        playlist_id,
+        trail_id,
+        user_id,
+      },
+    });
+    return userPlaylist as IUserPlaylist;
+  }
+
   async findOne({
     playlist_id,
     user_id,

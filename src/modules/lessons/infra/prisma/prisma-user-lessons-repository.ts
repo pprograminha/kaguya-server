@@ -1,5 +1,8 @@
 import { IUserLesson } from '@modules/lessons/domain/entities/iuser-lesson';
-import { IUserLessonsRepository } from '@modules/lessons/domain/repositories/user-lessons-repository';
+import {
+  FindUserLessonDTO,
+  IUserLessonsRepository
+} from '@modules/lessons/domain/repositories/user-lessons-repository';
 import { CreateUserLessonDTO } from '@modules/lessons/dtos/create-user-lesson-dto';
 import { FindAllUserLessonsFromBlockDTO } from '@modules/lessons/dtos/find-all-user-lessons-from-block-dto';
 import { FindOneDTO } from '@modules/lessons/dtos/find-one-dto';
@@ -8,6 +11,22 @@ import { AsyncMaybe } from '@shared/types/app';
 import crypto from 'crypto';
 
 class PrismaUserLessonsRepository implements IUserLessonsRepository {
+  async findUserLesson({
+    block_id,
+    lesson_id,
+    user_id,
+  }: FindUserLessonDTO): AsyncMaybe<IUserLesson> {
+    const userLesson = await prisma.userLesson.findFirst({
+      where: {
+        block_id,
+        lesson_id,
+        user_id,
+      },
+    });
+
+    return userLesson as IUserLesson;
+  }
+
   async findAllUserLessonsFromBlock({
     block_id,
     user_id,

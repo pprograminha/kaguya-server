@@ -1,7 +1,7 @@
 import { ITrailsRepository } from '@modules/trails/domain/repositories/trails-repository';
 import { IUsersRepository } from '@modules/users/domain/repositories/users-repository';
-import { AppError } from '@shared/errors/app-error';
 import { inject, injectable } from '@shared/container';
+import { AppError } from '@shared/errors/app-error';
 import { IPlaylist } from '../domain/entities/iplaylist';
 import { IPlaylistsRepository } from '../domain/repositories/playlists-repository';
 import { IUserPlaylistsRepository } from '../domain/repositories/user-playlists-repository';
@@ -66,13 +66,21 @@ class CreatePlaylistFromTrailService {
       },
     );
 
-    const userPlaylistPromises = users.map(user =>
-      this.userPlaylistsRepository.create({
+    const userPlaylistPromises = users.map(async user => {
+      const userPlaylist = await this.userPlaylistsRepository.findUserPlaylist({
         user_id: user.id,
-        trail_id: trail.id,
         playlist_id: playlist.id,
-      }),
-    );
+        trail_id: trail.id,
+      });
+
+      if (!userPlaylist) {
+        await this.userPlaylistsRepository.create({
+          user_id: user.id,
+          playlist_id: playlist.id,
+          trail_id: trail.id,
+        });
+      }
+    });
 
     await Promise.all(userPlaylistPromises);
 

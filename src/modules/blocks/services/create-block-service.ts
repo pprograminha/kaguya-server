@@ -1,7 +1,7 @@
 import { IPlaylistsRepository } from '@modules/playlists/domain/repositories/playlists-repository';
 import { IUsersRepository } from '@modules/users/domain/repositories/users-repository';
-import { AppError } from '@shared/errors/app-error';
 import { inject, injectable } from '@shared/container';
+import { AppError } from '@shared/errors/app-error';
 import { IBlock } from '../domain/entities/iblock';
 import { IBlocksRepository } from '../domain/repositories/blocks-repository';
 import { IUserBlocksRepository } from '../domain/repositories/user-blocks-repository';
@@ -64,11 +64,18 @@ class CreateBlockService {
       });
 
     const userBlockPromises = users.map(async user => {
-      await this.userBlocksRepository.create({
+      const userBlock = await this.userBlocksRepository.findUserBlock({
         user_id: user.id,
         block_id: block.id,
         playlist_id: playlist.id,
       });
+
+      if (!userBlock)
+        await this.userBlocksRepository.create({
+          user_id: user.id,
+          block_id: block.id,
+          playlist_id: playlist.id,
+        });
     });
 
     await Promise.all(userBlockPromises);

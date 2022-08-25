@@ -1,9 +1,9 @@
 import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/user-blocks-repository';
-import { AppError } from '@shared/errors/app-error';
 import { inject, injectable } from '@shared/container';
+import { AppError } from '@shared/errors/app-error';
 import { IUserPlaylist } from '../domain/entities/iuser-playlist';
-import { UpdateUserPlaylistProgressPorcentageRequestDTO } from '../dtos/update-user-playlist-progress-porcentage-request-dto';
 import { IUserPlaylistsRepository } from '../domain/repositories/user-playlists-repository';
+import { UpdateUserPlaylistProgressPorcentageRequestDTO } from '../dtos/update-user-playlist-progress-porcentage-request-dto';
 
 @injectable()
 export class UpdateUserPlaylistProgressPorcentageService {
@@ -27,20 +27,13 @@ export class UpdateUserPlaylistProgressPorcentageService {
     if (!userPlaylist)
       throw new AppError('This playlist does not exist', 12, 400);
 
-    const userBlocks =
-      await this.userBlocksRepository.findAllUserBlocksFromPlaylist({
+    const playlistProgress =
+      await this.userBlocksRepository.findPlaylistProgressByBlocks({
         playlist_id,
         user_id,
       });
 
-    const progressTotal = userBlocks.reduce(
-      (previousValue, currentValue) => previousValue + currentValue.progress,
-      0,
-    );
-
-    const userPlaylistProgressPercentage = progressTotal / userBlocks.length;
-
-    userPlaylist.progress = Number(userPlaylistProgressPercentage.toFixed(0));
+    userPlaylist.progress = playlistProgress;
 
     await this.userPlaylistsRepository.save(userPlaylist);
 

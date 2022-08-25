@@ -5,6 +5,7 @@ import { AsyncMaybe } from '@shared/types/app';
 import { IUserPlaylist } from '../entities/iuser-playlist';
 
 export type FindUserPlaylistDTO = { trail_id: string } & FindOneDTO;
+export type FindTrailProgressByPlaylistsDTO = FindAllUserPlaylistsFromTrailDTO;
 interface IUserPlaylistsRepository {
   create(data: CreateUserPlaylistDTO): Promise<IUserPlaylist>;
   createMany(datas: CreateUserPlaylistDTO[]): Promise<IUserPlaylist[]>;
@@ -16,5 +17,8 @@ interface IUserPlaylistsRepository {
   findAllUserPlaylistsFromTrail(
     data: FindAllUserPlaylistsFromTrailDTO,
   ): Promise<IUserPlaylist[]>;
+  findTrailProgressByPlaylists(
+    data: FindTrailProgressByPlaylistsDTO,
+  ): Promise<number>;
 }
 export { IUserPlaylistsRepository };

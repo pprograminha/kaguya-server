@@ -1,5 +1,6 @@
 import { IUserBlock } from '@modules/blocks/domain/entities/iuser-block';
 import {
+  FindPlaylistProgressDTO,
   FindUserBlockDTO,
   IUserBlocksRepository
 } from '@modules/blocks/domain/repositories/user-blocks-repository';
@@ -11,6 +12,54 @@ import { AsyncMaybe } from '@shared/types/app';
 import crypto from 'crypto';
 
 class PrismaUserBlocksRepository implements IUserBlocksRepository {
+  async findPlaylistProgressByBlocks({
+    playlist_id,
+    user_id,
+  }: FindPlaylistProgressDTO): Promise<number> {
+    const userBlocks = await prisma.userBlock.findMany({
+      where: {
+        playlist_id,
+        user_id,
+      },
+      select: {
+        block: {
+          select: {
+            lessons: {
+              select: {
+                user_lessons: {
+                  select: {
+                    completed: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const lessonsCount = userBlocks
+      .map(userBlock => {
+        return userBlock.block.lessons
+          .map(lesson => lesson.user_lessons)
+          .flat();
+      })
+      .flat().length;
+
+    const lessonsCompletedCount = userBlocks
+      .map(userBlock => {
+        return userBlock.block.lessons
+          .map(lesson => lesson.user_lessons)
+          .flat();
+      })
+      .flat()
+      .filter(lesson => lesson.completed).length;
+
+    const playlistProgress = (lessonsCompletedCount / lessonsCount || 0) * 100;
+
+    return Number(playlistProgress.toFixed(0));
+  }
+
   async findUserBlock({
     block_id,
     playlist_id,

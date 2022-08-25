@@ -11,6 +11,58 @@ import { AsyncMaybe } from '@shared/types/app';
 import crypto from 'crypto';
 
 export class PrismaUserPlaylistsRepository implements IUserPlaylistsRepository {
+  async findTrailProgressByPlaylists({
+    trail_id,
+    user_id,
+  }: FindAllUserPlaylistsFromTrailDTO): Promise<number> {
+    const userPlaylists = await prisma.userPlaylist.findMany({
+      where: {
+        trail_id,
+        user_id,
+      },
+      select: {
+        playlist: {
+          select: {
+            blocks: {
+              select: {
+                lessons: {
+                  select: {
+                    user_lessons: {
+                      select: {
+                        completed: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const lessonsCount = userPlaylists
+      .map(userPlaylist => {
+        return userPlaylist.playlist.blocks
+          .map(block => block.lessons.map(lesson => lesson.user_lessons).flat())
+          .flat();
+      })
+      .flat().length;
+
+    const lessonsCompletedCount = userPlaylists
+      .map(userPlaylist => {
+        return userPlaylist.playlist.blocks
+          .map(block => block.lessons.map(lesson => lesson.user_lessons).flat())
+          .flat();
+      })
+      .flat()
+      .filter(lesson => lesson.completed).length;
+
+    const trailProgress = (lessonsCompletedCount / lessonsCount || 0) * 100;
+
+    return Number(trailProgress.toFixed(0));
+  }
+
   async findUserPlaylist({
     playlist_id,
     trail_id,

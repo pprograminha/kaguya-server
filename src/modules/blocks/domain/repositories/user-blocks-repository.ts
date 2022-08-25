@@ -4,6 +4,7 @@ import { FindOneDTO } from '@modules/blocks/dtos/find-one-dto';
 import { AsyncMaybe } from '@shared/types/app';
 import { IUserBlock } from '../entities/iuser-block';
 
+export type FindPlaylistProgressDTO = FindAllUserBlocksFromPlaylistDTO;
 export type FindUserBlockDTO = {
   playlist_id: string;
 } & FindOneDTO;
@@ -17,5 +18,6 @@ interface IUserBlocksRepository {
   findAllUserBlocksFromPlaylist(
     data: FindAllUserBlocksFromPlaylistDTO,
   ): Promise<IUserBlock[]>;
+  findPlaylistProgressByBlocks(data: FindPlaylistProgressDTO): Promise<number>;
 }
 export { IUserBlocksRepository };

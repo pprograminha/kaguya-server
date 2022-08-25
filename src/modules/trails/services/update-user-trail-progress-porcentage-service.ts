@@ -1,6 +1,6 @@
-import { AppError } from '@shared/errors/app-error';
-import { inject, injectable } from '@shared/container';
 import { IUserPlaylistsRepository } from '@modules/playlists/domain/repositories/user-playlists-repository';
+import { inject, injectable } from '@shared/container';
+import { AppError } from '@shared/errors/app-error';
 import { IUserTrail } from '../domain/entities/iuser-trail';
 import { IUserTrailsRepository } from '../domain/repositories/user-trails-repository';
 import { UpdateUserTrailProgressPorcentageRequestDTO } from '../dtos/update-user-trail-progress-porcentage-request-dto';
@@ -26,20 +26,13 @@ export class UpdateUserTrailProgressPorcentageService {
 
     if (!userTrail) throw new AppError('User trail does not exist', 12, 400);
 
-    const userPlaylists =
-      await this.userPlaylistsRepository.findAllUserPlaylistsFromTrail({
+    const trailProgress =
+      await this.userPlaylistsRepository.findTrailProgressByPlaylists({
         trail_id,
         user_id,
       });
 
-    const progressTotal = userPlaylists.reduce(
-      (previousValue, currentValue) => previousValue + currentValue.progress,
-      0,
-    );
-
-    const userTrailProgressPercentage = progressTotal / userPlaylists.length;
-
-    userTrail.progress = Number(userTrailProgressPercentage.toFixed(0));
+    userTrail.progress = trailProgress;
 
     await this.userTrailsRepository.save(userTrail);
 

@@ -17,15 +17,7 @@ import { router } from './routes';
 
 const app = express();
 
-app.use(
-  cors({
-    origin: [
-      ...(process.env.NODE_ENV === 'production'
-        ? ['https://kaguya.com.br']
-        : []),
-    ],
-  }),
-);
+app.use(cors());
 app.use(express.json());
 app.use('/static', express.static(storageConfig.paths.uploadsFolder));
 app.use(router);

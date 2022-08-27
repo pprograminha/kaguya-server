@@ -2,22 +2,30 @@ import 'reflect-metadata';
 import 'express-async-errors';
 import 'dotenv/config';
 import '@shared/container';
-import { AppError } from '@shared/errors/app-error';
-import express, { NextFunction, Request, Response } from 'express';
-import cors from 'cors';
-import { errors } from 'celebrate';
 import { storageConfig } from '@config/storage';
-import { MulterError } from 'multer';
-import { graphqlHTTP } from 'express-graphql';
 import { makeExecutableSchema } from '@graphql-tools/schema';
+import { AppError } from '@shared/errors/app-error';
+import { errors } from 'celebrate';
+import cors from 'cors';
+import express, { NextFunction, Request, Response } from 'express';
+import { graphqlHTTP } from 'express-graphql';
 import { GraphQLError } from 'graphql';
-import { router } from './routes';
+import { MulterError } from 'multer';
 import { resolvers } from './graphql/resolvers';
 import { typeDefs } from './graphql/type-defs';
+import { router } from './routes';
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      ...(process.env.NODE_ENV === 'production'
+        ? ['https://kaguya.com.br']
+        : []),
+    ],
+  }),
+);
 app.use(express.json());
 app.use('/static', express.static(storageConfig.paths.uploadsFolder));
 app.use(router);

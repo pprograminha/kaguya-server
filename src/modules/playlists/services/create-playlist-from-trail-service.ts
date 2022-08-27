@@ -67,10 +67,9 @@ class CreatePlaylistFromTrailService {
     );
 
     const userPlaylistPromises = users.map(async user => {
-      const userPlaylist = await this.userPlaylistsRepository.findUserPlaylist({
+      const userPlaylist = await this.userPlaylistsRepository.findOne({
         user_id: user.id,
         playlist_id: playlist.id,
-        trail_id: trail.id,
       });
 
       if (!userPlaylist) {

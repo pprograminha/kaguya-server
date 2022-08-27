@@ -77,11 +77,30 @@ class CreateUserPlaylistsService {
       throw new AppError('User trail does not exist', 13, 400);
     }
 
-    const userPlaylistsCreate = playlists.map(playlist => ({
-      user_id: user.id,
-      trail_id: trail.id,
-      playlist_id: playlist.id,
-    }));
+    const userPlaylistsCreate = await Promise.all(
+      playlists.map(async playlist => {
+        const userPlaylist = await this.userPlaylistsRepository.findOne({
+          playlist_id: playlist.id,
+          user_id: user.id,
+        });
+
+        if (userPlaylist) return null;
+
+        return {
+          user_id: user.id,
+          trail_id: trail.id,
+          playlist_id: playlist.id,
+        };
+      }),
+    );
+
+    const filteredUserPlaylistsCreate = userPlaylistsCreate.filter(
+      userPlaylistCreate => !!userPlaylistCreate,
+    ) as {
+      user_id: string;
+      trail_id: string;
+      playlist_id: string;
+    }[];
 
     await Promise.all(
       playlists.map(async playlist => {
@@ -131,7 +150,7 @@ class CreateUserPlaylistsService {
     );
 
     const userPlaylists = await this.userPlaylistsRepository.createMany(
-      userPlaylistsCreate,
+      filteredUserPlaylistsCreate,
     );
 
     await this.userTrailsRepository.save(userTrail);

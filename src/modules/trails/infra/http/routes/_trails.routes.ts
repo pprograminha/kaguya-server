@@ -29,7 +29,7 @@ _trailsRouter.post(
         .regex(/^[a-z](-?[a-z])*$/)
         .max(100)
         .required(),
-      description: Joi.string().max(255).required(),
+      description: Joi.string().max(1000).required(),
     },
   }),
   createTrailController.handle,
@@ -58,7 +58,7 @@ _trailsRouter.put(
       slug: Joi.string()
         .regex(/^[a-z](-?[a-z])*$/)
         .max(100),
-      description: Joi.string().max(255),
+      description: Joi.string().max(1000),
     },
   }),
   updateTrailController.handle,

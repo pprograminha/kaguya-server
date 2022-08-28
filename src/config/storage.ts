@@ -2,8 +2,10 @@ import crypto from 'crypto';
 import { diskStorage, StorageEngine, MulterError } from 'multer';
 import path from 'path';
 
-interface IStorageConfig {
-  driver: 's3' | 'disk';
+export type StorageDrivers = 's3' | 'disk';
+
+type StorageConfig = {
+  driver: StorageDrivers;
   multer: {
     storage: StorageEngine;
   };
@@ -13,9 +15,11 @@ interface IStorageConfig {
   };
   config: {
     disk: {};
-    s3: {};
+    s3: {
+      bucket: string;
+    };
   };
-}
+};
 const tmpFolder = path.resolve(__dirname, '..', '..', 'tmp');
 
 const storageConfig = {
@@ -52,8 +56,10 @@ const storageConfig = {
   },
   config: {
     disk: {},
-    s3: {},
+    s3: {
+      bucket: process.env.AWS_BUCKET,
+    },
   },
-} as IStorageConfig;
+} as StorageConfig;
 
 export { storageConfig };

@@ -1,4 +1,4 @@
-import { storageConfig } from '@config/storage';
+import { storageConfig, StorageDrivers } from '@config/storage';
 import { IPlaylist } from '@modules/playlists/domain/entities/iplaylist';
 import { ITrail } from '@modules/trails/domain/entities/itrail';
 import { IUser } from '@modules/users/domain/entities/iuser';
@@ -27,8 +27,8 @@ type InstanceType = 'user' | 'trail' | 'playlist';
 function getAvatarUrl(instance: IUser | ITrail | IPlaylist) {
   if (!instance.avatar) return null;
 
-  const providersUrl = {
-    s3: 'https://s3.com',
+  const providersUrl: Record<StorageDrivers, string> = {
+    s3: `https://${storageConfig.config.s3.bucket}.s3.amazonaws.com/${instance.avatar}`,
     disk: `${process.env.APP_API_URL}/static/${instance.avatar}`,
   };
 

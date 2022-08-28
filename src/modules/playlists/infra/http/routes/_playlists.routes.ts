@@ -1,3 +1,4 @@
+import { slugRegEx } from '@config/reg-ex';
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensure-authenticated';
 import ensureSubAdministrator from '@modules/users/infra/http/middlewares/ensure-sub-administrator';
 import { celebrate, Joi, Segments } from 'celebrate';
@@ -18,10 +19,7 @@ _playlistsRouter.post(
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().max(100).required(),
-      slug: Joi.string()
-        .regex(/^[a-z](-?[a-z])*$/)
-        .max(100)
-        .required(),
+      slug: Joi.string().regex(slugRegEx).max(100).required(),
       description: Joi.string().max(1000).required(),
       trail_id: Joi.string().uuid().required(),
     },

@@ -1,3 +1,4 @@
+import { slugRegEx } from '@config/reg-ex';
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensure-authenticated';
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
@@ -29,7 +30,7 @@ trailsRouter.get(
   celebrate({
     [Segments.QUERY]: {
       trail_id: Joi.string().uuid(),
-      slug: Joi.string(),
+      slug: Joi.string().regex(slugRegEx).max(100),
     },
   }),
   showTrailController.handle,

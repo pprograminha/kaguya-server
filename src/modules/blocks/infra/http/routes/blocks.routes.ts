@@ -1,3 +1,4 @@
+import { slugRegEx } from '@config/reg-ex';
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensure-authenticated';
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
@@ -32,12 +33,8 @@ blocksRouter.get(
   celebrate({
     [Segments.QUERY]: {
       block_id: Joi.string().uuid(),
-      block_slug: Joi.string()
-        .regex(/^[a-z](-?[a-z])*$/)
-        .max(100),
-      playlist_slug: Joi.string()
-        .regex(/^[a-z](-?[a-z])*$/)
-        .max(100),
+      block_slug: Joi.string().regex(slugRegEx).max(100),
+      playlist_slug: Joi.string().regex(slugRegEx).max(100),
     },
   }),
   showBlockController.handle,

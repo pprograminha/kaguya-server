@@ -6,6 +6,12 @@ import { IUserRolesRepository } from '../domain/repositories/user-roles-reposito
 import { IUsersRepository } from '../domain/repositories/users-repository';
 import { CreateUserRequestDTO } from '../dtos/create-user-request-dto';
 import { IHashProvider } from '../providers/hash-provider/models/hash-provider';
+import { ITokenProvider } from '../providers/token-provider/models/token-provider';
+
+type CreateUserResponse = {
+  token: string;
+  user: IUser;
+};
 
 @injectable()
 class CreateUserService {
@@ -21,6 +27,9 @@ class CreateUserService {
 
     @inject('UserRolesRepository')
     private userRolesRepository: IUserRolesRepository,
+
+    @inject('TokenProvider')
+    private tokenProvider: ITokenProvider,
   ) {}
 
   async execute({
@@ -30,7 +39,7 @@ class CreateUserService {
     role = 'default',
     password,
     creator_id,
-  }: CreateUserRequestDTO): Promise<IUser> {
+  }: CreateUserRequestDTO): Promise<CreateUserResponse> {
     const checkEmailAlreadyExists = await this.usersRepository.findByEmail(
       email,
     );
@@ -85,11 +94,15 @@ class CreateUserService {
 
     await this.userRolesRepository.addRoleToUser(userCreated.id, roleFinded.id);
 
-    const user = await this.usersRepository.findById(userCreated.id, {
+    const token = this.tokenProvider.generate(userCreated);
+    const user = (await this.usersRepository.findById(userCreated.id, {
       user_roles: true,
-    });
+    })) as IUser;
 
-    return user as IUser;
+    return {
+      token,
+      user,
+    };
   }
 }
 

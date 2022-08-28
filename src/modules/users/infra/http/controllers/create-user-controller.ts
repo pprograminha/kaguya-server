@@ -10,7 +10,7 @@ class CreateUserController {
 
     const createUser = container.resolve(CreateUserService);
 
-    const user = await createUser.execute({
+    const { user, token } = await createUser.execute({
       email,
       name,
       username,
@@ -19,7 +19,10 @@ class CreateUserController {
       creator_id,
     });
 
-    return response.status(201).json(instanceToInstance('user', user));
+    return response.status(201).json({
+      token,
+      user: instanceToInstance('user', user),
+    });
   }
 }
 

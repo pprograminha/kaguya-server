@@ -60,7 +60,7 @@ usersRouter.put(
     [Segments.BODY]: {
       name: Joi.string().min(2).max(100),
       username: Joi.string().min(2).max(100),
-      password: Joi.string().min(8).max(100),
+      password: Joi.alternatives(['', Joi.string().min(8).max(100)]),
     },
   }),
   updateUserController.handle,

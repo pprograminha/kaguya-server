@@ -35,7 +35,7 @@ export class UpdateUserService {
       const checkUsernameAlreadyExists =
         await this.usersRepository.findByUsername(username);
 
-      if (!checkUsernameAlreadyExists)
+      if (checkUsernameAlreadyExists)
         throw new AppError('Username already exists', 5, 400);
 
       user.username = username;

@@ -58,9 +58,9 @@ usersRouter.put(
   ensureAuthenticated,
   celebrate({
     [Segments.BODY]: {
-      name: Joi.string().min(2).max(100).required(),
-      username: Joi.string().min(2).max(100).required(),
-      password: Joi.string().min(8).max(100).required(),
+      name: Joi.string().min(2).max(100),
+      username: Joi.string().min(2).max(100),
+      password: Joi.string().min(8).max(100),
     },
   }),
   updateUserController.handle,

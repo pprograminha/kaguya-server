@@ -5,6 +5,7 @@ import { Router } from 'express';
 import multer from 'multer';
 import { CreateUserController } from '../controllers/create-user-controller';
 import { ListTheUsersAssociatedWithTheTrailController } from '../controllers/list-the-users-associated-with-the-trail-controller';
+import { UpdateUserController } from '../controllers/update-user-controller';
 import { ValidateTokenController } from '../controllers/validate-token-controller';
 import ensureAuthenticated from '../middlewares/ensure-authenticated';
 
@@ -17,6 +18,7 @@ const validateTokenController = new ValidateTokenController();
 const listTheUsersAssociatedWithTheTrailController =
   new ListTheUsersAssociatedWithTheTrailController();
 
+const updateUserController = new UpdateUserController();
 usersRouter.post(
   '/',
   celebrate({
@@ -49,6 +51,19 @@ usersRouter.patch(
   ensureAuthenticated,
   upload.single('avatar'),
   updateUserAvatarController.handle,
+);
+
+usersRouter.put(
+  '/update-user',
+  ensureAuthenticated,
+  celebrate({
+    [Segments.BODY]: {
+      name: Joi.string().min(2).max(100).required(),
+      username: Joi.string().min(2).max(100).required(),
+      password: Joi.string().min(8).max(100).required(),
+    },
+  }),
+  updateUserController.handle,
 );
 
 export { usersRouter };

@@ -1,5 +1,8 @@
 import { IUserPlaylist } from '@modules/playlists/domain/entities/iuser-playlist';
-import { IUserPlaylistsRepository } from '@modules/playlists/domain/repositories/user-playlists-repository';
+import {
+  FindUserPlaylistDTO,
+  IUserPlaylistsRepository,
+} from '@modules/playlists/domain/repositories/user-playlists-repository';
 import { CreateUserPlaylistDTO } from '@modules/playlists/dtos/create-user-playlist-dto';
 import { FindAllUserPlaylistsFromTrailDTO } from '@modules/playlists/dtos/find-all-user-playlists-from-trail-dto';
 import { FindOneDTO } from '@modules/playlists/dtos/find-one-dto';
@@ -9,6 +12,27 @@ import { AsyncMaybe } from '@shared/types/app';
 export class InMemoryUserPlaylistsRepository
   implements IUserPlaylistsRepository
 {
+  async findUserPlaylist({
+    playlist_id,
+    trail_id,
+    user_id,
+  }: FindUserPlaylistDTO): AsyncMaybe<IUserPlaylist> {
+    const userPlaylistFinded = this.userPlaylists.find(
+      userPlaylist =>
+        userPlaylist.playlist_id === playlist_id &&
+        userPlaylist.user_id === user_id &&
+        userPlaylist.trail_id === trail_id,
+    );
+
+    return userPlaylistFinded;
+  }
+
+  async findTrailProgressByPlaylists(
+    _: FindAllUserPlaylistsFromTrailDTO,
+  ): Promise<number> {
+    return 100;
+  }
+
   private userPlaylists: IUserPlaylist[] = [];
 
   async findOne({

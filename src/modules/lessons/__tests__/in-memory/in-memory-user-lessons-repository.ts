@@ -1,5 +1,8 @@
 import { IUserLesson } from '@modules/lessons/domain/entities/iuser-lesson';
-import { IUserLessonsRepository } from '@modules/lessons/domain/repositories/user-lessons-repository';
+import {
+  FindUserLessonDTO,
+  IUserLessonsRepository,
+} from '@modules/lessons/domain/repositories/user-lessons-repository';
 import { CreateUserLessonDTO } from '@modules/lessons/dtos/create-user-lesson-dto';
 import { FindAllUserLessonsFromBlockDTO } from '@modules/lessons/dtos/find-all-user-lessons-from-block-dto';
 import { FindOneDTO } from '@modules/lessons/dtos/find-one-dto';
@@ -9,6 +12,21 @@ import { AsyncMaybe } from '@shared/types/app';
 
 class InMemoryUserLessonsRepository implements IUserLessonsRepository {
   private userLessons: IUserLesson[] = [];
+
+  async findUserLesson({
+    block_id,
+    lesson_id,
+    user_id,
+  }: FindUserLessonDTO): AsyncMaybe<IUserLesson> {
+    const userLessonFinded = this.userLessons.find(
+      userLesson =>
+        userLesson.lesson_id === lesson_id &&
+        userLesson.user_id === user_id &&
+        userLesson.block_id === block_id,
+    );
+
+    return userLessonFinded;
+  }
 
   async findOne({ lesson_id, user_id }: FindOneDTO): AsyncMaybe<IUserLesson> {
     const userLessonFinded = this.userLessons.find(

@@ -27,7 +27,7 @@ describe('Trails', () => {
       })
       .send({
         name: 'Xxxxxx',
-        slug: 'xxxxxx',
+        slug: 'xxx-xxx-xxx-xxx-xxx-xxx-xxx-xxx-xxx-xxx-xxx',
         description: 'xxxxx xxxxx xxx xx xxxxx xxxxx xxxxx xxx xx xxxxx',
       })
       .expect(201);

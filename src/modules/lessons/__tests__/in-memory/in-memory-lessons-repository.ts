@@ -5,7 +5,12 @@ import { FindAllLessonsFromBlockDTO } from '@modules/lessons/dtos/find-all-lesso
 import { FindByNameDTO } from '@modules/lessons/dtos/find-by-name-dto';
 import { FindBySlugDTO } from '@modules/lessons/dtos/find-by-slug-dto';
 import { Lesson } from '@modules/lessons/entities/lesson';
+import { IDislike } from '@modules/likes/domain/entities/idislike';
+import { ILike } from '@modules/likes/domain/entities/ilike';
+import { Dislike } from '@modules/likes/entities/dislike';
+import { Like } from '@modules/likes/entities/like';
 import { AsyncMaybe } from '@shared/types/app';
+import crypto from 'crypto';
 
 class InMemoryLessonsRepository implements ILessonsRepository {
   private lessons: ILesson[] = [];
@@ -14,10 +19,37 @@ class InMemoryLessonsRepository implements ILessonsRepository {
     return this.lessons[0];
   }
 
-  async findBySlug({ slug }: FindBySlugDTO): AsyncMaybe<ILesson> {
+  async findBySlug({ slug }: FindBySlugDTO): AsyncMaybe<
+    ILesson & {
+      likes: ILike[];
+      dislikes: IDislike[];
+    }
+  > {
     const lessonFinded = this.lessons.find(lesson => lesson.slug === slug);
 
-    return lessonFinded;
+    return lessonFinded
+      ? {
+          ...lessonFinded,
+          likes: [
+            Object.assign(new Like(), {
+              id: crypto.randomUUID(),
+              user_id: crypto.randomUUID(),
+              lesson_id: lessonFinded.id,
+              created_at: new Date(),
+              updated_at: new Date(),
+            }),
+          ],
+          dislikes: [
+            Object.assign(new Dislike(), {
+              id: crypto.randomUUID(),
+              user_id: crypto.randomUUID(),
+              lesson_id: lessonFinded.id,
+              created_at: new Date(),
+              updated_at: new Date(),
+            }),
+          ],
+        }
+      : undefined;
   }
 
   async findAllLessonsFromBlock({
@@ -58,10 +90,37 @@ class InMemoryLessonsRepository implements ILessonsRepository {
     return lesson;
   }
 
-  async findById(lesson_id: string): AsyncMaybe<ILesson> {
+  async findById(lesson_id: string): AsyncMaybe<
+    ILesson & {
+      likes: ILike[];
+      dislikes: IDislike[];
+    }
+  > {
     const lessonFinded = this.lessons.find(lesson => lesson.id === lesson_id);
 
-    return lessonFinded;
+    return lessonFinded
+      ? {
+          ...lessonFinded,
+          likes: [
+            Object.assign(new Like(), {
+              id: crypto.randomUUID(),
+              user_id: crypto.randomUUID(),
+              lesson_id: lessonFinded.id,
+              created_at: new Date(),
+              updated_at: new Date(),
+            }),
+          ],
+          dislikes: [
+            Object.assign(new Dislike(), {
+              id: crypto.randomUUID(),
+              user_id: crypto.randomUUID(),
+              lesson_id: lessonFinded.id,
+              created_at: new Date(),
+              updated_at: new Date(),
+            }),
+          ],
+        }
+      : undefined;
   }
 
   async destroyById(lesson_id: string): Promise<void> {

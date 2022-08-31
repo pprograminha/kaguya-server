@@ -1,5 +1,8 @@
 import { IUserBlock } from '@modules/blocks/domain/entities/iuser-block';
-import { IUserBlocksRepository } from '@modules/blocks/domain/repositories/user-blocks-repository';
+import {
+  FindUserBlockDTO,
+  IUserBlocksRepository,
+} from '@modules/blocks/domain/repositories/user-blocks-repository';
 import { CreateUserBlockDTO } from '@modules/blocks/dtos/create-user-block-dto';
 import { FindAllUserBlocksFromPlaylistDTO } from '@modules/blocks/dtos/find-all-user-blocks-from-playlist-dto';
 import { FindOneDTO } from '@modules/blocks/dtos/find-one-dto';
@@ -7,6 +10,27 @@ import { UserBlock } from '@modules/blocks/entities/user-block';
 import { AsyncMaybe } from '@shared/types/app';
 
 export class InMemoryUserBlocksRepository implements IUserBlocksRepository {
+  async findUserBlock({
+    block_id,
+    playlist_id,
+    user_id,
+  }: FindUserBlockDTO): AsyncMaybe<IUserBlock> {
+    const userBlockFinded = this.userBlocks.find(
+      userBlock =>
+        userBlock.block_id === block_id &&
+        userBlock.user_id === user_id &&
+        userBlock.playlist_id === playlist_id,
+    );
+
+    return userBlockFinded;
+  }
+
+  async findPlaylistProgressByBlocks(
+    _: FindAllUserBlocksFromPlaylistDTO,
+  ): Promise<number> {
+    return 100;
+  }
+
   private userBlocks: IUserBlock[] = [];
 
   async save(userBlock: IUserBlock): Promise<void> {

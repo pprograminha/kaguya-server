@@ -1,6 +1,7 @@
 import { InMemoryRolesRepository } from '@modules/roles/__tests__/in-memory/in-memory-roles-repository';
 import { IUserRole } from '@modules/users/domain/entities/iuser-role';
 import { InMemoryHashProvider } from '@modules/users/providers/hash-provider/in-memory/in-memory-hash-provider';
+import { InMemoryTokenProvider } from '@modules/users/providers/token-provider/in-memory/in-memory-token-provider';
 import { CreateUserService } from '@modules/users/services/create-user-service';
 
 import { AppError } from '@shared/errors/app-error';
@@ -11,12 +12,14 @@ let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemoryHashProvider: InMemoryHashProvider;
 let inMemoryRolesRepository: InMemoryRolesRepository;
 let inMemoryUserRolesRepository: InMemoryUserRolesRepository;
+let inMemoryTokenProvider: InMemoryTokenProvider;
 let createUser: CreateUserService;
 
 describe('CreateUser', () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository();
     inMemoryHashProvider = new InMemoryHashProvider();
+    inMemoryTokenProvider = new InMemoryTokenProvider();
     inMemoryRolesRepository = new InMemoryRolesRepository();
     inMemoryUserRolesRepository = new InMemoryUserRolesRepository();
 
@@ -25,6 +28,7 @@ describe('CreateUser', () => {
       inMemoryHashProvider,
       inMemoryRolesRepository,
       inMemoryUserRolesRepository,
+      inMemoryTokenProvider,
     );
   });
 
@@ -34,7 +38,7 @@ describe('CreateUser', () => {
       name: 'default',
     });
 
-    const user = await createUser.execute({
+    const { user } = await createUser.execute({
       username: 'xxxxxx',
       email: 'xxxx@xxxx.xxx',
       password: 'xxxx',
@@ -66,7 +70,7 @@ describe('CreateUser', () => {
       role.id,
     );
 
-    const creator = await createUser.execute({
+    const { user: creator } = await createUser.execute({
       username: 'xxxxxxxx',
       email: 'xxxxxx@xxxx.xxx',
       password: 'xxxx',
@@ -85,7 +89,7 @@ describe('CreateUser', () => {
         user_roles: [userRoleFormatted],
       }));
 
-    const user = await createUser.execute({
+    const { user } = await createUser.execute({
       username: 'xxxxxxxxx',
       email: 'xxxxx@xxxx.xxx',
       password: 'xxxx',
@@ -117,7 +121,7 @@ describe('CreateUser', () => {
       name: 'admin',
     });
 
-    const admin = await createUser.execute({
+    const { user: admin } = await createUser.execute({
       username: 'xxxxxxxx',
       email: 'xxxx@xxxx.xxx',
       password: 'xxxx',

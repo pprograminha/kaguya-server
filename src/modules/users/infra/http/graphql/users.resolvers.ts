@@ -27,7 +27,7 @@ const usersResolvers = {
     ): Promise<IUser> => {
       const createUser = container.resolve(CreateUserService);
 
-      const user = await createUser.execute(input);
+      const { user } = await createUser.execute(input);
 
       return user;
     },

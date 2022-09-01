@@ -28,12 +28,19 @@ const storageConfig = {
     storage: diskStorage({
       destination: (request, file, callback) => {
         let error: Error | null = null;
-        type TMime = 'image/png' | 'image/jpeg' | 'image/jpg';
+        type TMime =
+          | 'image/png'
+          | 'image/jpeg'
+          | 'image/jpg'
+          | 'image/gif'
+          | 'image/svg';
 
         const mimeTypes = {
           'image/png': 'png',
-          'image/jpeg': 'jpg',
+          'image/jpeg': 'jpeg',
           'image/jpg': 'jpg',
+          'image/gif': 'gif',
+          'image/svg': 'svg',
         };
 
         if (!mimeTypes[file.mimetype as TMime]) {

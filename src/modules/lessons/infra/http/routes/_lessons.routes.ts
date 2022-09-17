@@ -19,7 +19,7 @@ _lessonsRouter.post(
     [Segments.BODY]: {
       link: Joi.string().required(),
       name: Joi.string().max(100).required(),
-      slug: Joi.string().regex(slugRegEx).max(100).required(),
+      slug: Joi.string().regex(slugRegEx).required(),
       description: Joi.string().max(1000).required(),
       block_id: Joi.string().uuid().required(),
     },

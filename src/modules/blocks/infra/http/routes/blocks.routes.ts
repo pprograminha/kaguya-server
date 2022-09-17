@@ -16,7 +16,9 @@ blocksRouter.get(
   ensureAuthenticated,
   celebrate({
     [Segments.QUERY]: {
-      playlist_id: Joi.string().uuid().required(),
+      playlist_id: Joi.string().uuid(),
+      trail_slug: Joi.string().regex(slugRegEx),
+      playlist_slug: Joi.string().regex(slugRegEx),
       skip: Joi.number(),
       take: Joi.number(),
       order: Joi.string()
@@ -33,8 +35,8 @@ blocksRouter.get(
   celebrate({
     [Segments.QUERY]: {
       block_id: Joi.string().uuid(),
-      block_slug: Joi.string().regex(slugRegEx).max(100),
-      playlist_slug: Joi.string().regex(slugRegEx).max(100),
+      block_slug: Joi.string().regex(slugRegEx),
+      playlist_slug: Joi.string().regex(slugRegEx),
     },
   }),
   showBlockController.handle,

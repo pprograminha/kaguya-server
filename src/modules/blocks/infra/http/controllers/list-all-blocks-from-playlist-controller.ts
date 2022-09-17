@@ -1,10 +1,12 @@
+import { ListAllBlocksFromPlaylistRequestDTO } from '@modules/blocks/dtos/list-all-blocks-from-playlist-request-dto';
 import { ListAllBlocksFromPlaylistService } from '@modules/blocks/services/list-all-blocks-from-playlist-service';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
 class ListAllBlocksFromPlaylistController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { playlist_id, skip, take, order } = request.query;
+    const { playlist_id, skip, take, order, playlist_slug, trail_slug } =
+      request.query as unknown as ListAllBlocksFromPlaylistRequestDTO;
 
     const user_id = request.user.id;
 
@@ -14,10 +16,12 @@ class ListAllBlocksFromPlaylistController {
 
     const blocks = await listAllBlocksFromPlaylist.execute({
       user_id,
-      playlist_id: playlist_id as string,
-      skip: skip as number | undefined,
-      take: take as number | undefined,
-      order: order as 'desc' | 'asc',
+      playlist_id,
+      playlist_slug,
+      trail_slug,
+      skip,
+      take,
+      order,
     });
 
     return response.status(200).json(blocks);

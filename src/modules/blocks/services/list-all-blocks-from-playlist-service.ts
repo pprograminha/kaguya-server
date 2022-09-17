@@ -2,6 +2,8 @@ import { IPlaylistsRepository } from '@modules/playlists/domain/repositories/pla
 import { AppError } from '@shared/errors/app-error';
 import { inject, injectable } from '@shared/container';
 import { IUsersRepository } from '@modules/users/domain/repositories/users-repository';
+import { IPlaylist } from '@modules/playlists/domain/entities/iplaylist';
+import { Maybe } from '@shared/types/app';
 import { IBlock } from '../domain/entities/iblock';
 import { IBlocksRepository } from '../domain/repositories/blocks-repository';
 import { ListAllBlocksFromPlaylistRequestDTO } from '../dtos/list-all-blocks-from-playlist-request-dto';
@@ -21,12 +23,25 @@ class ListAllBlocksFromPlaylistService {
 
   async execute({
     playlist_id,
+    playlist_slug,
+    trail_slug,
     user_id,
     order,
     skip,
     take,
   }: ListAllBlocksFromPlaylistRequestDTO): Promise<IBlock[]> {
-    const playlist = await this.playlistsRepository.findById(playlist_id);
+    let playlist: Maybe<IPlaylist> = null;
+
+    if (playlist_id) {
+      playlist = await this.playlistsRepository.findById(playlist_id);
+    }
+
+    if (playlist_slug && trail_slug) {
+      playlist = await this.playlistsRepository.findBySlug({
+        slug: playlist_slug,
+        trail_slug,
+      });
+    }
 
     if (!playlist) {
       throw new AppError('This playlist does not exist', 12, 400);

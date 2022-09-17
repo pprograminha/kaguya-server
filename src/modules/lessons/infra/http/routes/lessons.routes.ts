@@ -19,8 +19,8 @@ lessonsRouter.get(
   celebrate({
     [Segments.QUERY]: {
       lesson_id: Joi.string().uuid(),
-      block_slug: Joi.string().regex(slugRegEx).max(100),
-      lesson_slug: Joi.string().regex(slugRegEx).max(100),
+      block_slug: Joi.string().regex(slugRegEx),
+      lesson_slug: Joi.string().regex(slugRegEx),
     },
   }),
   showLessonController.handle,

@@ -30,7 +30,7 @@ trailsRouter.get(
   celebrate({
     [Segments.QUERY]: {
       trail_id: Joi.string().uuid(),
-      slug: Joi.string().regex(slugRegEx).max(100),
+      slug: Joi.string().regex(slugRegEx),
     },
   }),
   showTrailController.handle,

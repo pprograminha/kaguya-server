@@ -2,7 +2,9 @@ import { FiltersDTO } from '@modules/trails/domain/repositories/trails-repositor
 
 type ListAllBlocksFromPlaylistRequestDTO = {
   user_id: string;
-  playlist_id: string;
+  playlist_id?: string;
+  playlist_slug?: string;
+  trail_slug?: string;
 } & FiltersDTO;
 
 export { ListAllBlocksFromPlaylistRequestDTO };

@@ -89,22 +89,15 @@ class ShowLessonService {
       throw new AppError('Lesson does not exist', 12, 400);
     }
 
-    const view = await this.viewsRepository.findOneViewFromUserLesson({
+    await this.viewsRepository.create({
       lesson_id: findedLesson.id,
       user_id,
     });
 
-    if (!view) {
-      await this.viewsRepository.create({
-        lesson_id: findedLesson.id,
-        user_id,
-      });
+    const _lesson = findedLesson as ILesson & Count;
 
-      const _lesson = findedLesson as ILesson & Count;
-
-      if (_lesson._count && _lesson._count.views !== undefined) {
-        (_lesson._count.views as number) += 1;
-      }
+    if (_lesson._count && _lesson._count.views !== undefined) {
+      (_lesson._count.views as number) += 1;
     }
 
     await this.createHistoryService.execute({

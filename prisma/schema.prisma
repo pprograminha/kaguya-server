@@ -2,7 +2,6 @@ datasource db {
   provider          = "postgresql"
   url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
-
 }
 
 generator client {
@@ -183,8 +182,8 @@ model UserBlock {
 
 model Like {
   id         String   @id
-  user_id    String
-  user       User     @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  user_id    String?
+  user       User?    @relation(fields: [user_id], references: [id], onDelete: SetNull)
   lesson_id  String
   lesson     Lesson   @relation(fields: [lesson_id], references: [id], onDelete: Cascade)
   created_at DateTime @default(now())
@@ -195,8 +194,8 @@ model Like {
 
 model View {
   id         String   @id
-  user_id    String
-  user       User     @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  user_id    String?
+  user       User?    @relation(fields: [user_id], references: [id], onDelete: SetNull)
   lesson_id  String
   lesson     Lesson   @relation(fields: [lesson_id], references: [id], onDelete: Cascade)
   created_at DateTime @default(now())
@@ -207,8 +206,8 @@ model View {
 
 model DisLike {
   id         String   @id
-  user_id    String
-  user       User     @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  user_id    String?
+  user       User?    @relation(fields: [user_id], references: [id], onDelete: SetNull)
   lesson_id  String
   lesson     Lesson   @relation(fields: [lesson_id], references: [id], onDelete: Cascade)
   created_at DateTime @default(now())

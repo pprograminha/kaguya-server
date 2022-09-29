@@ -4,12 +4,14 @@ import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import { ChangeCompleteUserLessonController } from '../controllers/change-complete-user-lesson-controller';
 import { ListLessonsController } from '../controllers/list-lessons-service';
+import { PrefetchLessonController } from '../controllers/prefetch-lesson-controller';
 import { ShowLessonController } from '../controllers/show-lesson-controller';
 
 const showLessonController = new ShowLessonController();
 const listLessonsController = new ListLessonsController();
 const changeCompleteUserLessonController =
   new ChangeCompleteUserLessonController();
+const prefetchLessonController = new PrefetchLessonController();
 
 const lessonsRouter = Router();
 
@@ -24,6 +26,17 @@ lessonsRouter.get(
     },
   }),
   showLessonController.handle,
+);
+lessonsRouter.get(
+  '/prefetch',
+  ensureAuthenticated,
+  celebrate({
+    [Segments.QUERY]: {
+      trail_slug: Joi.string().regex(slugRegEx).required(),
+      playlist_slug: Joi.string().regex(slugRegEx).required(),
+    },
+  }),
+  prefetchLessonController.handle,
 );
 
 lessonsRouter.get(

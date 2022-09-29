@@ -39,6 +39,7 @@ interface IUsersRepository {
     relationships?: IRelationshipsDTO,
   ): AsyncMaybe<IUser>;
   create(data: CreateUserDTO): Promise<IUser>;
+  destroy(user_id: string): Promise<void>;
   save(user: IUser): Promise<IUser>;
 
   findAll(filters: FiltersDTO): Promise<IUser[]>;

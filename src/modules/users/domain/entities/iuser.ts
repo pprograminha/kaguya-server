@@ -5,13 +5,14 @@ import { IUserTrail } from '@modules/trails/domain/entities/iuser-trail';
 import { IView } from '@modules/lessons/domain/entities/iview';
 import { IUserBlock } from '@modules/blocks/domain/entities/iuser-block';
 import { IUserLesson } from '@modules/lessons/domain/entities/iuser-lesson';
+import { Maybe } from '@shared/types/app';
 import { IUserRole } from './iuser-role';
 
 interface IUser {
   id: string;
   name: string;
   email: string;
-  avatar: string;
+  avatar: Maybe<string>;
   user_roles: IUserRole[];
   user_trails: IUserTrail[];
   user_playlists: IUserPlaylist[];

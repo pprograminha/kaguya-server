@@ -4,7 +4,9 @@ import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import multer from 'multer';
 import { CreateUserController } from '../controllers/create-user-controller';
+import { DisableUserController } from '../controllers/disable-user-controller';
 import { ListTheUsersAssociatedWithTheTrailController } from '../controllers/list-the-users-associated-with-the-trail-controller';
+import { RemoveUserController } from '../controllers/remove-user-controller';
 import { UpdateUserController } from '../controllers/update-user-controller';
 import { ValidateTokenController } from '../controllers/validate-token-controller';
 import ensureAuthenticated from '../middlewares/ensure-authenticated';
@@ -17,6 +19,8 @@ const updateUserAvatarController = new UpdateUserAvatarController();
 const validateTokenController = new ValidateTokenController();
 const listTheUsersAssociatedWithTheTrailController =
   new ListTheUsersAssociatedWithTheTrailController();
+const disableUserController = new DisableUserController();
+const removeUserController = new RemoveUserController();
 
 const updateUserController = new UpdateUserController();
 usersRouter.post(
@@ -44,6 +48,24 @@ usersRouter.get(
     },
   }),
   listTheUsersAssociatedWithTheTrailController.handle,
+);
+
+usersRouter.patch(
+  '/disable',
+  ensureAuthenticated,
+  celebrate({
+    [Segments.BODY]: {},
+  }),
+  disableUserController.handle,
+);
+
+usersRouter.delete(
+  '/remove',
+  ensureAuthenticated,
+  celebrate({
+    [Segments.BODY]: {},
+  }),
+  removeUserController.handle,
 );
 
 usersRouter.patch(

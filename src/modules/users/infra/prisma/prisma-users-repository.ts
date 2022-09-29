@@ -13,6 +13,14 @@ import { AsyncMaybe } from '@shared/types/app';
 import { CreateUserDTO } from '@modules/users/dtos/create-user-dto';
 
 class PrismaUsersRepository implements IUsersRepository {
+  async destroy(user_id: string): Promise<void> {
+    await prisma.user.delete({
+      where: {
+        id: user_id,
+      },
+    });
+  }
+
   async findAllUsersAssociatedWithThePlaylist({
     playlist_id,
     order,

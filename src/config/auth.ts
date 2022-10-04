@@ -1,6 +1,6 @@
 const authConfig = {
   secret: process.env.APP_SECRET || '*',
-  expiresIn: '2d',
+  expiresIn: '1d',
 };
 
 export { authConfig };

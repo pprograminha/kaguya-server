@@ -51,7 +51,7 @@ const storageConfig = {
       },
       filename: (request, file, callback) => {
         const hash = crypto.randomBytes(15).toString('hex');
-        const filename = `${hash}-${file.originalname.replace(/\s/, '-')}`;
+        const filename = `${hash}-${file.originalname.replace(/\s/g, '-')}`;
 
         callback(null, filename);
       },

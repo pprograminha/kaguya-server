@@ -11,8 +11,13 @@ generator client {
 model User {
   id             String         @id
   name           String?
-  email          String         @unique
+  email          String?        @unique
   avatar         String?
+  avatar_url     String?
+  auth_id        String?        @unique
+  phone_number   String?        @unique
+  password       String?
+  email_verified Boolean        @default(false)
   user_roles     UserRole[]
   user_playlists UserPlaylist[]
   user_trails    UserTrail[]
@@ -24,7 +29,6 @@ model User {
   histories      History[]
   username       String         @unique
   enabled        Boolean        @default(true)
-  password       String
   created_at     DateTime       @default(now())
   updated_at     DateTime       @updatedAt
 

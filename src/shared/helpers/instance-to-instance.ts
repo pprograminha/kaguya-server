@@ -24,13 +24,19 @@ type Instance<T extends IUser | IPlaylist | ITrail> = T extends IUser
 
 type InstanceType = 'user' | 'trail' | 'playlist';
 
-function getAvatarUrl(instance: IUser | ITrail | IPlaylist) {
+function getAvatarUrl<T extends { [key: string]: any }>(
+  instance: T,
+): string | null {
   if (!instance.avatar) return null;
 
   const providersUrl: Record<StorageDrivers, string> = {
     s3: `https://${storageConfig.config.s3.bucket}.s3.amazonaws.com/${instance.avatar}`,
     disk: `${process.env.APP_API_URL}/static/${instance.avatar}`,
   };
+
+  if (instance.avatar_url) {
+    return instance.avatar_url;
+  }
 
   return providersUrl[storageConfig.driver];
 }

@@ -20,6 +20,8 @@ export type FindAllUsersAssociatedWithThePlaylistDTO = {
 } & FiltersDTO;
 
 interface IUsersRepository {
+  findByUid(uid: string, relationships?: IRelationshipsDTO): AsyncMaybe<IUser>;
+  countUsername(username: string): Promise<number>;
   findByEmail(
     email: string,
     relationships?: IRelationshipsDTO,

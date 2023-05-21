@@ -33,7 +33,7 @@ export class AuthenticateUserService {
       user_roles: true,
     });
 
-    if (!user) {
+    if (!user || !user.password) {
       throw new AppError('Incorrect email/password combination', 78, 401);
     }
 

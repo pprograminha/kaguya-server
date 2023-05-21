@@ -11,8 +11,12 @@ import { IUserRole } from './iuser-role';
 interface IUser {
   id: string;
   name: string;
-  email: string;
+  email: Maybe<string>;
   avatar: Maybe<string>;
+  avatar_url: Maybe<string>;
+  auth_id: Maybe<string>;
+  email_verified: boolean;
+  phone_number: Maybe<string>;
   user_roles: IUserRole[];
   user_trails: IUserTrail[];
   user_playlists: IUserPlaylist[];
@@ -23,7 +27,7 @@ interface IUser {
   likes: ILike[];
   username: string;
   enabled: boolean;
-  password: string;
+  password: Maybe<string>;
   created_at: Date;
   updated_at: Date;
 }

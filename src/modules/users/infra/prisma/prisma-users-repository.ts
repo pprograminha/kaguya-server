@@ -13,6 +13,43 @@ import { AsyncMaybe } from '@shared/types/app';
 import { CreateUserDTO } from '@modules/users/dtos/create-user-dto';
 
 class PrismaUsersRepository implements IUsersRepository {
+  async countUsername(username: string): Promise<number> {
+    const countUsername = await prisma.user.count({
+      where: {
+        username: {
+          equals: username,
+        },
+      },
+    });
+
+    return countUsername;
+  }
+
+  async findByUid(
+    uid: string,
+    relationship?: IRelationshipsDTO,
+  ): AsyncMaybe<IUser> {
+    const user = await prisma.user.findFirst({
+      where: {
+        auth_id: uid,
+        enabled: true,
+      },
+      ...(relationship && relationship.user_roles
+        ? {
+            include: {
+              user_roles: {
+                include: {
+                  role: true,
+                },
+              },
+            },
+          }
+        : {}),
+    });
+
+    return user as IUser;
+  }
+
   async destroy(user_id: string): Promise<void> {
     await prisma.user.delete({
       where: {
@@ -188,15 +225,23 @@ class PrismaUsersRepository implements IUsersRepository {
 
   async create({
     email,
+    email_verified,
     name,
     password,
+    avatar_url,
+    auth_id,
+    phone_number,
     username,
   }: CreateUserDTO): Promise<IUser> {
     const user = await prisma.user.create({
       data: {
         id: crypto.randomUUID(),
         email,
+        email_verified,
         name,
+        auth_id,
+        avatar_url,
+        phone_number,
         password,
         username,
       },
@@ -210,6 +255,9 @@ class PrismaUsersRepository implements IUsersRepository {
     avatar,
     email,
     enabled,
+    avatar_url,
+    phone_number,
+    auth_id,
     username,
     name,
     password,
@@ -221,6 +269,9 @@ class PrismaUsersRepository implements IUsersRepository {
       data: {
         avatar,
         email,
+        avatar_url,
+        phone_number,
+        auth_id,
         enabled,
         username,
         name,

@@ -3,16 +3,11 @@ import 'express-async-errors';
 import 'dotenv/config';
 import '@shared/container';
 import { storageConfig } from '@config/storage';
-import { makeExecutableSchema } from '@graphql-tools/schema';
 import { AppError } from '@shared/errors/app-error';
 import { errors } from 'celebrate';
 import cors from 'cors';
 import express, { NextFunction, Request, Response } from 'express';
-import { graphqlHTTP } from 'express-graphql';
-import { GraphQLError } from 'graphql';
 import { MulterError } from 'multer';
-import { resolvers } from './graphql/resolvers';
-import { typeDefs } from './graphql/type-defs';
 import { router } from './routes';
 
 const app = express();
@@ -21,33 +16,6 @@ app.use(cors());
 app.use(express.json());
 app.use('/static', express.static(storageConfig.paths.uploadsFolder));
 app.use(router);
-
-const schema = makeExecutableSchema({
-  resolvers,
-  typeDefs,
-});
-
-app.use(
-  '/graphql',
-  graphqlHTTP({
-    schema,
-    graphiql: true,
-    customFormatErrorFn: (error: GraphQLError) => {
-      if (!error.originalError) return error;
-
-      const stringToStringify = error.originalError.message
-        .replace('Unexpected error value: ', '')
-        .replace(/(\w+:)|(\w+ :)/g, matchedStr => {
-          return `"${matchedStr.substring(0, matchedStr.length - 1)}":`;
-        });
-
-      return {
-        status: 'error',
-        ...JSON.parse(stringToStringify),
-      };
-    },
-  }),
-);
 
 app.use(errors());
 

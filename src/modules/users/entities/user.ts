@@ -7,6 +7,7 @@ import { ILike } from '@modules/likes/domain/entities/ilike';
 import { IView } from '@modules/lessons/domain/entities/iview';
 import { IUserBlock } from '@modules/blocks/domain/entities/iuser-block';
 import { IUserLesson } from '@modules/lessons/domain/entities/iuser-lesson';
+import { Maybe } from '@shared/types/app';
 import { IUser } from '../domain/entities/iuser';
 
 class User implements IUser {
@@ -14,9 +15,15 @@ class User implements IUser {
 
   name: string;
 
-  email: string;
+  avatar_url: Maybe<string>;
 
-  avatar: string;
+  auth_id: Maybe<string>;
+
+  phone_number: Maybe<string>;
+
+  email: Maybe<string>;
+
+  avatar: Maybe<string>;
 
   user_roles: IUserRole[];
 
@@ -38,7 +45,9 @@ class User implements IUser {
 
   enabled: boolean;
 
-  password: string;
+  password: Maybe<string>;
+
+  email_verified: boolean;
 
   created_at: Date;
 

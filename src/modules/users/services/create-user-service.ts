@@ -36,21 +36,26 @@ class CreateUserService {
     email,
     name,
     username,
+    auth_id,
+    avatar_url,
+    email_verified,
+    phone_number,
     role = 'default',
     password,
     creator_id,
   }: CreateUserRequestDTO): Promise<CreateUserResponse> {
-    const checkEmailAlreadyExists = await this.usersRepository.findByEmail(
-      email,
-    );
-
     const checkUsernameAlreadyExists =
       await this.usersRepository.findByUsername(username);
 
     const roleFinded = await this.rolesRepository.findByRoleName(role);
 
-    if (checkEmailAlreadyExists) {
-      throw new AppError('Unable to create user', 23, 400);
+    if (email) {
+      const checkEmailAlreadyExists = await this.usersRepository.findByEmail(
+        email,
+      );
+      if (checkEmailAlreadyExists) {
+        throw new AppError('Unable to create user', 23, 400);
+      }
     }
 
     if (checkUsernameAlreadyExists) {
@@ -61,7 +66,13 @@ class CreateUserService {
       throw new AppError('Role does not exist', 12, 400);
     }
 
-    const hashedPassword = await this.hashProvider.generateHash(password);
+    let hashedPassword: string | undefined;
+
+    if (password) {
+      await this.hashProvider.generateHash(password);
+
+      hashedPassword = password;
+    }
 
     if (creator_id) {
       const creator = await this.usersRepository.findById(creator_id, {
@@ -88,6 +99,10 @@ class CreateUserService {
     const userCreated = await this.usersRepository.create({
       email,
       name,
+      auth_id,
+      avatar_url,
+      email_verified,
+      phone_number,
       username,
       password: hashedPassword,
     });

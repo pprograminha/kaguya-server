@@ -1,0 +1,97 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - qa
+  pull_request:
+    branches:
+      - main
+      - qa
+
+jobs:
+  prod:
+    runs-on: ubuntu-latest
+
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Copy file via SSH key
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          key: ${{ secrets.KEY }}
+          source: "., !node_modules"
+          target: ${{ secrets.TARGET_PATH }}
+
+      - name: Executing remote SSH commands
+        uses: appleboy/ssh-action@master
+        env:
+          TARGET_PATH: ${{ secrets.TARGET_PATH }}
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          key: ${{ secrets.KEY }}
+          script_stop: true
+          envs: TARGET_PATH
+          script: |
+            cp "$TARGET_PATH/../config/.env" "$TARGET_PATH/.env"
+            cp "$TARGET_PATH/../config/docker-compose.yml" "$TARGET_PATH/docker-compose.yml"
+            cd "$TARGET_PATH"
+            sh "$TARGET_PATH/scripts/prod.sh"
+  qa:
+    runs-on: ubuntu-latest
+
+    if: github.ref == 'refs/heads/qa'
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Copy file via SSH key
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.QA_HOST }}
+          username: ${{ secrets.QA_USERNAME }}
+          password: ${{ secrets.QA_PASSWORD }}
+          source: "., !node_modules"
+          target: ${{ secrets.QA_TARGET_PATH }}
+
+      - name: Executing remote SSH commands
+        uses: appleboy/ssh-action@master
+        env:
+          QA_TARGET_PATH: ${{ secrets.QA_TARGET_PATH }}
+        with:
+          host: ${{ secrets.QA_HOST }}
+          username: ${{ secrets.QA_USERNAME }}
+          password: ${{ secrets.QA_PASSWORD }}
+          script_stop: true
+          envs: QA_TARGET_PATH
+          script: |
+            cd "$QA_TARGET_PATH"
+            sh ./scripts/qa.sh
